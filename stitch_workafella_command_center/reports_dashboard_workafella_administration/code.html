@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Workafella - Reports Dashboard</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#fdbb12",
+                    "tertiary-fixed-dim": "#ffb5a1",
+                    "on-secondary-fixed-variant": "#5d4200",
+                    "surface-container-low": "#f4f3f1",
+                    "inverse-primary": "#c8c6c5",
+                    "on-primary-container": "#858383",
+                    "on-background": "#1a1c1b",
+                    "outline-variant": "#c4c7c7",
+                    "on-surface": "#1a1c1b",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "surface-container": "#efeeec",
+                    "secondary-container": "#fdbb12",
+                    "on-tertiary": "#ffffff",
+                    "background": "#faf9f7",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#000000",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#ffdea4",
+                    "surface-tint": "#5f5e5e",
+                    "on-secondary-container": "#6c4d00",
+                    "on-primary-fixed": "#1c1b1b",
+                    "on-tertiary-fixed": "#3b0900",
+                    "tertiary-fixed": "#ffdbd1",
+                    "on-secondary-fixed": "#261900",
+                    "primary-fixed": "#e5e2e1",
+                    "on-surface-variant": "#444748",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#474746",
+                    "on-tertiary-fixed-variant": "#882000",
+                    "primary": "#000000",
+                    "surface-container-highest": "#e3e2e0",
+                    "surface": "#faf9f7",
+                    "outline": "#747878",
+                    "surface-container-high": "#e9e8e6",
+                    "inverse-surface": "#2f3130",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#dadad8",
+                    "on-tertiary-container": "#e65127",
+                    "surface-variant": "#e3e2e0",
+                    "primary-container": "#1c1b1b",
+                    "secondary": "#7b5900",
+                    "tertiary-container": "#3b0900",
+                    "inverse-on-surface": "#f1f1ef",
+                    "surface-bright": "#faf9f7"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px",
+                    "none": "0px" // Enforce architectural minimalism
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "container-max": "1440px",
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "kpi-metric": [
+                            "Space Grotesk"
+                    ],
+                    "display-md": [
+                            "Space Grotesk"
+                    ],
+                    "headline-sm": [
+                            "Space Grotesk"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "label-caps": [
+                            "Space Grotesk"
+                    ],
+                    "display-lg": [
+                            "Space Grotesk"
+                    ]
+            },
+            "fontSize": {
+                    "kpi-metric": [
+                            "40px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "-0.03em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "display-md": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-sm": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.1em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        /* Cascade Motif Styles */
+        .cascade-clip {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+        
+        .cascade-triangle {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 16px 16px 0;
+            border-color: transparent #F5B400 transparent transparent;
+        }
+
+        .cascade-wedge-active {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #F5B400; /* Signature Gold */
+        }
+
+        .input-cascade-focus:focus-within {
+            position: relative;
+        }
+        
+        .input-cascade-focus:focus-within::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 4px solid #F5B400;
+            border-right: 4px solid transparent;
+            z-index: 10;
+        }
+
+        /* Custom Scrollbar for High-Density Table */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #faf9f7; /* canvas */
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c4c7c7; /* outline-variant */
+            border-radius: 0px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #747878; /* outline */
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar (From JSON) -->
+<nav class="fixed left-0 top-0 h-full flex flex-col w-64 border-r border-outline-variant bg-surface dark:bg-background z-50">
+<!-- Brand / Header -->
+<div class="px-6 py-8 border-b border-outline-variant">
+<h1 class="font-display-md text-display-md font-bold text-primary dark:text-on-background">Workafella</h1>
+<div class="mt-4 flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-variant flex-shrink-0 flex items-center justify-center overflow-hidden">
+<img alt="Admin Profile" class="w-full h-full object-cover" data-alt="A minimalist profile avatar of a professional administrator, set against a stark white studio background. The lighting is high-key and flattering, emphasizing sharp, modern professional attire. The overall tone is corporate, clean, and highly sophisticated, aligning with a premium workspace management platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzCNk3Vr9nt4sHKTbHUDnuGjVWIP7-aH4DrcaWouzWqCx8_0wInEBibYcRCpYOSUQHS3zXZvrkt2-sVJ155qzBjZ5AirYxi9xSXao7SIbAuVTSR89UAaE4ien3ilatA9RfnVt409XehRopiIsojNyzDAD5Pw2CS4chc_U74Z4zHBLidpDYGCuFopYk-sGKx_dB_OldbqgrAQtSODPOMI6n_FDhdwWxr-fW_jylYNp-ya7ajgi-wnxUmA"/>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface font-medium">Admin Profile</p>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Super Admin</p>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto py-4">
+<ul class="space-y-1">
+<!-- Dashboard -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+</li>
+<!-- Revenue (Active Match based on intent/title, but title is "Reports Dashboard", we'll highlight Revenue as the closest match to the specific prompt instructions if we had to choose one from the list, or Dashboard. The prompt says "Reports Dashboard for Super Admin... Left Sidebar: Navigation for Revenue...". The JSON gives us Dashboard, Revenue, Occupancy, Operations, Financials. Let's make "Dashboard" active as it represents "Reports Dashboard" best, or "Revenue" since the chart is "Revenue Trends". Let's stick to Dashboard as the global active state for this view). Actually, let's look at the labels array in JSON: ["Dashboard", "Revenue", "Occupancy", "Operations", "Financials"]. The page title is "Reports Dashboard". Active is Dashboard. -->
+<li class="relative">
+<a class="flex items-center gap-3 px-4 py-3 text-primary border-r-2 border-secondary-container bg-surface-container-low active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-body-md text-body-md font-medium">Dashboard</span>
+<div class="cascade-wedge-active"></div>
+</a>
+</li>
+<!-- Revenue -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Revenue</span>
+</a>
+</li>
+<!-- Occupancy -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">sensor_door</span>
+<span class="font-body-md text-body-md">Occupancy</span>
+</a>
+</li>
+<!-- Operations -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings_applications</span>
+<span class="font-body-md text-body-md">Operations</span>
+</a>
+</li>
+<!-- Financials -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="font-body-md text-body-md">Financials</span>
+</a>
+</li>
+</ul>
+</div>
+<!-- CTA / Footer -->
+<div class="p-6 border-t border-outline-variant">
+<button class="w-full py-3 bg-secondary-container text-primary font-label-caps text-label-caps hover:bg-secondary-fixed transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                Export Report
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 flex flex-col min-h-screen bg-background">
+<!-- TopAppBar (From JSON) -->
+<header class="sticky top-0 z-40 flex justify-between items-center px-margin-desktop h-20 w-full bg-surface dark:bg-background border-b border-outline-variant">
+<!-- Title / Left -->
+<div class="flex items-center gap-4">
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary">Reports Dashboard</h2>
+</div>
+<!-- Actions / Right -->
+<div class="flex items-center gap-6">
+<!-- Search/Filters (Simulated on right as per JSON search_bar logic) -->
+<!-- Trailing Icons -->
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button aria-label="Notifications" class="hover:text-secondary-container transition-colors p-2">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button aria-label="Help" class="hover:text-secondary-container transition-colors p-2">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button aria-label="Account" class="hover:text-secondary-container transition-colors p-2">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Canvas / Dashboard Content -->
+<div class="p-margin-desktop space-y-gutter flex-1">
+<!-- Top Sticky Bar / Filters (As requested in prompt, placed inside content area just below header for functional flow) -->
+<div class="bg-surface p-6 border border-outline-variant cascade-clip flex flex-wrap items-end justify-between gap-4 sticky top-24 z-30">
+<div class="flex flex-wrap items-center gap-4 flex-1">
+<!-- Filter: City -->
+<div class="input-cascade-focus flex-1 min-w-[150px]">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">City</label>
+<select class="w-full bg-transparent border-b border-outline-variant focus:border-secondary-container focus:ring-0 px-0 py-2 font-body-md text-body-md text-primary appearance-none cursor-pointer">
+<option>All Cities</option>
+<option>Chennai</option>
+<option>Hyderabad</option>
+<option>Bangalore</option>
+</select>
+</div>
+<!-- Filter: Centre -->
+<div class="input-cascade-focus flex-1 min-w-[150px]">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Centre</label>
+<select class="w-full bg-transparent border-b border-outline-variant focus:border-secondary-container focus:ring-0 px-0 py-2 font-body-md text-body-md text-primary appearance-none cursor-pointer">
+<option>All Centres</option>
+<option>Tek Meadows</option>
+<option>High Street</option>
+</select>
+</div>
+<!-- Filter: Date Range -->
+<div class="input-cascade-focus flex-1 min-w-[200px]">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Date Range</label>
+<div class="flex items-center border-b border-outline-variant focus-within:border-secondary-container py-2">
+<span class="material-symbols-outlined text-on-surface-variant mr-2 text-[18px]">calendar_today</span>
+<input class="bg-transparent border-none focus:ring-0 p-0 font-body-md text-body-md text-primary w-full cursor-pointer" readonly="" type="text" value="Oct 1, 2023 - Oct 31, 2023"/>
+</div>
+</div>
+<!-- Filter: Client -->
+<div class="input-cascade-focus flex-1 min-w-[150px]">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Client</label>
+<select class="w-full bg-transparent border-b border-outline-variant focus:border-secondary-container focus:ring-0 px-0 py-2 font-body-md text-body-md text-primary appearance-none cursor-pointer">
+<option>All Clients</option>
+<option>Acme Corp</option>
+<option>Globex</option>
+</select>
+</div>
+</div>
+<!-- Export Button with Dropdown -->
+<div class="relative group">
+<button class="bg-secondary-container text-primary font-label-caps text-label-caps px-6 py-3 flex items-center gap-2 hover:bg-secondary-fixed transition-colors border border-transparent">
+                        Export
+                        <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<!-- Dropdown -->
+<div class="absolute right-0 top-full mt-1 w-40 bg-surface border border-outline-variant hidden group-hover:block z-50">
+<a class="block px-4 py-3 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-high hover:text-secondary-container transition-colors" href="#">Download CSV</a>
+<a class="block px-4 py-3 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-high hover:text-secondary-container transition-colors" href="#">Download PDF</a>
+</div>
+</div>
+</div>
+<!-- Main Data Area Grid -->
+<div class="grid grid-cols-1 gap-gutter">
+<!-- Revenue Trends Chart Panel -->
+<section class="bg-surface border border-outline-variant cascade-clip p-8 relative overflow-hidden group">
+<!-- Premium Background Accent (Subtle) -->
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 1px, transparent 10px);"></div>
+<div class="flex justify-between items-start mb-8 relative z-10">
+<div>
+<h3 class="font-display-md text-display-md text-primary">Revenue Trends</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Gross booking volume and ancillary services.</p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Total Period Revenue</p>
+<p class="font-kpi-metric text-kpi-metric text-primary">₹14.2M</p>
+</div>
+</div>
+<!-- Chart Area (Placeholder for actual sophisticated chart) -->
+<div class="w-full h-80 relative border-l border-b border-outline-variant mt-4">
+<!-- Y-Axis Labels -->
+<div class="absolute -left-12 top-0 h-full flex flex-col justify-between font-label-caps text-[10px] text-on-surface-variant py-2">
+<span>15M</span>
+<span>10M</span>
+<span>5M</span>
+<span>0</span>
+</div>
+<!-- X-Axis Labels -->
+<div class="absolute -bottom-8 left-0 w-full flex justify-between font-label-caps text-[10px] text-on-surface-variant px-4">
+<span>W1</span>
+<span>W2</span>
+<span>W3</span>
+<span>W4</span>
+</div>
+<!-- Simulated Line Chart with Confidence Band -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 300">
+<!-- Grid lines -->
+<line stroke="#e3e2e0" stroke-dasharray="4,4" stroke-width="1" x1="0" x2="1000" y1="75" y2="75"></line>
+<line stroke="#e3e2e0" stroke-dasharray="4,4" stroke-width="1" x1="0" x2="1000" y1="150" y2="150"></line>
+<line stroke="#e3e2e0" stroke-dasharray="4,4" stroke-width="1" x1="0" x2="1000" y1="225" y2="225"></line>
+<!-- Confidence Band (Shaded area) -->
+<path d="M0,250 L100,220 L250,180 L400,200 L550,150 L700,120 L850,90 L1000,50 L1000,100 L850,140 L700,170 L550,210 L400,250 L250,240 L100,270 L0,280 Z" fill="rgba(253, 187, 18, 0.1)"></path>
+<!-- Primary Line -->
+<path d="M0,265 L100,245 L250,210 L400,225 L550,180 L700,145 L850,115 L1000,75" fill="none" stroke="#F5B400" stroke-width="3"></path>
+<!-- Data Points -->
+<circle cx="100" cy="245" fill="#1a1c1b" r="4" stroke="#F5B400" stroke-width="2"></circle>
+<circle cx="250" cy="210" fill="#1a1c1b" r="4" stroke="#F5B400" stroke-width="2"></circle>
+<circle cx="400" cy="225" fill="#1a1c1b" r="4" stroke="#F5B400" stroke-width="2"></circle>
+<circle cx="550" cy="180" fill="#1a1c1b" r="4" stroke="#F5B400" stroke-width="2"></circle>
+<circle cx="700" cy="145" fill="#1a1c1b" r="4" stroke="#F5B400" stroke-width="2"></circle>
+<circle cx="850" cy="115" fill="#1a1c1b" r="4" stroke="#F5B400" stroke-width="2"></circle>
+<circle cx="1000" cy="75" fill="#F5B400" r="6"></circle>
+</svg>
+<!-- Tooltip (Simulated hover state) -->
+<div class="absolute right-[5%] top-[15%] bg-primary text-on-primary p-3 border border-outline-variant shadow-sm z-20 pointer-events-none hidden group-hover:block">
+<p class="font-label-caps text-[10px] text-inverse-primary mb-1">Oct 24</p>
+<p class="font-body-md text-body-md font-bold">₹3.2M</p>
+<div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-primary"></div>
+</div>
+</div>
+</section>
+<!-- High-Density Data Table Panel -->
+<section class="bg-surface border border-outline-variant cascade-clip mt-4">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h3 class="font-headline-sm text-headline-sm text-primary">Transaction Ledger</h3>
+<div class="flex items-center gap-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 1-5 of 124</span>
+<div class="flex gap-1">
+<button class="p-1 text-on-surface-variant hover:text-primary border border-transparent hover:border-outline-variant transition-all"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<button class="p-1 text-on-surface-variant hover:text-primary border border-transparent hover:border-outline-variant transition-all"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr>
+<th class="py-4 px-6 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant bg-surface sticky top-0">Date</th>
+<th class="py-4 px-6 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant bg-surface sticky top-0">Client</th>
+<th class="py-4 px-6 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant bg-surface sticky top-0">Category</th>
+<th class="py-4 px-6 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant bg-surface sticky top-0 text-right">Amount</th>
+<th class="py-4 px-6 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant bg-surface sticky top-0 text-center">Status</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="py-4 px-6 border-b border-outline-variant text-on-surface">Oct 24, 2023</td>
+<td class="py-4 px-6 border-b border-outline-variant text-primary font-medium">Acme Corp</td>
+<td class="py-4 px-6 border-b border-outline-variant text-on-surface-variant">Private Office Rent</td>
+<td class="py-4 px-6 border-b border-outline-variant text-primary text-right font-medium">₹450,000</td>
+<td class="py-4 px-6 border-b border-outline-variant text-center">
+<span class="inline-flex items-center gap-1 px-2 py-1 bg-surface-container-high border border-outline-variant text-[12px] font-medium text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span> Paid
+                                        </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="py-4 px-6 border-b border-outline-variant text-on-surface">Oct 23, 2023</td>
+<td class="py-4 px-6 border-b border-outline-variant text-primary font-medium">Globex Inc.</td>
+<td class="py-4 px-6 border-b border-outline-variant text-on-surface-variant">Meeting Room Overage</td>
+<td class="py-4 px-6 border-b border-outline-variant text-primary text-right font-medium">₹12,500</td>
+<td class="py-4 px-6 border-b border-outline-variant text-center">
+<span class="inline-flex items-center gap-1 px-2 py-1 bg-surface-container-high border border-outline-variant text-[12px] font-medium text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span> Paid
+                                        </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="py-4 px-6 border-b border-outline-variant text-on-surface">Oct 22, 2023</td>
+<td class="py-4 px-6 border-b border-outline-variant text-primary font-medium">Initech</td>
+<td class="py-4 px-6 border-b border-outline-variant text-on-surface-variant">IT Infrastructure</td>
+<td class="py-4 px-6 border-b border-outline-variant text-primary text-right font-medium">₹85,000</td>
+<td class="py-4 px-6 border-b border-outline-variant text-center">
+<span class="inline-flex items-center gap-1 px-2 py-1 bg-surface-container-high border border-outline-variant text-[12px] font-medium text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span> Pending
+                                        </span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="py-4 px-6 border-b border-outline-variant text-on-surface">Oct 20, 2023</td>
+<td class="py-4 px-6 border-b border-outline-variant text-primary font-medium">Soylent Corp</td>
+<td class="py-4 px-6 border-b border-outline-variant text-on-surface-variant">Event Space Booking</td>
+<td class="py-4 px-6 border-b border-outline-variant text-primary text-right font-medium">₹120,000</td>
+<td class="py-4 px-6 border-b border-outline-variant text-center">
+<span class="inline-flex items-center gap-1 px-2 py-1 bg-surface-container-high border border-outline-variant text-[12px] font-medium text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span> Paid
+                                        </span>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="py-4 px-6 border-none text-on-surface">Oct 19, 2023</td>
+<td class="py-4 px-6 border-none text-primary font-medium">Umbrella Corp</td>
+<td class="py-4 px-6 border-none text-on-surface-variant">Parking Allocation</td>
+<td class="py-4 px-6 border-none text-primary text-right font-medium">₹45,000</td>
+<td class="py-4 px-6 border-none text-center">
+<span class="inline-flex items-center gap-1 px-2 py-1 bg-error-container border border-error text-[12px] font-medium text-error">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Overdue
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

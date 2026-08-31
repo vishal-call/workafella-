@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Employee Access Request - Workafella Client Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#000000",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1c1b",
+                        "inverse-primary": "#c8c6c5",
+                        "tertiary": "#000000",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f1f1ef",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface-container-low": "#f4f3f1",
+                        "surface-variant": "#e3e2e0",
+                        "on-secondary-container": "#6c4d00",
+                        "on-surface-variant": "#444748",
+                        "on-surface": "#1a1c1b",
+                        "on-tertiary-fixed": "#3b0900",
+                        "surface-container-high": "#e9e8e6",
+                        "surface-bright": "#faf9f7",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "secondary-fixed": "#ffdea4",
+                        "surface-container-highest": "#e3e2e0",
+                        "on-primary-container": "#858383",
+                        "surface-dim": "#dadad8",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#fdbb12",
+                        "inverse-surface": "#2f3130",
+                        "on-primary-fixed-variant": "#474746",
+                        "tertiary-container": "#3b0900",
+                        "on-secondary-fixed": "#261900",
+                        "background": "#faf9f7",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#5f5e5e",
+                        "surface-container": "#efeeec",
+                        "primary-container": "#1c1b1b",
+                        "outline": "#747878",
+                        "on-tertiary-fixed-variant": "#882000",
+                        "tertiary-fixed-dim": "#ffb5a1",
+                        "tertiary-fixed": "#ffdbd1",
+                        "primary-fixed": "#e5e2e1",
+                        "on-primary-fixed": "#1c1b1b",
+                        "outline-variant": "#c4c7c7",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#e65127",
+                        "surface": "#faf9f7",
+                        "secondary": "#7b5900",
+                        "secondary-fixed-dim": "#fdbb12",
+                        "signature-gold": "#F5B400",
+                        "charcoal": "#3A3A3A",
+                        "ink": "#161616"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Space Grotesk", "sans-serif"],
+                        "display-md": ["Space Grotesk", "sans-serif"],
+                        "kpi-metric": ["Space Grotesk", "sans-serif"],
+                        "label-caps": ["Space Grotesk", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "headline-sm": ["Space Grotesk", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "kpi-metric": ["40px", { "lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .clip-tr {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+        .form-input-focus:focus {
+            border-color: #F5B400;
+            box-shadow: none;
+            outline: none;
+        }
+        .form-input-focus:focus + .focus-triangle {
+            opacity: 1;
+        }
+        .focus-triangle {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 4px 4px 0 0;
+            border-color: #F5B400 transparent transparent transparent;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#D4AF37 1px, transparent 0);
+            background-size: 16px 16px;
+            opacity: 0.05;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full border-r border-outline-variant fixed left-0 top-0 w-64 bg-surface z-50">
+<div class="px-6 py-8 border-b border-outline-variant">
+<h1 class="font-display-md text-display-md font-bold text-primary">Workafella</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Premium Workspace</p>
+</div>
+<div class="flex-1 py-6 flex flex-col gap-2">
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-primary font-bold border-r-4 border-signature-gold bg-surface-container-low transition-all duration-200 relative" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">Workspace</span>
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[8px] border-t-transparent border-r-[8px] border-r-signature-gold border-b-[8px] border-b-transparent"></div>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings_suggest</span>
+<span class="font-label-caps text-label-caps">Operations</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-caps text-label-caps">Finance</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Assets</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">AI Insights</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 relative min-h-screen">
+<div class="absolute inset-0 bg-pattern pointer-events-none"></div>
+<div class="max-w-[1024px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-24 relative z-10">
+<!-- Header -->
+<header class="mb-16">
+<h2 class="font-display-lg text-display-lg text-ink mb-4 relative inline-block">
+                    Employee Access Request
+                    <div class="absolute -bottom-2 left-0 w-16 h-1 bg-signature-gold"></div>
+</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-6">
+                    Initiate a secure access protocol for new personnel. All requests undergo strict compliance verification in accordance with Workafella premium security standards.
+                </p>
+</header>
+<!-- Form Container -->
+<div class="bg-white border border-charcoal clip-tr relative p-8 md:p-12 shadow-sm" id="request-form-container">
+<!-- Cascade decorative element -->
+<div class="absolute top-0 right-0 w-4 h-4 bg-charcoal clip-tr translate-x-4 -translate-y-4 opacity-10"></div>
+<form class="space-y-12" id="access-request-form" onsubmit="event.preventDefault(); showSuccessState();">
+<!-- Section 1: Employee Details -->
+<section class="border-b border-outline-variant pb-12">
+<h3 class="font-headline-sm text-headline-sm text-ink mb-8 flex items-center gap-3">
+<span class="text-signature-gold">01.</span> Employee Details
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="relative">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Full Name</label>
+<div class="relative">
+<input class="w-full bg-surface border-0 border-b border-charcoal py-3 px-0 font-body-md text-ink form-input-focus transition-colors bg-transparent" placeholder="e.g. Jane Doe" required="" type="text"/>
+<div class="focus-triangle absolute top-0 left-0"></div>
+</div>
+</div>
+<div class="relative">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Email Address</label>
+<div class="relative">
+<input class="w-full bg-surface border-0 border-b border-charcoal py-3 px-0 font-body-md text-ink form-input-focus transition-colors bg-transparent" placeholder="jane.doe@company.com" required="" type="email"/>
+<div class="focus-triangle absolute top-0 left-0"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Workspace Context -->
+<section class="border-b border-outline-variant pb-12">
+<h3 class="font-headline-sm text-headline-sm text-ink mb-8 flex items-center gap-3">
+<span class="text-signature-gold">02.</span> Workspace Context
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="relative">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Legal Entity</label>
+<input class="w-full bg-surface-container-low border border-outline-variant py-3 px-4 font-body-md text-on-surface-variant cursor-not-allowed" disabled="" type="text" value="Acme Corp Ltd."/>
+</div>
+<div class="relative">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Centre</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border-0 border-b border-charcoal py-3 px-0 pr-8 font-body-md text-ink form-input-focus transition-colors bg-transparent rounded-none focus:ring-0">
+<option>High Street Tower, BLR</option>
+<option>Cyber City, DEL</option>
+<option>Financial District, HYD</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-3 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="relative">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Floor / Block</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border-0 border-b border-charcoal py-3 px-0 pr-8 font-body-md text-ink form-input-focus transition-colors bg-transparent rounded-none focus:ring-0">
+<option>Floor 9, Block A</option>
+<option>Floor 9, Block B</option>
+<option>Floor 10, Premium Wing</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-3 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Access Permissions -->
+<section class="border-b border-outline-variant pb-12">
+<h3 class="font-headline-sm text-headline-sm text-ink mb-8 flex items-center gap-3">
+<span class="text-signature-gold">03.</span> Access Permissions
+                        </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<label class="flex items-center gap-4 p-4 border border-outline-variant hover:border-charcoal cursor-pointer transition-colors group">
+<input class="w-5 h-5 text-signature-gold border-charcoal focus:ring-signature-gold rounded-none" type="checkbox"/>
+<span class="font-body-md text-ink group-hover:text-primary">24/7 Access</span>
+</label>
+<label class="flex items-center gap-4 p-4 border border-outline-variant hover:border-charcoal cursor-pointer transition-colors group">
+<input checked="" class="w-5 h-5 text-signature-gold border-charcoal focus:ring-signature-gold rounded-none" type="checkbox"/>
+<span class="font-body-md text-ink group-hover:text-primary">Meeting Room Booking</span>
+</label>
+<label class="flex items-center gap-4 p-4 border border-outline-variant hover:border-charcoal cursor-pointer transition-colors group">
+<input checked="" class="w-5 h-5 text-signature-gold border-charcoal focus:ring-signature-gold rounded-none" type="checkbox"/>
+<span class="font-body-md text-ink group-hover:text-primary">Pantry Credits</span>
+</label>
+<label class="flex items-center gap-4 p-4 border border-outline-variant hover:border-charcoal cursor-pointer transition-colors group">
+<input class="w-5 h-5 text-signature-gold border-charcoal focus:ring-signature-gold rounded-none" type="checkbox"/>
+<span class="font-body-md text-ink group-hover:text-primary">Guest Invitation Privileges</span>
+</label>
+<label class="flex items-center gap-4 p-4 border border-outline-variant hover:border-charcoal cursor-pointer transition-colors group">
+<input checked="" class="w-5 h-5 text-signature-gold border-charcoal focus:ring-signature-gold rounded-none" type="checkbox"/>
+<span class="font-body-md text-ink group-hover:text-primary">Secure Printing</span>
+</label>
+</div>
+</section>
+<!-- Section 4: Verification -->
+<section class="pb-8">
+<h3 class="font-headline-sm text-headline-sm text-ink mb-8 flex items-center gap-3">
+<span class="text-signature-gold">04.</span> Identity Verification
+                        </h3>
+<div class="border-2 border-dashed border-outline-variant bg-surface-bright p-12 text-center relative group hover:border-signature-gold transition-colors cursor-pointer clip-tr">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant mb-4 group-hover:text-signature-gold transition-colors">upload_file</span>
+<p class="font-body-md font-medium text-ink mb-2">Drag and drop document here</p>
+<p class="font-body-sm text-on-surface-variant">or click to browse</p>
+<p class="font-label-caps text-label-caps text-outline mt-6">Approved formats: PDF, JPG, PNG — max 5MB</p>
+<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" type="file"/>
+</div>
+</section>
+<!-- Action Bar -->
+<div class="flex items-center justify-end gap-6 pt-8 border-t border-charcoal">
+<button class="font-label-caps text-label-caps text-ink py-4 px-8 border border-transparent hover:border-charcoal transition-all" type="button">Cancel</button>
+<button class="bg-signature-gold text-ink font-label-caps text-label-caps py-4 px-10 hover:bg-[#e0a500] transition-colors relative overflow-hidden group" type="submit">
+<span class="relative z-10 flex items-center gap-2">Submit Request <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+</button>
+</div>
+</form>
+</div>
+<!-- Success State (Hidden initially) -->
+<div class="hidden bg-white border border-charcoal clip-tr relative p-12 shadow-sm text-center max-w-2xl mx-auto" id="success-state">
+<div class="w-20 h-20 bg-surface-container-low mx-auto flex items-center justify-center mb-8 clip-tr border border-outline-variant">
+<span class="material-symbols-outlined text-4xl text-signature-gold">check_circle</span>
+</div>
+<h3 class="font-display-md text-display-md text-ink mb-4">Request Submitted</h3>
+<p class="font-body-md text-on-surface-variant mb-8">
+                    The access request has been successfully logged and is pending security verification.
+                </p>
+<div class="bg-surface-bright border border-outline-variant p-6 mb-10 flex flex-col items-center justify-center gap-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Request Reference ID</span>
+<span class="font-headline-sm text-headline-sm font-mono text-ink tracking-widest">#REQ-8821</span>
+<div class="inline-flex items-center gap-2 px-4 py-1.5 border border-secondary-fixed-dim bg-secondary-fixed/20 text-on-secondary-fixed-variant rounded-full mt-2">
+<span class="w-2 h-2 rounded-full bg-signature-gold"></span>
+<span class="font-label-caps text-label-caps">Submitted</span>
+</div>
+</div>
+<button class="border border-charcoal text-ink font-label-caps text-label-caps py-4 px-10 hover:bg-surface-container-low transition-colors" onclick="resetForm()" type="button">
+                    Submit Another Request
+                </button>
+</div>
+</div>
+</main>
+<script>
+        function showSuccessState() {
+            document.getElementById('request-form-container').classList.add('hidden');
+            document.getElementById('success-state').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            document.getElementById('access-request-form').reset();
+            document.getElementById('success-state').classList.add('hidden');
+            document.getElementById('request-form-container').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body></html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Workafella - Administration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#1c1b1b",
+                    "error-container": "#ffdad6",
+                    "inverse-surface": "#2f3130",
+                    "tertiary": "#000000",
+                    "on-background": "#1a1c1b",
+                    "primary": "#000000",
+                    "on-tertiary-container": "#e65127",
+                    "inverse-on-surface": "#f1f1ef",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#6c4d00",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#fdbb12",
+                    "on-tertiary-fixed": "#3b0900",
+                    "outline": "#747878",
+                    "surface-bright": "#faf9f7",
+                    "on-primary-fixed-variant": "#474746",
+                    "on-primary": "#ffffff",
+                    "surface-container-high": "#e9e8e6",
+                    "surface": "#faf9f7",
+                    "tertiary-fixed-dim": "#ffb5a1",
+                    "on-surface-variant": "#444748",
+                    "on-secondary-fixed-variant": "#5d4200",
+                    "surface-container-highest": "#e3e2e0",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#fdbb12",
+                    "on-tertiary-fixed-variant": "#882000",
+                    "outline-variant": "#c4c7c7",
+                    "surface-container-low": "#f4f3f1",
+                    "on-primary-container": "#858383",
+                    "tertiary-container": "#3b0900",
+                    "on-secondary-fixed": "#261900",
+                    "primary-container": "#1c1b1b",
+                    "surface-variant": "#e3e2e0",
+                    "surface-dim": "#dadad8",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#1a1c1b",
+                    "surface-tint": "#5f5e5e",
+                    "inverse-primary": "#c8c6c5",
+                    "tertiary-fixed": "#ffdbd1",
+                    "background": "#faf9f7",
+                    "surface-container": "#efeeec",
+                    "primary-fixed": "#e5e2e1",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#7b5900",
+                    "secondary-fixed": "#ffdea4",
+                    "gold": "#F5B400",
+                    "charcoal": "#3A3A3A",
+                    "ink": "#161616",
+                    "canvas": "#F8F7F5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max": "1440px",
+                    "unit": "8px",
+                    "margin-desktop": "64px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "display-md": [
+                            "Space Grotesk"
+                    ],
+                    "display-lg": [
+                            "Space Grotesk"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "kpi-metric": [
+                            "Space Grotesk"
+                    ],
+                    "headline-sm": [
+                            "Space Grotesk"
+                    ],
+                    "label-caps": [
+                            "Space Grotesk"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "display-md": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "kpi-metric": [
+                            "40px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "-0.03em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-sm": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.1em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .clipped-tr {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+        .lattice-bg {
+            background-image: linear-gradient(to right, rgba(245, 180, 0, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(245, 180, 0, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-canvas text-ink font-body-md min-h-screen flex overflow-x-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container docked left-0 h-full w-64 border-r border-outline-variant flat no shadows group relative overflow-hidden active:scale-95 fixed left-0 top-0 flex flex-col py-margin-mobile z-40 hidden md:flex">
+<div class="px-6 mb-12">
+<h1 class="font-display-md text-display-md text-primary">Workafella</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mt-1">Enterprise Suite</p>
+</div>
+<div class="px-6 mb-8">
+<button class="w-full bg-gold text-ink font-bold py-3 px-4 flex items-center justify-center hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined mr-2">add</span>
+                New Workspace
+            </button>
+</div>
+<ul class="flex-1 space-y-2 px-4">
+<li>
+<a class="flex items-center text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-container-high transition-all duration-300 px-4 py-3" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-container-high transition-all duration-300 px-4 py-3" href="#">
+<span class="material-symbols-outlined mr-3">domain</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Workspaces</span>
+</a>
+</li>
+<li>
+<a class="flex items-center text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-container-high transition-all duration-300 px-4 py-3" href="#">
+<span class="material-symbols-outlined mr-3">settings_suggest</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Operations</span>
+</a>
+</li>
+<li>
+<a class="flex items-center text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-container-high transition-all duration-300 px-4 py-3" href="#">
+<span class="material-symbols-outlined mr-3">payments</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Finance</span>
+</a>
+</li>
+<li>
+<a class="flex items-center text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-container-high transition-all duration-300 px-4 py-3" href="#">
+<span class="material-symbols-outlined mr-3">inventory_2</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Assets</span>
+</a>
+</li>
+<li>
+<a class="flex items-center text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-container-high transition-all duration-300 px-4 py-3" href="#">
+<span class="material-symbols-outlined mr-3">psychology</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">AI Insights</span>
+</a>
+</li>
+<li>
+<a class="flex items-center justify-between text-primary border-r-4 border-secondary-container bg-surface-variant/50 px-4 py-3" href="#">
+<div class="flex items-center">
+<span class="material-symbols-outlined mr-3">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Administration</span>
+</div>
+</a>
+</li>
+</ul>
+<div class="mt-auto px-4 border-t border-outline-variant pt-4">
+<ul class="space-y-2">
+<li>
+<a class="flex items-center text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-container-high transition-all duration-300 px-4 py-2" href="#">
+<span class="material-symbols-outlined mr-3">help</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Support</span>
+</a>
+</li>
+<li>
+<a class="flex items-center text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-container-high transition-all duration-300 px-4 py-2" href="#">
+<span class="material-symbols-outlined mr-3">logout</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Sign Out</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 ml-0 md:ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar (Mobile only for Administration as per rules, assuming full nav cluster on desktop is omitted for focused task, but keeping simple header) -->
+<header class="bg-surface docked full-width top-0 border-b border-outline-variant flat no shadows flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 sticky top-0 z-30">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-ink">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-sm text-headline-sm text-primary tracking-tight">System Administration</h2>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-gold transition-colors duration-200">notifications</span>
+<div class="w-8 h-8 bg-charcoal rounded-none border border-outline flex items-center justify-center text-white font-bold text-sm">SA</div>
+</div>
+</header>
+<div class="p-margin-mobile md:p-margin-desktop max-w-[1440px] w-full mx-auto flex-1">
+<!-- Navigation Tabs -->
+<div class="border-b border-charcoal mb-8 overflow-x-auto">
+<nav class="flex gap-8 min-w-max px-2">
+<a class="pb-4 font-label-caps text-label-caps uppercase tracking-widest text-ink border-b-2 border-gold font-bold relative group" href="#">
+                        Roles &amp; Permissions
+                        <div class="absolute -bottom-[2px] left-[-8px] right-[-8px] h-[2px] bg-gold"></div>
+</a>
+<a class="pb-4 font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-ink transition-colors" href="#">
+                        Masters
+                    </a>
+<a class="pb-4 font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-ink transition-colors" href="#">
+                        Notification Templates
+                    </a>
+<a class="pb-4 font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-ink transition-colors" href="#">
+                        SLA &amp; Policy
+                    </a>
+</nav>
+</div>
+<!-- Content Area: Roles & Permissions -->
+<div class="bg-white border border-charcoal clipped-tr p-8 relative">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="font-display-md text-display-md text-ink mb-2">Permission Matrix</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Configure access levels across all operational modules.</p>
+</div>
+<button class="bg-gold text-ink font-bold py-3 px-6 hover:bg-yellow-500 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">save</span>
+                        Save Changes
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="border-b-2 border-ink">
+<th class="py-4 px-4 font-label-caps text-label-caps text-ink uppercase tracking-widest bg-canvas w-1/4 sticky left-0 z-10 border-r border-outline-variant">Module</th>
+<th class="py-4 px-4 font-label-caps text-label-caps text-ink uppercase tracking-widest text-center border-r border-outline-variant">Super Admin</th>
+<th class="py-4 px-4 font-label-caps text-label-caps text-ink uppercase tracking-widest text-center border-r border-outline-variant">Branch Admin</th>
+<th class="py-4 px-4 font-label-caps text-label-caps text-ink uppercase tracking-widest text-center border-r border-outline-variant">Finance</th>
+<th class="py-4 px-4 font-label-caps text-label-caps text-ink uppercase tracking-widest text-center">Security</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm">
+<tr class="border-b border-outline-variant hover:bg-canvas transition-colors">
+<td class="py-4 px-4 font-medium text-ink bg-white sticky left-0 z-10 border-r border-outline-variant">Bookings Management</td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center"><input class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-canvas transition-colors">
+<td class="py-4 px-4 font-medium text-ink bg-white sticky left-0 z-10 border-r border-outline-variant">Invoice Processing</td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center"><input class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-canvas transition-colors">
+<td class="py-4 px-4 font-medium text-ink bg-white sticky left-0 z-10 border-r border-outline-variant">Asset Tracking</td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-canvas transition-colors">
+<td class="py-4 px-4 font-medium text-ink bg-white sticky left-0 z-10 border-r border-outline-variant">AI Insights Dashboard</td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center"><input class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+</tr>
+<tr class="hover:bg-canvas transition-colors">
+<td class="py-4 px-4 font-medium text-ink bg-white sticky left-0 z-10 border-r border-outline-variant">System Configuration</td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input checked="" class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer" type="checkbox"/></td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer disabled:opacity-50" disabled="" type="checkbox"/></td>
+<td class="py-4 px-4 text-center border-r border-outline-variant"><input class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer disabled:opacity-50" disabled="" type="checkbox"/></td>
+<td class="py-4 px-4 text-center"><input class="form-checkbox text-gold border-charcoal focus:ring-gold focus:ring-offset-0 w-5 h-5 rounded-none cursor-pointer disabled:opacity-50" disabled="" type="checkbox"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Geometric Accent -->
+<div class="absolute bottom-0 right-0 w-16 h-16 pointer-events-none opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNjQgNjRMMCAwVjY0SDY0WiIgZmlsbD0iI0Y1QjQwMCIvPjwvc3ZnPg==')] bg-no-repeat bg-bottom bg-right"></div>
+</div>
+<!-- Spacer for visual demonstration of next section style -->
+<div class="mt-16 opacity-50 pointer-events-none border-t border-dashed border-charcoal pt-8">
+<p class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-4">Preview of Masters Section</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="border border-charcoal p-6 bg-canvas">
+<div class="flex justify-between items-center mb-4 border-b border-charcoal pb-2">
+<h4 class="font-headline-sm text-headline-sm">Centres</h4>
+<span class="material-symbols-outlined text-gold">add</span>
+</div>
+<div class="space-y-2 lattice-bg h-24 flex items-center justify-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Data List...</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

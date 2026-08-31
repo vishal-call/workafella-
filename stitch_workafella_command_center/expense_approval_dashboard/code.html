@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Workafella - Expense Approvals</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-container": "#858383",
+                        "inverse-on-surface": "#f1f1ef",
+                        "secondary-fixed": "#ffdea4",
+                        "primary-container": "#1c1b1b",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#fdbb12",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e9e8e6",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#261900",
+                        "background": "#faf9f7",
+                        "on-tertiary-fixed": "#3b0900",
+                        "outline": "#747878",
+                        "on-surface-variant": "#444748",
+                        "on-surface": "#1a1c1b",
+                        "tertiary-fixed": "#ffdbd1",
+                        "secondary": "#7b5900",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#c8c6c5",
+                        "surface-bright": "#faf9f7",
+                        "tertiary-container": "#3b0900",
+                        "surface-container-highest": "#e3e2e0",
+                        "surface-dim": "#dadad8",
+                        "on-background": "#1a1c1b",
+                        "secondary-container": "#fdbb12",
+                        "primary-fixed": "#e5e2e1",
+                        "on-primary-fixed": "#1c1b1b",
+                        "inverse-surface": "#2f3130",
+                        "surface-tint": "#5f5e5e",
+                        "on-primary-fixed-variant": "#474746",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#882000",
+                        "outline-variant": "#c4c7c7",
+                        "tertiary-fixed-dim": "#ffb5a1",
+                        "on-secondary-container": "#6c4d00",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f4f3f1",
+                        "surface-variant": "#e3e2e0",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface-container": "#efeeec",
+                        "surface": "#faf9f7",
+                        "tertiary": "#000000",
+                        "on-tertiary-container": "#e65127",
+                        "primary": "#000000"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "none": "0px"
+                    },
+                    spacing: {
+                        "margin-desktop": "64px",
+                        "container-max": "1440px",
+                        "unit": "8px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px"
+                    },
+                    fontFamily: {
+                        "display-md": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "label-caps": ["Space Grotesk"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "kpi-metric": ["Space Grotesk"],
+                        "headline-sm": ["Space Grotesk"],
+                        "body-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "display-md": ["32px", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-caps": ["12px", { lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+                        "kpi-metric": ["40px", { lineHeight: "1", letterSpacing: "-0.03em", fontWeight: "700" }],
+                        "headline-sm": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
+                        "body-sm": ["14px", { lineHeight: "1.4", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .clip-corner {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+        .lattice-bg {
+            background-image: linear-gradient(to right, rgba(245, 180, 0, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(245, 180, 0, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* Table Row Hover Actions */
+        .expense-row .row-actions {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+        .expense-row:hover .row-actions {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-screen w-64 flex flex-col z-40 bg-surface-container-lowest border-r border-outline-variant shadow-none">
+<!-- Header -->
+<div class="px-6 py-8 flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-none clip-corner flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-icon="domain" style="font-variation-settings: 'FILL' 1;">domain</span>
+</div>
+<h1 class="font-display-md text-display-md font-bold text-primary">Workafella</h1>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Enterprise Management</p>
+</div>
+<!-- Navigation Tabs -->
+<div class="flex flex-col mt-4 flex-grow px-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-surface-container-high transition-colors duration-200 group relative" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-surface-container-high transition-colors duration-200 group relative" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span class="font-label-caps text-label-caps uppercase">Workspaces</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-surface-container-high transition-colors duration-200 group relative" href="#">
+<span class="material-symbols-outlined" data-icon="settings_applications">settings_applications</span>
+<span class="font-label-caps text-label-caps uppercase">Operations</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-4 py-3 text-secondary font-bold border-r-2 border-secondary bg-surface-container-low hover:bg-surface-container-high transition-colors duration-200 group relative" href="#">
+<span class="material-symbols-outlined" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-caps text-label-caps uppercase">Finance</span>
+<!-- Active Cascade Wedge -->
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[8px] border-r-secondary"></div>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-surface-container-high transition-colors duration-200 group relative" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-caps text-label-caps uppercase">Assets</span>
+</a>
+</div>
+<!-- CTA -->
+<div class="p-6">
+<button class="w-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps uppercase py-4 rounded-none hover:bg-secondary-fixed transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Request
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col ml-64 min-w-0 bg-surface-bright relative z-0">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center h-16 w-full px-margin-desktop bg-surface border-b border-outline-variant shadow-none shrink-0 z-30 relative">
+<div class="flex items-center gap-4">
+<h2 class="font-display-md text-display-md text-primary tracking-tight">Finance</h2>
+</div>
+<div class="flex items-center gap-6">
+<!-- Search -->
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant z-10 group-focus-within:text-secondary transition-colors" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none border-b border-outline-variant focus:border-secondary focus:ring-0 w-64 transition-all focus:bg-surface-container-lowest font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant/50" placeholder="Search approvals..." type="text"/>
+<!-- Focus Wedge -->
+<div class="absolute top-0 left-0 w-1 h-1 bg-secondary opacity-0 group-focus-within:opacity-100 transition-opacity clip-corner"></div>
+</div>
+<button class="text-on-surface-variant hover:text-secondary transition-colors duration-100 active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors duration-100 active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 bg-surface-container-highest rounded-none clip-corner overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all" data-alt="A professional headshot of a corporate branch admin, softly lit with a neutral background, high resolution, modern corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGJRzYwGQnvDO0gD4bkI20aKhujQm3MMORMDGV-U8xp5WOptfQDs8IDM96_t6Ajd0KcLmTNwPHv9FC9tfhWq737iw0vNyInFnjI1Az78Cp5M4ncDZcB1jxMKi0Evhkmz6Ib05o95Q0PUbEVorl5KUNopzCAqlbsweOpKOkHNRHMmUoERbA6iZg4-lc1y9hVUBrCf5g2InzBIvDn2oqC2uYX6j_f2NHDB40p_3a7IZG18dcRqbvP9zcgw"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<main class="flex-1 overflow-y-auto px-margin-desktop py-12 relative lattice-bg">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-8 relative z-10">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary mb-2">Expense Approvals</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Review and manage branch expenditures.</p>
+</div>
+<!-- Filters -->
+<div class="flex gap-4">
+<div class="relative">
+<select class="appearance-none bg-surface border border-outline-variant py-2 pl-4 pr-10 font-label-caps text-label-caps uppercase text-on-surface focus:border-secondary focus:ring-0 rounded-none clip-corner h-10 w-40">
+<option>All Status</option>
+<option>Pending Review</option>
+<option>Finance Review</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-sm" data-icon="expand_more">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface border border-outline-variant py-2 pl-4 pr-10 font-label-caps text-label-caps uppercase text-on-surface focus:border-secondary focus:ring-0 rounded-none clip-corner h-10 w-48">
+<option>All Categories</option>
+<option>Facility</option>
+<option>Vendor</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-sm" data-icon="expand_more">expand_more</span>
+</div>
+<button class="bg-surface border border-outline-variant px-4 h-10 font-label-caps text-label-caps uppercase text-on-surface hover:bg-surface-container-low transition-colors clip-corner flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                        This Month
+                    </button>
+</div>
+</div>
+<!-- KPI Summary Cards (The Cascade layout) -->
+<div class="grid grid-cols-3 gap-6 mb-12 relative z-10">
+<!-- Card 1 -->
+<div class="bg-surface border border-[#3A3A3A] p-6 clip-corner relative group hover:bg-surface-container-low transition-colors">
+<div class="absolute top-0 right-0 w-0 h-0 border-t-[16px] border-t-background border-l-[16px] border-l-transparent"></div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-4 tracking-widest">Pending Review</p>
+<div class="flex items-baseline gap-3">
+<span class="font-kpi-metric text-kpi-metric text-primary">24</span>
+<span class="font-body-sm text-body-sm text-error flex items-center"><span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12%</span>
+</div>
+</div>
+<!-- Card 2 (Cascade offset) -->
+<div class="bg-surface border border-[#3A3A3A] p-6 clip-corner relative group hover:bg-surface-container-low transition-colors translate-y-4">
+<div class="absolute top-0 right-0 w-0 h-0 border-t-[16px] border-t-background border-l-[16px] border-l-transparent"></div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-4 tracking-widest">Total Volume</p>
+<div class="flex items-baseline gap-3">
+<span class="font-kpi-metric text-kpi-metric text-primary">$142.5K</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">YTD</span>
+</div>
+</div>
+<!-- Card 3 (Cascade offset) -->
+<div class="bg-primary text-on-primary p-6 clip-corner relative group translate-y-8 shadow-xl">
+<div class="absolute top-0 right-0 w-0 h-0 border-t-[16px] border-t-background border-l-[16px] border-l-transparent"></div>
+<!-- Diagonal accent pattern inside card -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, #fff 4px, #fff 5px);"></div>
+<p class="font-label-caps text-label-caps uppercase mb-4 text-on-primary/70 tracking-widest">High Priority</p>
+<div class="flex items-baseline gap-3 relative z-10">
+<span class="font-kpi-metric text-kpi-metric text-secondary-fixed">8</span>
+<span class="font-body-sm text-body-sm text-on-primary/70">Action Required</span>
+</div>
+</div>
+</div>
+<!-- Expense Table -->
+<div class="bg-surface border border-[#3A3A3A] mt-16 clip-corner relative z-10">
+<div class="absolute top-0 right-0 w-0 h-0 border-t-[16px] border-t-background border-l-[16px] border-l-transparent"></div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-[#3A3A3A] bg-surface-container-low">
+<th class="py-4 px-6 font-label-caps text-label-caps uppercase text-on-surface-variant tracking-wider w-32">Date</th>
+<th class="py-4 px-6 font-label-caps text-label-caps uppercase text-on-surface-variant tracking-wider">Category</th>
+<th class="py-4 px-6 font-label-caps text-label-caps uppercase text-on-surface-variant tracking-wider hidden xl:table-cell">Subcategory</th>
+<th class="py-4 px-6 font-label-caps text-label-caps uppercase text-on-surface-variant tracking-wider w-32">Amount</th>
+<th class="py-4 px-6 font-label-caps text-label-caps uppercase text-on-surface-variant tracking-wider hidden lg:table-cell">Submitted By</th>
+<th class="py-4 px-6 font-label-caps text-label-caps uppercase text-on-surface-variant tracking-wider">Status</th>
+<th class="py-4 px-6 font-label-caps text-label-caps uppercase text-on-surface-variant tracking-wider w-20 text-center">Receipt</th>
+<th class="py-4 px-6 w-48"></th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<!-- Row 1: High value, Branch Admin Review -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors expense-row h-16 group" id="exp-1">
+<td class="py-3 px-6 whitespace-nowrap">Oct 24, 2023</td>
+<td class="py-3 px-6">
+<span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 font-label-caps text-[10px] uppercase border border-blue-200">Facility</span>
+</td>
+<td class="py-3 px-6 hidden xl:table-cell text-on-surface-variant">HVAC Maintenance</td>
+<td class="py-3 px-6 font-display-md text-[16px] font-semibold">$5,240.00</td>
+<td class="py-3 px-6 hidden lg:table-cell">Sarah Jenkins</td>
+<td class="py-3 px-6" id="status-1">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-amber-100 text-amber-900 border border-amber-200 font-label-caps text-[10px] uppercase">
+<span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
+                                    Branch Admin Review
+                                </span>
+</td>
+<td class="py-3 px-6 text-center">
+<div class="w-8 h-8 border border-outline-variant mx-auto relative group/receipt cursor-pointer overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-80" data-alt="A high-end, professional photograph of a Workafella coworking office interior. Warm-lit boutique lobby with wood veneer walls, brass and gold geometric lattice screens, and layered ambient lighting. The mood is sophisticated and premium, like a luxury hotel. Deep shadows and warm highlights. No people. 8k resolution, architectural photography." src="https://lh3.googleusercontent.com/aida/AEtjO1Vda_MOds-1-RM5Y89WOII1uQQwnJyCPWXEpg4RDVUoxrvNmvV1nPHj9hprNai9OFJu1kaY_aWszFW32n60tF6nxSDRCjR7MCOXzPv6VmNkvqu8kp5IpZDW6sKkwFSPVTTMyOjHa3MYK9jqz_dXiL9li-6s1o5sXzJCpu84wQHR5YM1r-yrF_KFX5AuFwGdLwTNCon8_8UoFdY3QDMc9HVXK3KnS9RbDpqs0Hsryc3opBbH-Ebw4lWXwJEh"/>
+<div class="absolute inset-0 bg-primary/40 flex items-center justify-center opacity-0 group-hover/receipt:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-on-primary text-sm" data-icon="search">search</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-6 text-right relative">
+<div class="row-actions flex justify-end gap-2">
+<button class="bg-surface text-primary border border-primary px-3 py-1 font-label-caps text-[10px] uppercase hover:bg-secondary-container hover:border-secondary-container hover:text-on-secondary-container transition-colors" onclick="approveHighValue('exp-1', 'status-1')">Approve</button>
+<button class="bg-surface text-error border border-error px-3 py-1 font-label-caps text-[10px] uppercase hover:bg-error hover:text-on-error transition-colors">Reject</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Standard, Submitted -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors expense-row h-16">
+<td class="py-3 px-6 whitespace-nowrap">Oct 23, 2023</td>
+<td class="py-3 px-6">
+<span class="inline-block px-2 py-1 bg-green-100 text-green-800 font-label-caps text-[10px] uppercase border border-green-200">Office/Op</span>
+</td>
+<td class="py-3 px-6 hidden xl:table-cell text-on-surface-variant">Printer Supplies</td>
+<td class="py-3 px-6 font-display-md text-[16px] font-medium">$450.00</td>
+<td class="py-3 px-6 hidden lg:table-cell">Mike Ross</td>
+<td class="py-3 px-6">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 font-label-caps text-[10px] uppercase">
+<span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                                    Submitted
+                                </span>
+</td>
+<td class="py-3 px-6 text-center">
+<div class="w-8 h-8 border border-outline-variant mx-auto bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="receipt">receipt</span>
+</div>
+</td>
+<td class="py-3 px-6 text-right">
+<div class="row-actions flex justify-end gap-2">
+<button class="bg-surface text-primary border border-primary px-3 py-1 font-label-caps text-[10px] uppercase hover:bg-secondary-container hover:border-secondary-container hover:text-on-secondary-container transition-colors">Approve</button>
+<button class="bg-surface text-error border border-error px-3 py-1 font-label-caps text-[10px] uppercase hover:bg-error hover:text-on-error transition-colors">Reject</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Vendor, Finance Review -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors expense-row h-16 bg-surface-container-low/30">
+<td class="py-3 px-6 whitespace-nowrap">Oct 21, 2023</td>
+<td class="py-3 px-6">
+<span class="inline-block px-2 py-1 bg-purple-100 text-purple-800 font-label-caps text-[10px] uppercase border border-purple-200">Vendor</span>
+</td>
+<td class="py-3 px-6 hidden xl:table-cell text-on-surface-variant">Catering Services</td>
+<td class="py-3 px-6 font-display-md text-[16px] font-medium">$1,200.50</td>
+<td class="py-3 px-6 hidden lg:table-cell">Rachel Zane</td>
+<td class="py-3 px-6">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-purple-50 text-purple-900 border border-purple-300 font-label-caps text-[10px] uppercase">
+<span class="w-1.5 h-1.5 bg-purple-600 rounded-full"></span>
+                                    Finance Review
+                                </span>
+</td>
+<td class="py-3 px-6 text-center">
+<div class="w-8 h-8 border border-outline-variant mx-auto bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="receipt">receipt</span>
+</div>
+</td>
+<td class="py-3 px-6 text-right">
+<div class="row-actions flex justify-end gap-2">
+<span class="text-on-surface-variant font-label-caps text-[10px] uppercase py-1">Locked</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination Footer -->
+<div class="px-6 py-4 border-t border-outline-variant flex justify-between items-center bg-surface">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 1-3 of 24</span>
+<div class="flex gap-1">
+<button class="w-8 h-8 border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 border border-[#3A3A3A] bg-primary text-on-primary font-label-caps text-xs flex items-center justify-center">1</button>
+<button class="w-8 h-8 border border-outline-variant flex items-center justify-center text-on-surface font-label-caps text-xs hover:bg-surface-container-high">2</button>
+<button class="w-8 h-8 border border-outline-variant flex items-center justify-center text-on-surface font-label-caps text-xs hover:bg-surface-container-high">3</button>
+<button class="w-8 h-8 border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Floating Popover (Hidden by default, triggered by JS) -->
+<div class="fixed hidden opacity-0 transition-opacity duration-300 z-50 bg-primary text-on-primary p-4 border border-outline clip-corner shadow-2xl max-w-xs" id="instruction-popover" style="left: 50%; top: 50%; transform: translate(-50%, -50%);">
+<div class="absolute top-0 right-0 w-0 h-0 border-t-[8px] border-t-background border-l-[8px] border-l-transparent"></div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary-fixed mt-0.5" data-icon="info">info</span>
+<div>
+<h4 class="font-headline-sm text-[16px] mb-1 text-secondary-fixed">Finance Approval Required</h4>
+<p class="font-body-sm text-[12px] text-on-primary/80">Expenses exceeding $5,000 have been automatically routed to the Finance Review queue.</p>
+</div>
+</div>
+<button class="mt-4 w-full bg-secondary-fixed text-on-secondary-fixed py-1.5 font-label-caps text-[10px] uppercase hover:bg-secondary transition-colors border border-secondary-fixed" onclick="closePopover()">Understood</button>
+</div>
+</main>
+</div>
+<script>
+        function approveHighValue(rowId, statusCellId) {
+            // Show Popover
+            const popover = document.getElementById('instruction-popover');
+            popover.classList.remove('hidden');
+            // Small delay to allow display:block to apply before animating opacity
+            setTimeout(() => {
+                popover.classList.remove('opacity-0');
+            }, 10);
+
+            // Update Status Cell
+            const statusCell = document.getElementById(statusCellId);
+            statusCell.innerHTML = `
+                <span class="inline-flex items-center gap-1.5 px-2 py-1 bg-purple-50 text-purple-900 border border-purple-300 font-label-caps text-[10px] uppercase transition-all duration-500">
+                    <span class="w-1.5 h-1.5 bg-purple-600 rounded-full"></span>
+                    Finance Review
+                </span>
+            `;
+            
+            // Disable row actions
+            const row = document.getElementById(rowId);
+            const actionsContainer = row.querySelector('.row-actions');
+            actionsContainer.innerHTML = '<span class="text-on-surface-variant font-label-caps text-[10px] uppercase py-1">Locked</span>';
+            row.classList.add('bg-surface-container-low/30');
+        }
+
+        function closePopover() {
+            const popover = document.getElementById('instruction-popover');
+            popover.classList.add('opacity-0');
+            setTimeout(() => {
+                popover.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body></html>

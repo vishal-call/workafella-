@@ -1,0 +1,561 @@
+WORKAFELLA
+Digital Workspace Platform
+Consolidated Product Requirements Document
+Version 1.0 — Consolidated from Project Scope, BRD & FRD
+Status: Draft for stakeholder review
+Prepared: August 2026
+Sources consolidated: Workafella Project scope outline · Business Requirements Document (Sections 1–19, 27) · Functional Requirements Document (full)
+1. Purpose & Background
+Workafella operates managed coworking and office-space centres across four cities — Hyderabad, Chennai, Bangalore, and Mumbai (11 centres in total: 4 in Chennai, 4 in Hyderabad, 2 in Bangalore, 1 in Mumbai) — offering Private Office, Custom Built, and Dedicated Desk formats alongside meeting rooms and amenities such as access control, CCTV, visitor management, IT services, and housekeeping. Amenities vary by centre, so the platform needs to model centre-specific configuration rather than assuming every location is identical.
+Today this operation runs largely through calls, emails, physical follow-up, and disconnected records. This PRD defines a single digital workspace platform with two sides: (1) an internal operating system for Workafella management and staff, and (2) a controlled client portal for client organisations — centralising customer/contract data, workspace and room allocation, room booking, employee access requests, visitor requests, service tickets, billing, vendor and asset operations, notifications, and management analytics.
+The strategic goal isn't just digitisation — it's converting operational data into measurable service performance and management intelligence (renewal risk, churn indicators, branch revenue trends, occupancy patterns, SLA performance) while keeping AI outputs as decision support that requires human approval for anything that materially changes a contract, access grant, or bill.
+This document consolidates three inputs into one authoritative PRD: the original Workafella Project scope outline, the Business Requirements Document (BRD) discovery baseline, and the Functional Requirements Document (FRD). Where the source documents proposed a rule rather than confirmed an existing Workafella policy, that is flagged as an open item in Section 21 rather than presented as settled.
+2. Business Problems
+Manual room and conference-room booking (calls/emails) creates uncertainty about real-time availability.
+Client employees depend on Workafella staff for routine requests instead of a transparent self-service channel.
+Employee access onboarding depends on email submission, physical verification, and management follow-up; exit/revocation needs another manual communication path.
+Visitor, facility, and service issues aren't consistently captured in a measurable ticket lifecycle.
+Management lacks a single source of truth for response time, resolution time, and SLA compliance.
+Billing, free conference-room entitlements, and additional usage need transparent tracking.
+Client/contract/room relationships get hard to manage as a company adds rooms, changes contracts, or spans locations.
+Management needs branch-level and enterprise-level revenue and operational visibility.
+Contract expiry and renewal actions can be missed without systematic notifications.
+Historical operational data is underused for forecasting, churn prediction, and proactive decisions.
+Data privacy and tenant isolation are critical — the platform will hold client, employee, contract, billing, and identity documents.
+3. Objectives
+Digitise core Workafella operational processes end-to-end, replacing manual calls/emails/follow-ups.
+Give every branch a single operational system for bookings, visitors, tickets, billing, staffing, vendors, supplies, and assets.
+Give client organisations controlled self-service (room booking, visitor pre-registration, access requests, ticket raising, an AI chatbot) without exposing internal-only capabilities.
+Create one source of truth for clients, legal entities, contracts, centres, rooms, seats, bookings, requests, and financial status.
+Give Super Admin / CEO real-time, multi-branch and enterprise-wide visibility into revenue and utilisation without manual roll-ups.
+Make billing and entitlement usage transparent to both Finance and clients.
+Establish a role-based access model, with centre-level scoping, so each user only sees data and actions relevant to their role.
+Introduce AI-assisted predictions and recommendations as decision support, never as an autonomous actor on contracts, access, or billing.
+Protect tenant/client data through defense-in-depth security and auditable access.
+4. Scope
+4.1 In Scope — V1
+Role-based access and administration, with centre-level scoping
+Centre/branch, floor, and room master management
+Client organisation and legal-entity management
+Lead and CRM classification
+Customer onboarding
+Contract and allocation management
+Workspace/seat allocation and tracking
+Conference-room availability and booking, with free-entitlement tracking
+Client employee access request and revocation workflow
+Visitor/gate-pass request and security execution
+Service request and ticket management
+Operations/facility workflows
+Vendor and internal employee management
+Asset and consumable tracking
+Branch-wise expense management (facility, operational, vendor, asset, and other expenses)
+Billing, invoice, and payment-status tracking
+Notifications and reminders
+Management dashboards and reports
+Audit trail
+AI/agentic insights and predictions (as decision support)
+4.2 Out of Scope / Integration-Dependent
+Replacing existing biometric/fingerprint hardware — the platform integrates with, or records the status of, the existing access-control process rather than replacing it.
+Capturing raw fingerprints through the application.
+Guaranteeing a specific legal/privacy certification without a formal compliance assessment.
+Automating financial payment settlement before a payment gateway and finance policy are approved.
+Automatic AI decisions that materially alter contracts, access, or billing without human approval.
+5. Roles & Permission Model
+The platform is organised around role types scoped by branch/centre, except Super Admin, which has enterprise-wide visibility. Two roles — Security Guard and Operations Staff/Assignees — are added here from the BRD discovery to cover front-desk execution and task-level work that the original five-role outline didn't separately name.
+Role
+Scope
+Primary responsibilities
+Super Admin
+All branches (enterprise-wide)
+Enterprise-wide administration, multi-branch/centre oversight, configuration, revenue & performance visibility (CEO-level), security/audit oversight.
+Branch Admin
+Single centre
+1. Customer Onboarding
+2. Workspace Allocation / Tracking
+Plus: centre-level administration, contract/room configuration, approvals, operational oversight, internal employee management, and reviewing client employee access requests.
+Finance User
+Single branch (or org, if centralised)
+Invoices, billing, payment status, adjustments, finance reporting, and expense review/approval. Treated as in-scope (P0) per the BRD/FRD baseline — see Section 8.4.
+Operations / Facility
+Single branch
+Meeting room calendar management, tickets, vendors, assets, consumables, visitor workflows, operational SLAs, and logging branch expenses.
+Client Admin
+Their own organisation, within a branch
+Client-side requests: employee/access requests, room bookings, visitor pre-registration, ticket creation, and visibility into their own contracts, allocations, and invoices.
+Security Guard
+Single centre, front desk
+Gate-pass execution, visitor check-in/check-out, and limited operational visibility. No access to confidential client-admin or finance data.
+Operations Staff / Assignees
+Task-level, within a branch
+Execution of role-specific work (e.g. a ticket assigned to a technician) and status updates; permissions limited to assigned items only.
+Note: The “1. Customer Onboarding / 2. Workspace Allocation” line under Branch Admin comes directly from the original project scope outline. Section 7 below gives both items full workflow detail rather than leaving them as a two-line label.
+6. Business & Data Model
+6.1 Entity Hierarchy
+Recommended structural hierarchy, so the data model doesn't conflate a room with a branch, or a client with a single contract:
+Workafella Enterprise → City → Physical Centre/Branch → Floor/Block → Room/Workspace → Seat
+Client Group (optional) → Legal Entity → Client Account → Contract(s) → Allocation(s) → Employees/Authorised Users
+Conference Room → Centre/Floor → Availability Calendar → Booking → Entitlement Usage → Billable Overage
+Ticket → Client/Centre → Category → Assignment → SLA → Resolution → Feedback
+A room is not a branch — a physical Workafella centre is the branch/location boundary. A client company remains one client organisation within a centre even if it occupies multiple rooms or holds multiple contracts. Different legal entities are separate client records; an optional parent/group relationship can provide consolidated visibility.
+6.2 Customer & Contract Model
+A client organisation can hold multiple contracts and multiple room/workspace allocations at once. For example, a client may have Room 705 under a one-year contract and Room 706 under a monthly arrangement at the same centre — these are separate contractual allocations under one client organisation, not separate branches.
+If a client group owns multiple legal entities, each legal entity keeps its own KYC, tax, invoicing, and contract records, while an optional parent group provides consolidated management reporting.
+7. Customer Onboarding & Workspace Allocation / Tracking
+This section expands the two Branch Admin responsibilities called out from the original scope into full workflows, combining the BRD's lead-to-client lifecycle with the FRD's functional behaviour for client/contract and workspace/seat management.
+7.1 Lead-to-Client Lifecycle
+1. Lead is captured in CRM.
+2. Lead is classified and assigned to sales (FR-04: track stage, notes, next action, probability).
+3. Sales negotiation and commercial discussion occur.
+4. Lead is converted to a client organisation/legal entity — without creating a duplicate organisation record (FR-04).
+5. Contract and room/seat allocations are created (FR-05).
+6. Branch Admin validates required onboarding information.
+7. Client Admin account is created and an activation communication is issued (FR-03).
+8. Employees and access requests can then be submitted through the client portal (Section 8.11).
+9. Operational services, booking, and tickets become available according to contract and role.
+7.2 Customer Onboarding — Branch Admin
+Create client organisation and legal entity; capture KYC, tax, and invoicing details (FR-03).
+Support an optional parent-group relationship for clients with multiple legal entities.
+Create the Client Admin account and trigger activation communication.
+Validate onboarding completeness (contract, allocation, KYC) before activation.
+7.3 Workspace Allocation / Tracking — Branch Admin
+Search available rooms that can fit the requested seat count; capacity is configurable by Branch Admin (FR-06).
+Do not promise same-room expansion — physical infrastructure/cabling constraints may require allocating a different room for additional seats.
+Track allocated seats by contract and room, and display room capacity alongside current allocation status.
+Multiple rooms can belong to the same client at the same centre; adding a new room creates a new allocation/contract amendment, never a duplicate client record.
+Contract and allocation changes must be auditable, with amendments preserving prior versions.
+8. Core Modules
+Nine original operational modules, plus Expense Management and Client Employee Access added from this consolidation. Each module lists its features, the underlying business rules, the relevant functional requirements, and (where applicable) its status model and technical approach.
+8.1 Meeting Room / Conference Room Booking
+Roles: Client Admin (books), Operations/Facility (manages the calendar), Branch Admin (configures rooms & rates)
+Key Features
+Real-time availability search by centre, room, date, and time, with capacity and amenity filters.
+Free-entitlement balance and estimated billable amount shown before booking confirmation.
+5-minute temporary hold on a selected room/time, with a visible countdown and a 1-minute warning before it expires.
+Optional cross-centre booking, subject to policy and availability.
+Recurring bookings, cancellation, and no-show release of unconfirmed holds.
+Business Rules
+Booking horizon: same-day through 30 days in advance; minimum 1-hour slot proposed for V1.
+The system prevents double-booking of a room/time-slot.
+Free conference-room hours are tied to contracted seat count: entitlement = contracted eligible seats × configured free-hours-per-seat factor (default proposed: 1 hour/seat/month). Entitlement is monthly and does not carry forward — unused hours expire at cycle end.
+Usage is deducted on confirmed booking duration; a booking cancelled before its start time restores the entitlement (proposed V1 rule).
+Once entitlement is exhausted, additional usage is billable at the configured rate; cross-centre usage may bill at the destination centre's rate.
+Cancellation currently carries no mandatory notice period in the proposed rule — a commercial cancellation policy can be configured later.
+Functional Flow
+1. Client Admin opens booking and selects a centre (or cross-centre search, if enabled).
+2. Selects date and attendee count; system shows eligible rooms and capacity.
+3. User selects room and time.
+4. System calculates entitlement consumption and projected billable amount.
+5. System places a 5-minute temporary hold with countdown and 1-minute warning.
+6. User confirms; system creates the booking, deducts entitlement, and sends confirmation.
+7. At cancellation, the system applies the configured entitlement-restoration policy.
+8. Booking appears in both client and authorised internal calendars.
+Validation Rules
+Booking end time must be after start time; booking must not overlap an existing confirmed booking.
+Booking must fall within the same-day-to-30-day horizon unless an authorised policy override applies.
+An unconfirmed temporary hold must expire after 5 minutes.
+Technical Approach
+Slot-based booking engine with optimistic/row-level locking on (room × time-range) to prevent double-booking under concurrent requests.
+Temporary holds implemented as a short-TTL lock/cache entry so they release automatically without a manual cleanup step.
+Booking and payment-adjacent operations are idempotent, so a retried request can't create a duplicate booking.
+Real-time calendar sync via WebSockets/Server-Sent Events; notification service (SMS/email) triggered on booking-state events.
+8.2 Visitor & Gate-Pass Management
+Roles: Client Admin (pre-registers), Security Guard (executes check-in/out), Operations/Facility & Branch Admin (reporting)
+Key Features
+Client Admin pre-registers a visitor: identity, contact, host, date/time, and purpose.
+Approval workflow where required; walk-in visitors can be recorded and routed for host/client approval.
+Security Guard sees only active gate passes — no visibility into confidential client or finance data.
+Check-in/check-out timestamps recorded by Security; searchable visitor history subject to privacy permissions.
+Vendor visits follow a separate Operations approval workflow (see Section 8.6).
+Technical Approach
+Each visit gets a unique, short-lived signed QR/reference token to prevent reuse or forgery of passes.
+Lightweight kiosk/tablet check-in interface for Security, calling the same visitor API as the main app.
+Visitor PII encrypted at rest, with a configurable retention period per branch's compliance policy.
+8.3 Ticket / Service Request Management
+Roles: Operations/Facility (triage & resolve), Client Admin (raise), Operations Staff/Assignees (execute)
+Key Features
+Covers both incidents and service requests: IT, housekeeping, maintenance, utilities, pantry/tea/coffee, water, power, internet/Wi-Fi, and other centre services.
+Category/subcategory, priority, and severity are configurable; assignment to a department, team, or individual.
+Attachments/comments, requester notifications, and CSAT rating after closure.
+Recurring-issue detection to flag patterns for preventive action (feeds AI analysis, Section 8.10).
+Aging/backlog dashboard: open tickets, SLA compliance, average response and resolution time.
+Status Model
+New → Assigned → In Progress → Waiting/On Hold → Resolved → Closed  (Reopened and Cancelled are also valid transitions per policy.)
+Technical Approach
+Ticket status modelled as an explicit state machine with role-gated transitions and automatic timestamps for created, acknowledged, first response, resolution, and closure.
+SLA breach detection via a scheduled job comparing due-by timestamps to current time, firing escalation notifications to the requester and Branch Admin.
+Optional AI-assisted category/priority suggestion at creation time, sharing its engine with the chatbot (Section 8.10).
+8.4 Billing & Payments
+Roles: Finance User (review & release), Branch Admin (visibility), Client Admin (view own invoices/payments)
+Key Features
+Automated monthly invoice generation from active contract and allocation data; monthly rent is the core V1 billing model.
+Finance User reviews and approves an invoice before it's released to the client.
+Recurring seat-based charges configurable by contract; pro-rata calculation for approved mid-cycle seat changes (exact formula pending finance confirmation — Section 21).
+Conference-room overage and other chargeable services added as invoice line items.
+Payment status tracking (a payment gateway is a future integration — V1 must at minimum record payment status manually).
+Status Model
+Draft → Generated → Finance Review → Approved → Sent → Partially Paid / Paid → Overdue → Adjusted / Cancelled
+Functional Flow
+1. System collects active contract and allocation data.
+2. At billing-cycle start/end, the invoice engine generates the monthly invoice.
+3. Recurring seat charges are calculated, and any approved pro-rata adjustments applied.
+4. Conference-room overage and other billable items are added.
+5. Taxes, discounts, and adjustments are applied per configured finance rules.
+6. Finance User reviews and approves the invoice.
+7. Approved invoice is released (sent) to the client.
+8. Payment status is updated manually or via a future gateway integration; overdue notifications/escalation trigger automatically.
+Validation Rules
+Invoice totals must equal line items + taxes − approved adjustments.
+Payment and invoice status changes must be auditable.
+Note: This resolves the open question from the earlier PRD draft about whether Billing & Payments is in scope: the BRD/FRD baseline lists it as P0 (BR-009) and a core V1 module, so it is treated as in-scope here rather than deferred.
+8.5 Internal Employee Management
+Roles: Branch Admin
+Key Features
+Branch staff directory: role, designation, contact, reporting manager.
+Platform access/role assignment per employee, mapped to the RBAC model, with account activation/deactivation and audit.
+Basic attendance/shift check-in log (optional depth — can integrate with an existing biometric/access system rather than duplicate it).
+8.6 External Workers (Vendor) Management
+Roles: Operations / Facility
+Key Features
+Vendor directory: company, service type (housekeeping, security, maintenance, etc.), contract dates.
+Vendor staff roster with ID verification and check-in/out logging for branch visits, via an Operations approval workflow.
+Contract/renewal reminders, performance notes, and linked operational tickets.
+8.7 Consumable / Supplies Tracking
+Roles: Operations / Facility
+Key Features
+Branch-specific inventory: item, category, unit, current stock, reorder threshold.
+Stock-in/stock-out logging, low-stock alerts, and reorder suggestions linked to the relevant vendor.
+Consumption trend reporting per branch/category.
+8.8 Asset Management
+Roles: Operations / Facility
+Key Features
+Asset register with location, status, and maintenance history, scoped per branch.
+Assignment tracking (employee/room/desk) and lifecycle metadata (purchase date, warranty, depreciation).
+Operational tickets can link directly to the relevant asset or vendor for traceability.
+8.9 Expense Management
+Roles: Operations/Facility (logs expenses), Branch Admin (first-level approval), Finance User (review, approval & reconciliation), Super Admin (cross-branch visibility)
+Added at your request — tracks branch-wise operating expenses across five categories, giving Finance and leadership visibility into where each centre's costs go, beyond just revenue and billing.
+Expense Categories
+Category
+Typical line items
+Facility Expenses
+Electricity, water, internet, generator/DG, air-conditioning, cleaning, housekeeping, security, repairs, maintenance
+Office / Operational Expenses
+Stationery, printing, pantry supplies, drinking water, consumables, courier, local transportation
+Vendor Expenses
+AMC, facility management, security agency, housekeeping agency, IT support, maintenance vendors
+Asset-Related Expenses
+Equipment repair, equipment maintenance, replacement, AMC
+Other Expenses
+Miscellaneous, emergency expenses, one-time operational expenses
+Key Features
+Branch-wise expense entry against the category/subcategory list above, each with amount, date, branch, and a mandatory supporting document (invoice/receipt/bill).
+Recurring expense templates for predictable monthly costs (electricity, water, internet, AMC, security/housekeeping agency fees) that auto-generate a draft entry each cycle for confirmation of the actual amount.
+One-time and emergency expense entries, with mandatory justification text for after-the-fact approval.
+Approval workflow: Operations/Facility submits → Branch Admin reviews → Finance User gives final approval, with a configurable amount threshold above which Finance sign-off is mandatory.
+Budget vs. actual tracking per branch, category, and month, with alerts on budget overrun or an unusually large single entry.
+Vendor-linked expenses (AMC, facility management, security/housekeeping agencies, IT support, maintenance vendors) reference the vendor record from Vendor Management (8.6).
+Asset-related expenses (equipment repair/maintenance/replacement/AMC) reference the relevant asset from Asset Management (8.8) and update its maintenance history.
+Branch-wise, category-wise, and month-wise expense reports and trend analysis, feeding the executive dashboards in Section 10.
+Status Model
+Draft → Submitted → Branch Admin Review → Finance Review → Approved → Paid/Reimbursed → Rejected / Cancelled
+Business Rules
+Expense categories and subcategories are configurable masters (mapped to the five groups above), not hard-coded, so new line items can be added without a code change.
+Every expense entry requires branch, category, subcategory, amount, date, and an attached supporting document before it can be submitted.
+Expenses above a configurable amount threshold require both Branch Admin and Finance approval; below it, Branch Admin approval alone may suffice — exact threshold to be confirmed with Finance (see Section 21).
+Approved expenses are auditable in the same way as billing adjustments: who approved, when, and why, per the governance principles in Section 16.
+Technical Approach
+Expense modelled as a ledger-style transaction (like billing and inventory), for auditability rather than a single mutable total per branch.
+Recurring-expense generation and budget-threshold alerts reuse the same scheduled-job pattern as recurring billing (8.4) and low-stock/SLA alerts (8.3, 8.7).
+Receipt/invoice attachments reuse the same secure document-upload and storage pattern as ticket attachments and identity documents.
+Approval routing reuses the RBAC + state-machine pattern already used for tickets and billing, rather than introducing a new workflow engine.
+8.10 AI / Agentic Intelligence Layer
+Roles: Operations/Facility & Client Admin (chatbot), Super Admin & Branch Admin (executive insights)
+AI is positioned as a decision-support layer over the platform's operational data — not a replacement for staff, and not an autonomous actor that changes contracts, access, or billing without human approval. Every recommendation stores its timestamp and model version for explainability and audit.
+Capabilities
+Capability
+Primary data
+Output
+Renewal Risk
+Contracts, tenure, utilisation, tickets, payments
+0–100 risk score + contributing factors + recommended action
+Churn Prediction
+Client engagement, service issues, utilisation, contract history
+Risk band + contributing signals
+Revenue Forecast
+Historical revenue, contracts, occupancy, pipeline
+Forecast + confidence range
+Branch Anomaly Detection
+Revenue/utilisation/tickets vs. historical baseline
+Anomaly alert + likely driver
+Room Demand Forecast
+Booking history, day/time, centre
+Demand forecast + capacity insight
+SLA Breach Risk
+Ticket age, priority, assignment, historical handling
+Breach probability + escalation suggestion
+Expansion Opportunity
+Seat utilisation, client growth, contract patterns
+Opportunity signal + suggested follow-up
+Executive Assistant
+Authorised platform data (permission-filtered)
+Natural-language answers with source metrics
+Chatbot — Client-Facing
+Natural-language requests such as “book a meeting room for 3pm tomorrow” or “what's my invoice status,” integrated with Booking (8.1), Tickets (8.3), and Billing (8.4).
+FAQ/knowledge-base answers for amenities, timings, and policies; handoff to a human when confidence is low or requested.
+Technical Approach
+LLM-based agent with tool-calling into the platform's own internal APIs, so every action still passes through normal application logic and permission checks — never a bypass of RBAC.
+Retrieval-augmented answers (RAG) over branch-specific FAQ/policy documents.
+AI queries and insights inherit the same authorisation scope as the requesting user — a user only receives insights based on data they're authorised to view.
+Recommend launching read-only/informational first, then enabling write actions (e.g. creating a booking) behind an explicit confirmation step.
+8.11 Client Employee Access Request & Biometric Enrollment
+Roles: Client Admin (submits), Branch Admin (approves), Security/Operations (executes physical enrollment)
+Added from the BRD/FRD discovery (BR-005, P0) — this digitises the request/approval trail for a client's own employees getting building access, while keeping the physical biometric enrollment step in Workafella's existing hardware rather than replacing it.
+Key Features
+Client Admin submits an employee access request: full name, email, company/legal entity, centre/floor/block/room, and required access scope.
+Required identity document uploaded per policy (e.g. an Aadhaar copy where legally and operationally required).
+Branch Admin reviews and approves/rejects the request.
+An approved request generates an instruction to complete physical biometric enrollment in the existing hardware; the system records enrollment status (pending/completed) and activates the digital record accordingly.
+On employee exit, Client Admin submits a revoke-access request; Branch Admin/authorised operations user approves and records deactivation.
+Full audit history retained on every status change.
+Status Model
+Draft → Submitted → Under Review → Approved / Rejected → Enrollment Pending → Active → Revocation Requested → Revoked / Cancelled
+Privacy Note
+Note: Identity documents are sensitive. The final implementation must validate lawful collection, retention, access, masking, download restrictions, and deletion/retention periods with Workafella's legal/privacy team before production. Only authorised roles can view or download identity documents, and every download is logged.
+9. Notifications
+Contract expiry reminder — proposed default 30 days before expiry, with a configurable reminder schedule and additional reminders at configurable intervals.
+Invoice generated/sent/overdue notifications; booking confirmation/cancellation/reminder; temporary-hold countdown.
+Ticket acknowledgement, assignment, SLA warning, escalation, and closure notifications.
+Access-request submitted/approved/rejected/enrollment-pending/completed notifications.
+Visitor approval and check-in/check-out notifications.
+Template-based, with configurable channels (email/SMS/WhatsApp or an approved messaging provider) and per-role notification preferences, plus a searchable notification history.
+10. Management Reporting & Analytics
+Revenue by centre, client, contract, workspace, and period.
+Occupancy/utilisation by centre, floor, room, and seat.
+Contract portfolio: active, expiring (7/15/30/60/90-day views), expired, renewal pipeline.
+Client tenure, long-stay analysis, and expansion/contraction patterns.
+Conference-room utilisation and free-vs-billable usage; booking heatmap.
+Ticket volume, backlog, response time, resolution time, and SLA compliance.
+Visitor trends and peak periods; access-request turnaround time.
+Asset and consumable health; invoice ageing and payment status.
+Branch-wise expense reports by category (facility, operational, vendor, asset-related, other) with month-over-month trend and budget-vs-actual variance.
+Branch comparison, trend analysis, and AI renewal/churn risk portfolio view.
+Dashboards are filterable by city, centre, date, client, and status, with role-appropriate export and executive KPI cards.
+11. Security & Data Privacy
+Tenant isolation: a client must never access another client's data, including by manipulating IDs in a URL or API request.
+Role-based access control with least privilege and centre/branch-level authorisation for internal users.
+Strong authentication with MFA support for privileged roles; sessions expire per security policy; failed logins are rate-limited and monitored.
+Encryption in transit and at rest; secure secrets and key management.
+API authentication/authorisation, rate limiting, and abuse protection on every endpoint.
+Input validation, output encoding, and CSRF/XSS/SQL-injection defenses; uploads scanned/validated and stored outside public paths.
+Audit logging for authentication, data access, approvals, document access, billing actions, and administrative changes.
+Sensitive identity documents get restricted access, access logging, retention/deletion policy, and download controls, with explicit authorisation required to download.
+Backups, recovery procedures, disaster-recovery objectives, vulnerability management, patching, and periodic security testing.
+Data minimisation, configurable retention, and a privacy impact assessment/legal review for identity data before production.
+12. Non-Functional Requirements
+Availability: target to be defined during the architecture/SLA phase.
+Performance: common pages and search should respond within an agreed SLA; booking confirmation should be near-real-time.
+Scalability: support multiple cities, centres, clients, contracts, rooms, and users without redesign.
+Auditability: business-critical actions must be traceable end-to-end.
+Usability: client workflows should be short and self-explanatory; accessibility follows applicable standards.
+Observability: logs, metrics, and alerts for the application and its integrations.
+Maintainability: configurable masters and rules (rates, SLAs, entitlement factors) should minimise development changes.
+Localisation: India-focused currency/tax/timezone support in V1, with multi-region capability as a future option.
+13. Integration Requirements
+Existing biometric/fingerprint access-control system — integration or status synchronisation where technically available, not a replacement.
+Email/SMS/WhatsApp or an approved messaging provider for notifications.
+Payment gateway — future/optional, subject to finance decision.
+Accounting/ERP — future integration.
+CRM/lead sources — future integration as required.
+IoT/CCTV/access-control systems — future integration based on vendor APIs and security review.
+API design: REST/JSON, short-lived access tokens, idempotency for booking/payment operations, versioning, correlation IDs for audit/troubleshooting, and rate limiting on every endpoint. Integration failures must never silently create duplicate bookings or invoices.
+14. Screen Catalogue
+A first pass at the primary screens each role will need, for UI/UX and build planning.
+Screen
+Core contents
+Login
+Email/username, password, MFA, forgot password
+Dashboard
+KPI cards, alerts, pending approvals, trends
+Client List / Detail
+Search & filter; legal entity, contracts, allocations, employees, tickets, invoices
+Contract Create/Edit
+Dates, billing, seats, rate, centre, allocations, terms
+Room Master
+Centre/floor/room, capacity, rate, availability
+Booking Calendar
+Centre, room, date, slot, entitlement balance, price, hold countdown
+Access Requests
+Submitted, approved, rejected, enrollment pending, active, revoked
+Visitor / Gate Pass
+Visitor details, approval, QR/reference, check-in/out
+Tickets
+Create, list, detail, SLA, assignment, comments, closure
+Invoice / Payments
+Invoice lines, taxes, adjustments, payment status, reconciliation
+Expense Management
+Category/subcategory, branch, amount, attached receipt, approval status, budget vs. actual
+Operations Dashboard
+Tickets, SLA, assets, consumables, visitors
+Executive Dashboard
+Revenue, utilisation, renewals, branch comparison
+AI Insights
+Risk scores, forecasts, explanations, recommendations
+Administration
+Roles, permissions, masters, notification templates, policies
+15. Conceptual Data Entities
+The core entities the data model needs to support, grouped by area:
+Identity & Access: User, Role, Permission
+Location: City, Centre, Floor, Block, Room, Seat
+Customer: Client Organization, Legal Entity, Client User, Lead
+Commercial: Contract, Contract Amendment, Allocation
+Booking: Conference Room, Booking, Entitlement Wallet
+Access & People: Access Request, Employee, Visitor, Gate Pass
+Operations: Ticket, SLA Policy, Vendor, Asset, Consumable
+Finance: Invoice, Invoice Line, Payment, Expense, Expense Category
+Platform: Notification, Audit Event, AI Insight, AI Recommendation
+16. Governance & Audit
+All approvals record who, when, what changed, and the reason where applicable.
+Contract amendments preserve previous versions; billing adjustments require a reason and an authorised user.
+Access requests and revocations require traceable status transitions.
+AI recommendations store timestamp/model version where technically feasible, for explainability and audit.
+Audit Events Captured
+Login/logout/MFA events; user/role/permission changes.
+Client/contract/allocation changes; room/booking creation, modification, and cancellation.
+Access-request approvals/revocations; identity-document view/download.
+Visitor check-in/check-out; ticket assignment/status changes.
+Invoice creation/approval/adjustment; payment status changes.
+AI recommendation generation/approval, where applicable.
+17. Phase 2 / Future Roadmap
+Directional items from the original scope outline, not committed for the initial build — captured so the V1 architecture doesn't foreclose them.
+Area
+Description
+Depends on
+Broader AI Agentic Automation
+Automation beyond the chatbot — e.g. auto-triaging tickets, auto-approving routine bookings.
+8.1, 8.3, 8.10
+Predictions
+Deeper forecasting of occupancy, revenue, or supply consumption from historical data.
+8.1, 8.4, 8.7, 8.10
+IoT
+Sensors for occupancy, environment (temp/air quality), or asset condition.
+8.8
+CCTV Camera Management
+Integrating branch camera feeds/alerts into the platform.
+8.2 Visitor & security workflows
+CRM & Sales / Lead Classification (deepened)
+Fuller pipeline management beyond initial lead capture and classification.
+7.1 Lead-to-Client Lifecycle
+18. Implementation Phasing
+Phase
+Scope
+Phase 1 — Foundation
+RBAC, centres, rooms, clients, contracts, allocations, onboarding, client portal, audit.
+Phase 2 — Client Services
+Conference booking, free-hour entitlement wallet, visitor requests, ticketing, notifications.
+Phase 3 — Finance & Operations
+Billing, payment status, expense management, vendors, employees, assets, consumables, operational dashboards.
+Phase 4 — Management Intelligence
+Executive dashboards, forecasting, renewal/churn analytics, anomaly detection.
+Phase 5 — Agentic & Integrations
+AI assistant, recommendations, biometric/access integration, payment/ERP/IoT integrations.
+19. Requirement Traceability Baseline
+ID
+Requirement
+Priority
+Notes
+BR-001
+Role-based access for internal and client users
+P0
+Security/core platform
+BR-002
+Centre/room/seat master
+P0
+Workspace foundation
+BR-003
+Client organization and legal entity model
+P0
+Customer foundation
+BR-004
+Contract and allocation management
+P0
+Commercial foundation
+BR-005
+Client employee access request/revocation
+P0
+Digitises current manual process
+BR-006
+Conference room availability and booking
+P0
+Core client service
+BR-007
+Monthly free-hour entitlement by contracted seats
+P0
+Commercial rule
+BR-008
+Ticket/service management with SLA
+P0
+Operational differentiator
+BR-009
+Monthly automated billing and payment-status tracking
+P0
+Finance
+BR-010
+Visitor/gate-pass management
+P1
+Security/operations
+BR-011
+Assets/vendor/consumables
+P1
+Facility operations
+BR-012
+Management dashboards
+P1
+Decision support
+BR-013
+Notifications and contract expiry reminders
+P1
+Retention/operations
+BR-014
+AI renewal/churn/revenue/utilisation insights
+P1
+Strategic differentiator
+BR-015
+Tenant isolation and sensitive-data controls
+P0
+Security/privacy
+BR-016
+Branch-wise expense management (facility, operational, vendor, asset, other)
+P1
+Finance/operations visibility
+20. Success Measures
+Reduction in manual calls/emails for bookings and service requests.
+Percentage of bookings and access requests completed fully digitally.
+Average ticket first-response and resolution time; SLA compliance rate.
+Invoice generation accuracy and payment-status visibility.
+Client portal adoption and renewal reminder coverage / renewal conversion.
+Management time saved preparing branch/client reports.
+AI insight adoption and the percentage of recommendations acted upon.
+21. Open Questions & Assumptions
+Open Questions
+Exact contract/lease terminology and legal templates.
+Exact tax/GST/invoice rules and finance approval workflow, and the precise mid-cycle pro-rata formula.
+Exact seat pricing, contract rate-card structure, and conference-room overage rate card.
+Exact cancellation and entitlement-restoration policy.
+Whether cross-centre free-hour usage is enabled for all clients or only selected contracts.
+Whether booking can be made by Client Admin only in V1 (recommended) or delegated to other client users later.
+Exact identity-document requirements and retention period; biometric integration vendor/API availability.
+Ticket SLA targets by category and priority; approved notification channels/providers.
+AI data sources, model approach, explainability threshold, and approval governance.
+Formal security/compliance target and required certifications.
+Whether a native mobile app is in scope, or the initial release is responsive web-only.
+Assumptions
+The original project scope outline and the two discovery documents (BRD, FRD) are treated as a discussion baseline — rules discussed are proposed business rules until confirmed by Workafella stakeholders.
+Existing biometric hardware remains the source of truth for fingerprint enrollment unless a formal integration is implemented.
+Client Admin is the controlled client-side role for V1; broader employee self-service can be added later.
+Public website information describes offerings and amenities but doesn't establish Workafella's internal systems or manual processes.
+22. Suggested Next Steps
+Review this consolidated PRD with Workafella business, operations, finance, IT/security, and legal/privacy stakeholders, and resolve the open questions in Section 21.
+Define the database schema / data model for the entities in Section 15, informed by the status models and business rules in Section 8.
+Propose a tech stack and system architecture (web app, API, auth/role model, hosting), including the integration points in Section 13.
+Produce low-fidelity wireframes for the highest-priority screens in Section 14 — starting with Client Admin room booking, Branch Admin onboarding/allocation, and the Operations/Facility ticket dashboard.
+Sequence detailed build tickets against the phasing in Section 18.

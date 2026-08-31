@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Workafella - Executive Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&amp;family=Space+Grotesk:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#5f5e5e",
+                        "secondary": "#7b5900",
+                        "inverse-surface": "#2f3130",
+                        "secondary-fixed": "#ffdea4",
+                        "on-error-container": "#93000a",
+                        "background": "#faf9f7",
+                        "on-primary-fixed-variant": "#474746",
+                        "on-surface": "#1a1c1b",
+                        "primary-fixed": "#e5e2e1",
+                        "inverse-primary": "#c8c6c5",
+                        "surface": "#faf9f7",
+                        "on-primary-fixed": "#1c1b1b",
+                        "secondary-container": "#fdbb12",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dadad8",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#3b0900",
+                        "tertiary-fixed": "#ffdbd1",
+                        "surface-container-highest": "#e3e2e0",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "on-surface-variant": "#444748",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#fdbb12",
+                        "tertiary-container": "#3b0900",
+                        "surface-container-high": "#e9e8e6",
+                        "on-secondary-container": "#6c4d00",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#e65127",
+                        "on-primary-container": "#858383",
+                        "on-primary": "#ffffff",
+                        "outline": "#747878",
+                        "on-secondary-fixed": "#261900",
+                        "tertiary": "#000000",
+                        "primary": "#000000",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface-container-low": "#f4f3f1",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f1f1ef",
+                        "tertiary-fixed-dim": "#ffb5a1",
+                        "outline-variant": "#c4c7c7",
+                        "surface-variant": "#e3e2e0",
+                        "primary-container": "#1c1b1b",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#882000",
+                        "surface-container": "#efeeec",
+                        "surface-bright": "#faf9f7",
+                        "on-background": "#1a1c1b",
+                        "ink": "#161616",
+                        "charcoal": "#3a3a3a",
+                        "signature-gold": "#f5b400",
+                        "success-green": "#1e8a5f",
+                        "danger-red": "#c4432b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "unit": "8px",
+                        "container-max": "1440px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-md": ["Space Grotesk"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Space Grotesk"],
+                        "label-caps": ["Space Grotesk"],
+                        "headline-sm": ["Space Grotesk"],
+                        "body-md": ["Inter"],
+                        "kpi-metric": ["Space Grotesk"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "kpi-metric": ["40px", { "lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #faf9f7; color: #1a1c1b; }
+        .clip-tr { clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%); }
+        .gold-wedge::after { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 8px solid #f5b400; }
+        .bg-canvas { background-color: #f8f7f5; }
+        .border-charcoal { border-color: #3a3a3a; }
+        .text-ink { color: #161616; }
+        .text-gold { color: #f5b400; }
+        .bg-gold { background-color: #f5b400; }
+        .text-success { color: #1e8a5f; }
+        .bg-success { background-color: #1e8a5f; }
+        .text-danger { color: #c4432b; }
+        .bg-danger { background-color: #c4432b; }
+    </style>
+</head>
+<body class="flex min-h-screen bg-canvas font-body-sm text-body-sm antialiased overflow-x-hidden">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full flex flex-col z-50 bg-primary dark:bg-primary border-r border-on-surface-variant dark:border-outline docked full-height left-0 w-64 rounded-none flat no shadows">
+<div class="p-6">
+<h1 class="font-display-md text-display-md font-bold text-secondary dark:text-secondary-fixed-dim">Workafella</h1>
+<p class="text-on-primary-fixed-variant dark:text-on-primary-fixed-variant font-label-caps text-label-caps mt-2 uppercase tracking-wider">Enterprise Suite</p>
+</div>
+<ul class="flex flex-col mt-8 space-y-2 px-4 flex-grow">
+<li>
+<a class="flex items-center px-4 py-3 rounded-none relative text-secondary dark:text-secondary-fixed-dim after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:border-y-[8px] after:border-y-transparent after:border-r-[8px] after:border-r-secondary font-headline-sm text-headline-sm Active: scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="dashboard">dashboard</span>
+                    Overview
+                </a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 rounded-none text-on-primary-fixed-variant dark:text-on-primary-fixed-variant hover:text-secondary transition-colors hover:bg-primary-container dark:hover:bg-surface-container font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="analytics">analytics</span>
+                    Branch Performance
+                </a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 rounded-none text-on-primary-fixed-variant dark:text-on-primary-fixed-variant hover:text-secondary transition-colors hover:bg-primary-container dark:hover:bg-surface-container font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="warning">warning</span>
+                    Risk Analysis
+                </a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 rounded-none text-on-primary-fixed-variant dark:text-on-primary-fixed-variant hover:text-secondary transition-colors hover:bg-primary-container dark:hover:bg-surface-container font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="group">group</span>
+                    Member Directory
+                </a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 rounded-none text-on-primary-fixed-variant dark:text-on-primary-fixed-variant hover:text-secondary transition-colors hover:bg-primary-container dark:hover:bg-surface-container font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="apartment">apartment</span>
+                    Facilities
+                </a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 rounded-none text-on-primary-fixed-variant dark:text-on-primary-fixed-variant hover:text-secondary transition-colors hover:bg-primary-container dark:hover:bg-surface-container font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<div class="p-6">
+<button class="w-full py-3 bg-secondary text-primary font-headline-sm text-headline-sm rounded-none border-none cursor-pointer">Book Center</button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full h-16 px-margin-desktop sticky top-0 z-40 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline docked full-width top-0 flat no shadows">
+<div class="flex items-center space-x-8">
+<nav class="hidden md:flex space-x-6">
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed border-b-2 border-secondary pb-1 Active: opacity-80 duration-200" href="#">Global View</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-secondary transition-all" href="#">Regional Filters</a>
+</nav>
+</div>
+<div class="flex items-center space-x-6">
+<button class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-all">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="font-body-md text-body-md text-primary dark:text-primary-fixed hover:text-secondary transition-all font-bold">Add Entry</button>
+<button class="text-on-surface-variant hover:text-secondary transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-all">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<img alt="Executive User Profile" class="w-8 h-8 rounded-full border border-charcoal" data-alt="A small, circular avatar image showing a professional executive user profile portrait, dressed in business attire against a neutral light background, fitting a high-end corporate dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuhCdZKmWhpRj_vQagNAnJ6UKXA8NtSbjUmVoMgfgUhB1D6hyU46iw0IKS9s0GdLHltLACPznSsHGyO9ptbm52EiM-ECzzFzYN3xIwMYX82D4Sq0GxJ6XtjN2uKj1HKs0DitUtwyuZ-5Dl0CC5mcw3QyoTsjwOklo0AZBxeGyS5lIvXMF7wycK3ntNQCMJz0itd7LjVwDz9MIuQJXTFRXlRFUp-_SgkM5gNm4sK81Tb19QC5M8vI_yUQ"/>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="p-margin-desktop space-y-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Controls Row -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-display-lg text-display-lg text-ink">Dashboard</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Executive Overview &amp; Key Metrics</p>
+</div>
+<div class="flex space-x-4">
+<select class="bg-white border-b border-charcoal rounded-none px-4 py-2 text-ink font-body-sm text-body-sm focus:outline-none focus:border-secondary focus:ring-0 appearance-none pr-8 relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23161616%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[length:10px_10px] bg-[right_12px_center]">
+<option>This Month (MTD)</option>
+<option>Last Quarter</option>
+<option>Year to Date</option>
+</select>
+<select class="bg-white border-b border-charcoal rounded-none px-4 py-2 text-ink font-body-sm text-body-sm focus:outline-none focus:border-secondary focus:ring-0 appearance-none pr-8 relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23161616%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[length:10px_10px] bg-[right_12px_center]">
+<option>All Cities</option>
+<option>Chennai</option>
+<option>Hyderabad</option>
+<option>Bangalore</option>
+</select>
+</div>
+</div>
+<!-- KPI Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<!-- KPI 1 -->
+<div class="bg-white border border-charcoal clip-tr p-6 flex flex-col justify-between h-40">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Total Revenue MTD</p>
+<div class="mt-auto">
+<div class="flex items-end justify-between">
+<span class="font-kpi-metric text-kpi-metric text-ink">₹12.4M</span>
+<div class="flex items-center text-success">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="font-body-sm text-body-sm font-semibold ml-1">+4.2%</span>
+</div>
+</div>
+<div class="w-full h-1 bg-surface-dim mt-4">
+<div class="h-full bg-gold w-[75%]"></div>
+</div>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-white border border-charcoal clip-tr p-6 flex flex-col justify-between h-40">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Enterprise Occupancy</p>
+<div class="mt-auto">
+<div class="flex items-end justify-between">
+<span class="font-kpi-metric text-kpi-metric text-ink">87.5%</span>
+<div class="flex items-center text-success">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="font-body-sm text-body-sm font-semibold ml-1">+1.1%</span>
+</div>
+</div>
+<div class="w-full h-1 bg-surface-dim mt-4">
+<div class="h-full bg-gold w-[87.5%]"></div>
+</div>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-white border border-charcoal clip-tr p-6 flex flex-col justify-between h-40">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Active Contracts</p>
+<div class="mt-auto">
+<div class="flex items-end justify-between">
+<span class="font-kpi-metric text-kpi-metric text-ink">4,210</span>
+<div class="flex items-center text-danger">
+<span class="material-symbols-outlined text-sm" data-icon="trending_down">trending_down</span>
+<span class="font-body-sm text-body-sm font-semibold ml-1">-0.8%</span>
+</div>
+</div>
+<div class="w-full h-1 bg-surface-dim mt-4">
+<div class="h-full bg-gold w-[60%]"></div>
+</div>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-white border border-charcoal clip-tr p-6 flex flex-col justify-between h-40">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Open Tickets</p>
+<div class="mt-auto">
+<div class="flex items-end justify-between">
+<span class="font-kpi-metric text-kpi-metric text-ink">142</span>
+<div class="flex items-center text-danger">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="font-body-sm text-body-sm font-semibold ml-1">+12%</span>
+</div>
+</div>
+<div class="w-full h-1 bg-surface-dim mt-4">
+<div class="h-full bg-danger w-[30%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Middle Row: Table & Chart -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Table (2/3) -->
+<div class="lg:col-span-2 bg-white border border-charcoal clip-tr p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-sm text-headline-sm text-ink">Branch Performance</h3>
+<button class="text-ink font-body-sm text-body-sm border-b border-ink hover:text-gold hover:border-gold transition-colors">Export CSV</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b-2 border-charcoal font-label-caps text-label-caps text-on-surface-variant">
+<th class="py-3 px-2 font-normal cursor-pointer hover:text-ink">City <span class="material-symbols-outlined text-[10px] ml-1 align-middle" data-icon="unfold_more">unfold_more</span></th>
+<th class="py-3 px-2 font-normal cursor-pointer hover:text-ink">Centre <span class="material-symbols-outlined text-[10px] ml-1 align-middle" data-icon="unfold_more">unfold_more</span></th>
+<th class="py-3 px-2 font-normal cursor-pointer hover:text-ink text-right">Occ % <span class="material-symbols-outlined text-[10px] ml-1 align-middle" data-icon="unfold_more">unfold_more</span></th>
+<th class="py-3 px-2 font-normal cursor-pointer hover:text-ink text-right">Revenue <span class="material-symbols-outlined text-[10px] ml-1 align-middle" data-icon="unfold_more">unfold_more</span></th>
+<th class="py-3 px-2 font-normal cursor-pointer hover:text-ink text-right">Tickets <span class="material-symbols-outlined text-[10px] ml-1 align-middle" data-icon="unfold_more">unfold_more</span></th>
+<th class="py-3 px-2 font-normal cursor-pointer hover:text-ink text-right">SLA % <span class="material-symbols-outlined text-[10px] ml-1 align-middle" data-icon="unfold_more">unfold_more</span></th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-ink">
+<tr class="border-b border-surface-dim hover:bg-surface transition-colors">
+<td class="py-4 px-2">Chennai</td>
+<td class="py-4 px-2 font-medium">Alwarpet</td>
+<td class="py-4 px-2 text-right">92%</td>
+<td class="py-4 px-2 text-right">₹3.2M</td>
+<td class="py-4 px-2 text-right">12</td>
+<td class="py-4 px-2 text-right text-success font-medium">99.2%</td>
+</tr>
+<tr class="border-b border-surface-dim hover:bg-surface transition-colors">
+<td class="py-4 px-2">Hyderabad</td>
+<td class="py-4 px-2 font-medium">Hitec City</td>
+<td class="py-4 px-2 text-right">85%</td>
+<td class="py-4 px-2 text-right">₹4.1M</td>
+<td class="py-4 px-2 text-right text-danger">45</td>
+<td class="py-4 px-2 text-right text-danger font-medium">94.5%</td>
+</tr>
+<tr class="border-b border-surface-dim hover:bg-surface transition-colors">
+<td class="py-4 px-2">Bangalore</td>
+<td class="py-4 px-2 font-medium">Infantry Road</td>
+<td class="py-4 px-2 text-right">95%</td>
+<td class="py-4 px-2 text-right">₹2.8M</td>
+<td class="py-4 px-2 text-right">8</td>
+<td class="py-4 px-2 text-right text-success font-medium">99.8%</td>
+</tr>
+<tr class="hover:bg-surface transition-colors">
+<td class="py-4 px-2">Chennai</td>
+<td class="py-4 px-2 font-medium">Teynampet</td>
+<td class="py-4 px-2 text-right">78%</td>
+<td class="py-4 px-2 text-right">₹2.3M</td>
+<td class="py-4 px-2 text-right">22</td>
+<td class="py-4 px-2 text-right font-medium">97.1%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Chart (1/3) -->
+<div class="bg-white border border-charcoal clip-tr p-6 flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-ink mb-6">Revenue by Centre</h3>
+<div class="flex-grow flex items-end justify-between space-x-2 pt-8">
+<div class="flex flex-col items-center w-full group">
+<div class="w-full bg-gold h-[80%] transition-all duration-300 group-hover:opacity-80 relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-caps text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">4.1M</span>
+</div>
+<span class="font-label-caps text-[10px] mt-2 text-on-surface-variant truncate w-full text-center">HIT</span>
+</div>
+<div class="flex flex-col items-center w-full group">
+<div class="w-full bg-gold h-[65%] transition-all duration-300 group-hover:opacity-80 relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-caps text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">3.2M</span>
+</div>
+<span class="font-label-caps text-[10px] mt-2 text-on-surface-variant truncate w-full text-center">ALW</span>
+</div>
+<div class="flex flex-col items-center w-full group">
+<div class="w-full bg-gold h-[55%] transition-all duration-300 group-hover:opacity-80 relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-caps text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">2.8M</span>
+</div>
+<span class="font-label-caps text-[10px] mt-2 text-on-surface-variant truncate w-full text-center">INF</span>
+</div>
+<div class="flex flex-col items-center w-full group">
+<div class="w-full bg-gold h-[45%] transition-all duration-300 group-hover:opacity-80 relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-caps text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">2.3M</span>
+</div>
+<span class="font-label-caps text-[10px] mt-2 text-on-surface-variant truncate w-full text-center">TEY</span>
+</div>
+<div class="flex flex-col items-center w-full group">
+<div class="w-full bg-gold h-[35%] transition-all duration-300 group-hover:opacity-80 relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-caps text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">1.8M</span>
+</div>
+<span class="font-label-caps text-[10px] mt-2 text-on-surface-variant truncate w-full text-center">NUN</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Row: Risk & Anomalies -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Renewal & Churn Risk -->
+<div class="bg-white border border-charcoal clip-tr p-6">
+<h3 class="font-headline-sm text-headline-sm text-ink mb-6">Renewal &amp; Churn Risk</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between font-body-sm text-body-sm mb-2">
+<span class="font-medium text-ink">TechCorp Global</span>
+<span class="text-danger font-medium">88/100</span>
+</div>
+<div class="w-full h-2 bg-surface-dim">
+<div class="h-full bg-danger w-[88%]"></div>
+</div>
+<p class="font-label-caps text-[10px] text-on-surface-variant mt-1">Renews in 14 days • High open ticket volume</p>
+</div>
+<div>
+<div class="flex justify-between font-body-sm text-body-sm mb-2">
+<span class="font-medium text-ink">Innova Solutions</span>
+<span class="text-gold font-medium">65/100</span>
+</div>
+<div class="w-full h-2 bg-surface-dim">
+<div class="h-full bg-gold w-[65%]"></div>
+</div>
+<p class="font-label-caps text-[10px] text-on-surface-variant mt-1">Renews in 45 days • Engagement dropped</p>
+</div>
+<div>
+<div class="flex justify-between font-body-sm text-body-sm mb-2">
+<span class="font-medium text-ink">Acme Logistics</span>
+<span class="text-success font-medium">12/100</span>
+</div>
+<div class="w-full h-2 bg-surface-dim">
+<div class="h-full bg-success w-[12%]"></div>
+</div>
+<p class="font-label-caps text-[10px] text-on-surface-variant mt-1">Renews in 180 days • Healthy usage</p>
+</div>
+</div>
+</div>
+<!-- Anomalies -->
+<div class="bg-white border border-charcoal clip-tr p-6">
+<h3 class="font-headline-sm text-headline-sm text-ink mb-6">System Anomalies</h3>
+<div class="space-y-4">
+<div class="border border-charcoal p-4 hover:border-gold transition-colors cursor-pointer group">
+<div class="flex justify-between items-start">
+<div class="flex items-start space-x-3">
+<span class="material-symbols-outlined text-danger mt-0.5" data-icon="warning">warning</span>
+<div>
+<h4 class="font-body-md text-body-md font-semibold text-ink group-hover:text-gold transition-colors">Hitec City: SLA Dip</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Resolution time increased by 45% in last 48hrs. 12 critical tickets open.</p>
+</div>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">2h ago</span>
+</div>
+</div>
+<div class="border border-charcoal p-4 hover:border-gold transition-colors cursor-pointer group">
+<div class="flex justify-between items-start">
+<div class="flex items-start space-x-3">
+<span class="material-symbols-outlined text-gold mt-0.5" data-icon="insights">insights</span>
+<div>
+<h4 class="font-body-md text-body-md font-semibold text-ink group-hover:text-gold transition-colors">Alwarpet: Revenue Spike</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Unusual concentration of short-term day passes purchased today.</p>
+</div>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">5h ago</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

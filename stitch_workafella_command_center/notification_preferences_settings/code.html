@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Preferences - Workafella</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb5a1",
+                        "primary-container": "#1c1b1b",
+                        "inverse-primary": "#c8c6c5",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#882000",
+                        "on-primary-fixed-variant": "#474746",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#3b0900",
+                        "inverse-surface": "#2f3130",
+                        "on-secondary-container": "#6c4d00",
+                        "secondary-fixed": "#ffdea4",
+                        "surface": "#faf9f7",
+                        "primary": "#000000",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#000000",
+                        "on-primary-container": "#858383",
+                        "background": "#faf9f7",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#1a1c1b",
+                        "secondary": "#7b5900",
+                        "outline": "#747878",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-surface-variant": "#444748",
+                        "surface-bright": "#faf9f7",
+                        "surface-container-high": "#e9e8e6",
+                        "surface-variant": "#e3e2e0",
+                        "on-tertiary-container": "#e65127",
+                        "on-secondary-fixed": "#261900",
+                        "secondary-fixed-dim": "#fdbb12",
+                        "surface-container-low": "#f4f3f1",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "inverse-on-surface": "#f1f1ef",
+                        "tertiary-fixed": "#ffdbd1",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface-container": "#efeeec",
+                        "surface-dim": "#dadad8",
+                        "secondary-container": "#fdbb12",
+                        "tertiary-container": "#3b0900",
+                        "surface-tint": "#5f5e5e",
+                        "on-background": "#1a1c1b",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e3e2e0",
+                        "primary-fixed": "#e5e2e1",
+                        "outline-variant": "#c4c7c7",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "container-max": "1440px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "display-md": ["Space Grotesk"],
+                        "label-caps": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-sm": ["Inter"],
+                        "kpi-metric": ["Space Grotesk"],
+                        "headline-sm": ["Space Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "kpi-metric": ["40px", { "lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .clip-cascade {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: theme('colors.secondary-fixed-dim');
+            border-color: theme('colors.secondary-fixed-dim');
+        }
+        .toggle-checkbox:checked + .toggle-label .toggle-knob {
+            transform: translateX(100%);
+            background-color: theme('colors.primary');
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen selection:bg-secondary-fixed-dim selection:text-primary">
+<!-- TopNavBar -->
+<nav class="bg-surface dark:bg-surface-container-high fixed top-0 w-full rounded-none border-b border-outline dark:border-outline-variant z-50">
+<div class="flex justify-between items-center px-margin-desktop h-20 w-full mx-auto max-w-[1440px]">
+<div class="flex items-center gap-12">
+<a class="font-display-md text-display-md font-bold tracking-tight text-primary dark:text-on-primary-fixed" href="#">
+                    Workafella
+                </a>
+<div class="hidden md:flex gap-8">
+<a class="text-on-surface-variant dark:text-on-primary-container font-label-caps text-label-caps hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200 uppercase tracking-widest pt-1" href="#">Dashboard</a>
+<a class="text-on-surface-variant dark:text-on-primary-container font-label-caps text-label-caps hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200 uppercase tracking-widest pt-1" href="#">Workspaces</a>
+<a class="text-on-surface-variant dark:text-on-primary-container font-label-caps text-label-caps hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200 uppercase tracking-widest pt-1" href="#">Directory</a>
+<a class="text-on-surface-variant dark:text-on-primary-container font-label-caps text-label-caps hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200 uppercase tracking-widest pt-1" href="#">Reporting</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="scale-95 active:scale-90 transition-transform text-primary dark:text-on-primary-fixed-variant hover:text-secondary duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="scale-95 active:scale-90 transition-transform text-secondary dark:text-secondary-fixed border-b-2 border-secondary dark:border-secondary-fixed pb-2 hover:text-secondary duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+</button>
+<img alt="User profile" class="w-10 h-10 object-cover rounded-none border border-outline" data-alt="A professional corporate headshot of a person looking directly at the camera, neutral lighting, modern minimalist background, sharp focus, high-end commercial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP9unoM3dHyrfv_G5mITflWp9i_pDyZXD5L-ZYtf0v24MVj1UotZ3rnKpQoKcSpvfG4L3ICVOIbNcsp0iTAh-2QezVsLpnPmt9RhxdtSgJUDLWwpI7m5TJQ009spB7v3EBecMf7D32LSMkWZE8-85PMjkXRPV7MvuZLULFesK5kBnVwsCTH6OssI35C3u5fNmSu8Pqg3yLXW4N_CruKSnSPpc2DhLkqgiOLH-lwQCbGVy-lTqnk0QdkQ"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Right Drawer) -->
+<aside class="hidden xl:flex flex-col h-full py-8 bg-surface-container dark:bg-primary-container fixed right-0 top-0 w-96 rounded-none border-l border-outline dark:border-outline-variant z-40 pt-[112px]">
+<div class="px-8 pb-8 border-b border-outline">
+<h2 class="font-display-lg text-display-lg text-primary">Notifications</h2>
+<p class="font-body-md text-on-surface-variant mt-2">Manage your workspace alerts</p>
+<button class="mt-6 w-full py-3 px-6 bg-surface border border-outline text-primary font-label-caps text-label-caps hover:bg-secondary-container transition-all text-center">All Activity</button>
+</div>
+<div class="flex-grow overflow-y-auto py-4">
+<nav class="flex flex-col">
+<a class="flex items-center px-8 py-4 text-on-surface-variant dark:text-on-primary-container hover:bg-secondary-container dark:hover:bg-secondary-fixed-variant transition-all font-label-caps text-label-caps tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">calendar_today</span>
+                    Bookings
+                </a>
+<a class="flex items-center px-8 py-4 text-on-surface-variant dark:text-on-primary-container hover:bg-secondary-container dark:hover:bg-secondary-fixed-variant transition-all font-label-caps text-label-caps tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+                    Invoices
+                </a>
+<a class="flex items-center px-8 py-4 text-on-surface-variant dark:text-on-primary-container hover:bg-secondary-container dark:hover:bg-secondary-fixed-variant transition-all font-label-caps text-label-caps tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">confirmation_number</span>
+                    Tickets
+                </a>
+<a class="flex items-center px-8 py-4 text-on-surface-variant dark:text-on-primary-container hover:bg-secondary-container dark:hover:bg-secondary-fixed-variant transition-all font-label-caps text-label-caps tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">vpn_key</span>
+                    Access
+                </a>
+<a class="flex items-center px-8 py-4 text-on-surface-variant dark:text-on-primary-container hover:bg-secondary-container dark:hover:bg-secondary-fixed-variant transition-all font-label-caps text-label-caps tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">group</span>
+                    Visitors
+                </a>
+</nav>
+</div>
+<div class="mt-auto border-t border-outline pt-4">
+<a class="flex items-center justify-between border-r-4 border-secondary dark:border-secondary-fixed-dim bg-surface-bright dark:bg-surface-dim text-primary font-bold px-8 py-4 font-label-caps text-label-caps tracking-widest uppercase" href="#">
+<div class="flex items-center">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 1;">settings_suggest</span>
+                    Settings
+                </div>
+</a>
+<a class="flex items-center px-8 py-4 text-on-surface-variant dark:text-on-primary-container hover:bg-secondary-container dark:hover:bg-secondary-fixed-variant transition-all font-label-caps text-label-caps tracking-widest uppercase" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">help_outline</span>
+                Support
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="pt-[144px] pb-[120px] px-margin-mobile md:px-margin-desktop xl:pr-[calc(384px+64px)] max-w-[1440px] mx-auto min-h-screen flex flex-col relative">
+<header class="mb-12 max-w-3xl">
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight mb-4">Notification Preferences</h1>
+<p class="font-body-lg text-on-surface-variant">Configure how and when you receive critical updates regarding your workspace activities. Settings are applied globally across all active locations.</p>
+</header>
+<!-- Preferences Matrix -->
+<div class="bg-surface border border-outline clip-cascade p-8 shadow-sm">
+<!-- Table Header -->
+<div class="hidden md:grid grid-cols-12 gap-6 pb-4 border-b border-outline mb-6">
+<div class="col-span-4"></div>
+<div class="col-span-8 grid grid-cols-4 gap-4 text-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Email</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">SMS</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">WhatsApp</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">In-App</span>
+</div>
+</div>
+<!-- Row 1: Bookings -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 py-6 border-b border-surface-variant hover:bg-surface-container-low transition-colors group">
+<div class="col-span-1 md:col-span-4 pr-4">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Bookings</h3>
+<p class="font-body-sm text-on-surface-variant">Updates on room reservations, desk bookings, and schedule modifications.</p>
+</div>
+<div class="col-span-1 md:col-span-8 grid grid-cols-4 gap-4 items-center justify-items-center">
+<!-- Toggle 1 -->
+<div class="flex flex-col items-center gap-2">
+<span class="md:hidden font-label-caps text-[10px] text-on-surface-variant uppercase">Email</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none peer-focus:outline-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<!-- Toggle 2 -->
+<div class="flex flex-col items-center gap-2">
+<span class="md:hidden font-label-caps text-[10px] text-on-surface-variant uppercase">SMS</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none peer-focus:outline-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<!-- Toggle 3 -->
+<div class="flex flex-col items-center gap-2">
+<span class="md:hidden font-label-caps text-[10px] text-on-surface-variant uppercase">WhatsApp</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none peer-focus:outline-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<!-- Toggle 4 -->
+<div class="flex flex-col items-center gap-2">
+<span class="md:hidden font-label-caps text-[10px] text-on-surface-variant uppercase">In-App</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none peer-focus:outline-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Row 2: Invoices -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 py-6 border-b border-surface-variant hover:bg-surface-container-low transition-colors group">
+<div class="col-span-1 md:col-span-4 pr-4">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Invoices</h3>
+<p class="font-body-sm text-on-surface-variant">Billing statements, payment confirmations, and automated receipt dispatches.</p>
+</div>
+<div class="col-span-1 md:col-span-8 grid grid-cols-4 gap-4 items-center justify-items-center">
+<div class="flex flex-col items-center gap-2">
+<span class="md:hidden font-label-caps text-[10px] text-on-surface-variant uppercase">Email</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<span class="md:hidden font-label-caps text-[10px] text-on-surface-variant uppercase">SMS</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<span class="md:hidden font-label-caps text-[10px] text-on-surface-variant uppercase">WhatsApp</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<span class="md:hidden font-label-caps text-[10px] text-on-surface-variant uppercase">In-App</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Row 3: Support Tickets -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 py-6 border-b border-surface-variant hover:bg-surface-container-low transition-colors group">
+<div class="col-span-1 md:col-span-4 pr-4">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Support Tickets</h3>
+<p class="font-body-sm text-on-surface-variant">Status changes on maintenance, IT requests, and concierge services.</p>
+</div>
+<div class="col-span-1 md:col-span-8 grid grid-cols-4 gap-4 items-center justify-items-center">
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Row 4: Access Requests -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 py-6 border-b border-surface-variant hover:bg-surface-container-low transition-colors group">
+<div class="col-span-1 md:col-span-4 pr-4">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Access Requests</h3>
+<p class="font-body-sm text-on-surface-variant">Approvals for digital keys, physical passes, and restricted area permissions.</p>
+</div>
+<div class="col-span-1 md:col-span-8 grid grid-cols-4 gap-4 items-center justify-items-center">
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Row 5: Visitor Alerts -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 py-6 hover:bg-surface-container-low transition-colors group">
+<div class="col-span-1 md:col-span-4 pr-4">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Visitor Alerts</h3>
+<p class="font-body-sm text-on-surface-variant">Instant notifications when your registered guests arrive at reception.</p>
+</div>
+<div class="col-span-1 md:col-span-8 grid grid-cols-4 gap-4 items-center justify-items-center">
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-center gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox" value=""/>
+<div class="toggle-label w-12 h-6 bg-surface-variant border border-outline rounded-none transition-colors duration-200">
+<div class="toggle-knob absolute top-[2px] left-[2px] bg-outline w-5 h-5 rounded-none transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Fixed Save Button -->
+<div class="fixed bottom-margin-desktop right-margin-mobile md:right-margin-desktop xl:right-[calc(384px+64px)] z-30">
+<button class="bg-secondary-fixed-dim text-primary font-label-caps text-label-caps uppercase tracking-widest px-8 py-4 rounded-none shadow-lg border border-primary hover:bg-secondary transition-colors duration-200 flex items-center gap-2 group">
+                Save Changes
+                <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Asset Register - Workafella</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#474746",
+                        "surface-bright": "#faf9f7",
+                        "on-background": "#1a1c1b",
+                        "on-secondary-container": "#6c4d00",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-secondary-fixed": "#261900",
+                        "inverse-surface": "#2f3130",
+                        "tertiary-fixed": "#ffdbd1",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e3e2e0",
+                        "inverse-on-surface": "#f1f1ef",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "tertiary-container": "#3b0900",
+                        "surface-container-high": "#e9e8e6",
+                        "on-tertiary-container": "#e65127",
+                        "tertiary": "#000000",
+                        "primary-container": "#1c1b1b",
+                        "inverse-primary": "#c8c6c5",
+                        "surface-container-low": "#f4f3f1",
+                        "on-surface-variant": "#444748",
+                        "primary-fixed": "#e5e2e1",
+                        "on-tertiary-fixed": "#3b0900",
+                        "on-error": "#ffffff",
+                        "background": "#faf9f7",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#ffdea4",
+                        "tertiary-fixed-dim": "#ffb5a1",
+                        "primary": "#000000",
+                        "on-primary-fixed": "#1c1b1b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#882000",
+                        "on-surface": "#1a1c1b",
+                        "outline": "#747878",
+                        "surface-container": "#efeeec",
+                        "error-container": "#ffdad6",
+                        "surface": "#faf9f7",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dadad8",
+                        "on-primary-container": "#858383",
+                        "surface-tint": "#5f5e5e",
+                        "surface-container-highest": "#e3e2e0",
+                        "secondary": "#7b5900",
+                        "secondary-container": "#fdbb12",
+                        "secondary-fixed-dim": "#fdbb12",
+                        "outline-variant": "#c4c7c7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "container-max": "1440px",
+                        "unit": "8px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Space Grotesk"],
+                        "body-md": ["Inter"],
+                        "display-md": ["Space Grotesk"],
+                        "kpi-metric": ["Space Grotesk"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Space Grotesk"],
+                        "headline-sm": ["Space Grotesk"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "kpi-metric": ["40px", { "lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .clip-corner {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+        .bg-lattice {
+            background-image: linear-gradient(#F5B400 1px, transparent 1px), linear-gradient(90deg, #F5B400 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: -1px -1px;
+            opacity: 0.05;
+        }
+        /* Custom scrollbar for tables/panels to maintain clean look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8F7F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e3e2e0;
+            border-radius: 0px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3A3A3A;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col md:flex-row overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- JSON Component: SideNavBar -->
+<nav class="hidden md:flex flex-col py-8 fixed left-0 top-0 h-full w-64 border-r border-outline bg-surface z-50">
+<div class="px-6 mb-12">
+<h1 class="font-display-md text-display-md text-primary uppercase tracking-tighter">Workafella</h1>
+<p class="font-label-caps text-label-caps text-outline mt-2 tracking-widest uppercase">Enterprise Suite</p>
+</div>
+<ul class="flex flex-col gap-2 px-4 flex-grow">
+<!-- Inactive -->
+<li>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors opacity-80 duration-150 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+</a>
+</li>
+<!-- Active -->
+<li>
+<a class="flex items-center gap-4 px-4 py-3 text-primary font-bold relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:border-y-[6px] after:border-y-transparent after:border-r-[6px] after:border-r-secondary-container opacity-80 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-caps text-label-caps uppercase">Assets</span>
+</a>
+</li>
+<!-- Inactive -->
+<li>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors opacity-80 duration-150 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">build</span>
+<span class="font-label-caps text-label-caps uppercase">Maintenance</span>
+</a>
+</li>
+<!-- Inactive -->
+<li>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors opacity-80 duration-150 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">layers</span>
+<span class="font-label-caps text-label-caps uppercase">Inventory</span>
+</a>
+</li>
+</ul>
+<div class="px-6 mt-auto flex flex-col gap-4">
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary transition-colors opacity-80 duration-150 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+<span class="font-label-caps text-label-caps uppercase">Settings</span>
+</a>
+<button class="w-full bg-secondary-container text-primary font-label-caps text-label-caps uppercase py-4 px-6 hover:bg-[#e5a810] transition-colors border-none rounded-none mt-4 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Add New Asset
+            </button>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-grow md:ml-64 flex flex-col min-h-screen">
+<!-- JSON Component: TopAppBar -->
+<header class="flex justify-between items-center px-margin-desktop py-4 w-full bg-surface border-b border-outline z-40 sticky top-0 h-[72px]">
+<div class="flex items-center gap-6">
+<h2 class="font-headline-sm text-headline-sm text-primary tracking-tight">Asset Manager</h2>
+<!-- Nav Links inside TopAppBar -->
+<nav class="hidden lg:flex items-center gap-6 ml-8">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Reports</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Lifecycle</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative focus-within:border-secondary-container transition-all">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="w-64 bg-surface-container-lowest border border-outline text-primary font-body-sm px-10 py-2 focus:outline-none focus:border-secondary-container focus:ring-0 placeholder:text-outline-variant transition-colors rounded-none" placeholder="Search tags, names..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-secondary transition-colors p-2">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors p-2">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<img alt="Manager Profile" class="w-10 h-10 object-cover border border-outline rounded-none" data-alt="A small, professional portrait photograph of a confident facility manager in a modern, well-lit office setting. The lighting is crisp and bright, contrasting sharply with deep shadows to match an architectural light-mode aesthetic. High quality, corporate headshot style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnFWARSkV4nDaKHNetWq88HrvKoH8zztqls-dIgMV7-q5kN4GscIT5jvMzlCgHtBHXg2qa7yjGuIZua1SptFwd7YFFdxQZa-E8-idkrEcaXKjDBx0nJqGyoIZsuIhia-E8vCgZGRJJYjAKWJJSRr0RTa7zf9k9poeGB5bm2UCiW4az-IwZrOPz9QUvD0PQ86lmiWEoPItULgHmeC5zopoStKSW34-Bl-ceBqqCQyquk8psXbFpJLKDTQ"/>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-grow flex relative">
+<!-- List/Table View (Left/Main Side) -->
+<div class="flex-grow p-margin-desktop bg-background overflow-auto h-[calc(100vh-72px)] transition-all duration-300" id="main-content-area">
+<!-- Page Header & Filters -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight mb-2">Asset Register</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Manage and track physical assets across all enterprise locations.</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-outline uppercase mr-2">Filters:</span>
+<button class="border border-outline bg-surface px-4 py-2 font-label-caps text-label-caps text-primary uppercase flex items-center gap-2 hover:border-secondary-container hover:bg-surface-container-low transition-colors">
+                                Category <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="border border-outline bg-surface px-4 py-2 font-label-caps text-label-caps text-primary uppercase flex items-center gap-2 hover:border-secondary-container hover:bg-surface-container-low transition-colors">
+                                Condition <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Data Table (Bento/Card-like structure) -->
+<div class="bg-surface border border-[#3A3A3A] clip-corner p-0">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline bg-surface-container-low">
+<th class="font-label-caps text-label-caps text-outline uppercase py-4 px-6 font-semibold">Asset Tag</th>
+<th class="font-label-caps text-label-caps text-outline uppercase py-4 px-6 font-semibold">Name</th>
+<th class="font-label-caps text-label-caps text-outline uppercase py-4 px-6 font-semibold hidden lg:table-cell">Category</th>
+<th class="font-label-caps text-label-caps text-outline uppercase py-4 px-6 font-semibold hidden xl:table-cell">Location</th>
+<th class="font-label-caps text-label-caps text-outline uppercase py-4 px-6 font-semibold">Condition</th>
+<th class="font-label-caps text-label-caps text-outline uppercase py-4 px-6 font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody>
+<!-- Row 1: Selected State -->
+<tr class="border-b border-outline hover:bg-surface-container-lowest transition-colors bg-surface-container-highest cursor-pointer relative group" onclick="toggleDetailPanel(true)">
+<!-- Active Indicator Line -->
+<td class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></td>
+<td class="py-5 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 border border-outline flex items-center justify-center bg-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">qr_code_2</span>
+</div>
+<span class="font-body-md text-primary font-semibold">FURN-0982</span>
+</div>
+</td>
+<td class="py-5 px-6">
+<span class="font-body-md text-primary block">Herman Miller Aeron</span>
+<span class="font-body-sm text-on-surface-variant block mt-1">Assigned to: Sarah Jenkins</span>
+</td>
+<td class="py-5 px-6 hidden lg:table-cell">
+<span class="font-body-md text-on-surface-variant">Furniture</span>
+</td>
+<td class="py-5 px-6 hidden xl:table-cell">
+<span class="font-body-md text-primary">Suite 402 - Desk 12</span>
+</td>
+<td class="py-5 px-6">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 font-label-caps text-[10px] text-primary uppercase border border-outline bg-[#e6f4ea] text-[#137333]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#137333]"></span>
+                                        Good
+                                    </span>
+</td>
+<td class="py-5 px-6 text-right">
+<button class="text-on-surface-variant hover:text-secondary-container transition-colors p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-outline hover:bg-surface-container-lowest transition-colors cursor-pointer group" onclick="toggleDetailPanel(true)">
+<td class="py-5 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 border border-outline flex items-center justify-center bg-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">qr_code_2</span>
+</div>
+<span class="font-body-md text-primary font-semibold">IT-4401</span>
+</div>
+</td>
+<td class="py-5 px-6">
+<span class="font-body-md text-primary block">Samsung 4K Monitor</span>
+<span class="font-body-sm text-on-surface-variant block mt-1">Unassigned</span>
+</td>
+<td class="py-5 px-6 hidden lg:table-cell">
+<span class="font-body-md text-on-surface-variant">IT Equipment</span>
+</td>
+<td class="py-5 px-6 hidden xl:table-cell">
+<span class="font-body-md text-primary">Storage Room B</span>
+</td>
+<td class="py-5 px-6">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 font-label-caps text-[10px] text-primary uppercase border border-outline bg-[#fff3e0] text-[#e65100]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#e65100]"></span>
+                                        Needs Repair
+                                    </span>
+</td>
+<td class="py-5 px-6 text-right">
+<button class="text-on-surface-variant hover:text-secondary-container transition-colors p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline hover:bg-surface-container-lowest transition-colors cursor-pointer group" onclick="toggleDetailPanel(true)">
+<td class="py-5 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 border border-outline flex items-center justify-center bg-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">qr_code_2</span>
+</div>
+<span class="font-body-md text-primary font-semibold">HVAC-011</span>
+</div>
+</td>
+<td class="py-5 px-6">
+<span class="font-body-md text-primary block">Daikin AC Unit</span>
+<span class="font-body-sm text-on-surface-variant block mt-1">Zone 4 Climate Control</span>
+</td>
+<td class="py-5 px-6 hidden lg:table-cell">
+<span class="font-body-md text-on-surface-variant">Appliances</span>
+</td>
+<td class="py-5 px-6 hidden xl:table-cell">
+<span class="font-body-md text-primary">Roof Sector North</span>
+</td>
+<td class="py-5 px-6">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 font-label-caps text-[10px] text-primary uppercase border border-outline bg-[#fff8e1] text-[#f5b400]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#f5b400]"></span>
+                                        Under Maint.
+                                    </span>
+</td>
+<td class="py-5 px-6 text-right">
+<button class="text-on-surface-variant hover:text-secondary-container transition-colors p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Empty state lattice background (visible only when empty, currently hidden but present structurally) -->
+<div class="hidden absolute inset-0 bg-lattice z-0 pointer-events-none"></div>
+</div>
+<!-- Side Detail Panel (Active State) -->
+<aside class="w-[480px] bg-surface border-l border-[#3A3A3A] h-[calc(100vh-72px)] flex flex-col transform transition-transform duration-300 ease-in-out translate-x-0 overflow-y-auto shrink-0 shadow-[-10px_0_30px_rgba(0,0,0,0.03)] relative z-30" id="detail-panel">
+<!-- Panel Header -->
+<div class="p-8 border-b border-outline sticky top-0 bg-surface/95 backdrop-blur z-10 flex justify-between items-start">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="font-label-caps text-label-caps text-outline uppercase">FURN-0982</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 font-label-caps text-[10px] text-primary uppercase border border-outline bg-[#e6f4ea] text-[#137333]">
+                                Good
+                            </span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-primary tracking-tight">Herman Miller Aeron</h2>
+<p class="font-body-sm text-on-surface-variant mt-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Suite 402 - Desk 12
+                        </p>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 bg-surface-container-lowest border border-outline" onclick="toggleDetailPanel(false)">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Panel Content -->
+<div class="p-8 flex-grow flex flex-col gap-8">
+<!-- Image/Visual -->
+<div class="w-full h-48 border border-[#3A3A3A] clip-corner relative overflow-hidden bg-surface-container-low group">
+<img alt="Asset Image" class="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-700" data-alt="A high-end, clean product photography shot of a black Herman Miller Aeron office chair isolated in a stark white, brightly lit minimalist room with sharp architectural shadows. The lighting highlights the mesh texture and premium build quality of the chair. Minimalist, light-mode corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARZ-Sp5mUoaoIrZl-cB2dvSSyO-QWbn8PhL7l5fk23rUNCmfUquFifVCEEdJDd3HlDBegfAStkILC6tqEf-cA3wmCF0bz1g-JCnKp4CAda2Sal-cjt7X6pGuZ-4Q3AQKoaVV54yB8utc6eIqVzj9pTahiPJBP3Onhln3ub3oJmicLis6XYMdBdWTGp9R7hmBkfiJRgklOXMdPYTun9hrotd_QEHyrOd3JWvoxm9C7NcOvhqJqz5wV7iA"/>
+<div class="absolute top-4 right-4 bg-surface px-3 py-1 border border-outline font-label-caps text-[10px] uppercase text-primary">
+                            Furniture
+                        </div>
+</div>
+<!-- Purchase / Warranty Info -->
+<div>
+<h3 class="font-label-caps text-label-caps text-primary uppercase mb-4 tracking-widest border-b border-outline pb-2">Purchase &amp; Warranty</h3>
+<div class="grid grid-cols-2 gap-y-4 gap-x-6">
+<div>
+<span class="font-label-caps text-[10px] text-outline uppercase block mb-1">Purchase Date</span>
+<span class="font-body-md text-primary">Oct 12, 2021</span>
+</div>
+<div>
+<span class="font-label-caps text-[10px] text-outline uppercase block mb-1">Vendor</span>
+<span class="font-body-md text-primary">Design Within Reach</span>
+</div>
+<div>
+<span class="font-label-caps text-[10px] text-outline uppercase block mb-1">Warranty Expiry</span>
+<span class="font-body-md text-primary">Oct 12, 2033</span>
+</div>
+<div>
+<span class="font-label-caps text-[10px] text-outline uppercase block mb-1">Documentation</span>
+<a class="font-body-sm text-secondary-container hover:text-primary flex items-center gap-1 transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">picture_as_pdf</span> Warranty.pdf
+                                </a>
+</div>
+</div>
+</div>
+<!-- Maintenance Timeline -->
+<div>
+<h3 class="font-label-caps text-label-caps text-primary uppercase mb-6 tracking-widest border-b border-outline pb-2">Maintenance History</h3>
+<div class="relative pl-6 border-l border-outline space-y-6">
+<!-- Timeline Item 1 -->
+<div class="relative">
+<!-- Gold Triangle Node (The Cascade motif) -->
+<div class="absolute -left-[29px] top-1 w-0 h-0 border-t-[6px] border-t-transparent border-l-[6px] border-l-secondary-container border-b-[6px] border-b-transparent"></div>
+<span class="font-label-caps text-[10px] text-outline uppercase block mb-1">Jan 15, 2023</span>
+<p class="font-body-sm text-primary font-semibold">Caster Replacement</p>
+<p class="font-body-sm text-on-surface-variant mt-1">Replaced two front casters due to wear. Technician: M. Rivera.</p>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative">
+<!-- Hollow square node for older events to show hierarchy -->
+<div class="absolute -left-[29px] top-1 w-2.5 h-2.5 bg-surface border border-outline"></div>
+<span class="font-label-caps text-[10px] text-outline uppercase block mb-1">Nov 02, 2021</span>
+<p class="font-body-sm text-primary font-semibold">Initial Assembly &amp; Audit</p>
+<p class="font-body-sm text-on-surface-variant mt-1">Asset received, assembled, and tagged for Suite 402.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons (Sticky Bottom) -->
+<div class="p-6 border-t border-outline bg-surface sticky bottom-0 z-10 flex flex-col gap-3">
+<button class="w-full bg-secondary-container text-primary font-label-caps text-label-caps uppercase py-4 px-6 hover:bg-[#e5a810] transition-colors border-none rounded-none text-center">
+                        Log Maintenance
+                    </button>
+<button class="w-full bg-transparent text-primary font-label-caps text-label-caps uppercase py-3 px-6 hover:bg-surface-container-low transition-colors border border-primary rounded-none text-center relative overflow-hidden group">
+<!-- Ghost hover wedge effect -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[4px] border-t-transparent border-l-[4px] border-l-secondary-container border-b-[4px] border-b-transparent opacity-0 group-hover:opacity-100 transition-opacity -ml-1"></div>
+                        Mark for Disposal
+                    </button>
+</div>
+</aside>
+</main>
+</div>
+<script>
+        function toggleDetailPanel(show) {
+            const panel = document.getElementById('detail-panel');
+            if (show) {
+                panel.classList.remove('translate-x-full', 'hidden');
+                panel.classList.add('translate-x-0');
+            } else {
+                panel.classList.remove('translate-x-0');
+                panel.classList.add('translate-x-full');
+                // Optional: hide after transition completes
+                setTimeout(() => {
+                    if(panel.classList.contains('translate-x-full')) {
+                        // panel.classList.add('hidden'); // Keep it rendered for smoother transitions if needed
+                    }
+                }, 300);
+            }
+        }
+
+        // Initialize input field focus effects for the sharp architectural style
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                // Add a small gold triangle pseudo-element effect via a wrapper if needed
+                // Currently handled by tailwind border classes in HTML
+            });
+        });
+    </script>
+</body></html>

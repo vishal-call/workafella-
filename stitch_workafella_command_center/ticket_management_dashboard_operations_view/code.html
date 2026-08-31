@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ticket Management - Workafella</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#882000",
+                        "outline": "#747878",
+                        "on-surface-variant": "#444748",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#fdbb12",
+                        "on-error": "#ffffff",
+                        "primary": "#000000",
+                        "on-tertiary-fixed": "#3b0900",
+                        "background": "#faf9f7",
+                        "surface": "#faf9f7",
+                        "on-secondary-container": "#6c4d00",
+                        "on-primary-fixed-variant": "#474746",
+                        "inverse-primary": "#c8c6c5",
+                        "surface-dim": "#dadad8",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e3e2e0",
+                        "inverse-surface": "#2f3130",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#1c1b1b",
+                        "on-surface": "#1a1c1b",
+                        "surface-container-low": "#f4f3f1",
+                        "tertiary": "#000000",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#e65127",
+                        "secondary-container": "#fdbb12",
+                        "on-background": "#1a1c1b",
+                        "surface-container": "#efeeec",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface-bright": "#faf9f7",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#1c1b1b",
+                        "secondary": "#7b5900",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#e5e2e1",
+                        "on-secondary-fixed": "#261900",
+                        "surface-variant": "#e3e2e0",
+                        "surface-container-high": "#e9e8e6",
+                        "inverse-on-surface": "#f1f1ef",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdbd1",
+                        "secondary-fixed": "#ffdea4",
+                        "on-primary-container": "#858383",
+                        "surface-tint": "#5f5e5e",
+                        "tertiary-fixed-dim": "#ffb5a1",
+                        "tertiary-container": "#3b0900",
+                        "outline-variant": "#c4c7c7",
+                        
+                        "gold": "#F5B400",
+                        "ink": "#161616",
+                        "charcoal": "#3A3A3A",
+                        "canvas": "#F8F7F5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "headline-sm": ["Space Grotesk"],
+                        "label-caps": ["Space Grotesk"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-lg": ["Inter"],
+                        "kpi-metric": ["Space Grotesk"],
+                        "display-md": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "kpi-metric": ["40px", { "lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "display-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .clip-corner {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+        .lattice-bg {
+            background-image: linear-gradient(to right, rgba(245, 180, 0, 0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(245, 180, 0, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-background text-primary font-body-md antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 right-0 left-0 md:left-64 h-16 flex justify-between items-center px-gutter z-40 bg-surface-container-lowest dark:bg-background border-b border-outline-variant dark:border-outline">
+<div class="flex items-center space-x-4">
+<span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-on-primary-fixed md:hidden">Workafella</span>
+</div>
+<div class="flex items-center space-x-6">
+<button class="text-on-surface-variant dark:text-on-surface-variant hover:text-secondary transition-colors duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant dark:text-on-surface-variant hover:text-secondary transition-colors duration-200">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline">
+<img alt="User profile with premium role badge" class="w-full h-full object-cover" data-alt="A small circular avatar showing a professional person in a modern workspace setting. High contrast, minimalist aesthetic with crisp lighting. Used for a premium top navigation bar profile icon." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANH0rFEuzTFRKF7ydmaDCxpNOIa7C5tD4BaYJKJXFG3XlT2QzkP2iaZWIlszlnLdDjTG5vw8d2guwKmoC7v-dAyB0wzNI6D4p6HqOgHhynh93Z0YXIuqJiudf99z95fZs-TZyfUarxjQgEwKn6n7PeERCW0eW8byw9RScAP-EjJ7amU3bsfWAJe3azaPHhkpMVuCxWNLhAc2m0JUDLuV1jPlqhW5jdqCqodxO1u7SaLMTXEXc_ydIzdQ"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-screen w-64 flex-col py-8 border-r border-outline-variant dark:border-outline bg-background dark:bg-background z-50">
+<div class="px-6 mb-8">
+<h1 class="font-display-md text-display-md text-primary dark:text-on-primary-fixed tracking-tight">Workafella</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Premium Workspace</p>
+</div>
+<nav class="flex-1 flex flex-col space-y-2 px-4 mt-6">
+<a class="flex items-center px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">domain</span>
+<span class="font-label-caps text-label-caps">Workspaces</span>
+</a>
+<a class="relative flex items-center px-4 py-3 bg-surface-container-high dark:bg-surface-container text-primary font-bold after:content-[''] after:absolute after:right-0 after:border-y-[8px] after:border-y-transparent after:border-r-[8px] after:border-r-secondary" href="#">
+<span class="material-symbols-outlined mr-3">confirmation_number</span>
+<span class="font-label-caps text-label-caps">Tickets</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">event_available</span>
+<span class="font-label-caps text-label-caps">Reservations</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-label-caps text-label-caps">Analytics</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto space-y-4">
+<button class="w-full bg-gold text-ink font-label-caps text-label-caps py-3 hover:bg-yellow-500 transition-colors">Book a Space</button>
+<div class="flex flex-col space-y-2 pt-4 border-t border-outline-variant">
+<a class="flex items-center text-on-surface-variant hover:text-primary text-sm" href="#">
+<span class="material-symbols-outlined mr-2 text-[18px]">help</span> Help Center
+                </a>
+<a class="flex items-center text-on-surface-variant hover:text-primary text-sm" href="#">
+<span class="material-symbols-outlined mr-2 text-[18px]">logout</span> Log Out
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 px-gutter md:px-margin-desktop pb-24 min-h-screen">
+<!-- Header & Controls -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 space-y-4 md:space-y-0">
+<div>
+<h2 class="font-display-md text-display-md text-ink">Ticket Management</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage operations and facility requests.</p>
+</div>
+<div class="flex border border-charcoal bg-canvas p-1">
+<button class="px-4 py-2 bg-charcoal text-canvas font-label-caps text-label-caps flex items-center">
+<span class="material-symbols-outlined mr-2 text-[18px]">list</span> List
+                </button>
+<button class="px-4 py-2 text-ink hover:bg-surface-container-low font-label-caps text-label-caps flex items-center transition-colors">
+<span class="material-symbols-outlined mr-2 text-[18px]">view_kanban</span> Kanban
+                </button>
+</div>
+</header>
+<!-- KPI Strip (The Cascade offset layout) -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12 relative">
+<div class="absolute -z-10 top-1/2 left-0 w-full h-[1px] bg-outline-variant hidden md:block"></div>
+<!-- Open Tickets -->
+<div class="bg-white border border-charcoal clip-corner p-6 transform md:translate-y-0">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">Open Tickets</p>
+<p class="font-kpi-metric text-kpi-metric text-ink">142</p>
+<div class="mt-4 flex items-center text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] mr-1 text-green-600">arrow_downward</span>
+<span>12% from last week</span>
+</div>
+</div>
+<!-- Overdue -->
+<div class="bg-white border border-charcoal clip-corner p-6 transform md:translate-y-4">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">Overdue SLAs</p>
+<p class="font-kpi-metric text-kpi-metric text-error">18</p>
+<div class="mt-4 flex items-center text-sm text-error">
+<span class="material-symbols-outlined text-[16px] mr-1">warning</span>
+<span>Action required</span>
+</div>
+</div>
+<!-- Avg Resolution -->
+<div class="bg-white border border-charcoal clip-corner p-6 transform md:translate-y-8">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">Avg. Resolution</p>
+<p class="font-kpi-metric text-kpi-metric text-ink">4h 20m</p>
+<div class="mt-4 flex items-center text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] mr-1 text-red-600">arrow_upward</span>
+<span>+30m vs target</span>
+</div>
+</div>
+<!-- CSAT -->
+<div class="bg-ink text-white border border-charcoal clip-corner p-6 transform md:translate-y-12">
+<p class="font-label-caps text-label-caps text-outline-variant mb-2">CSAT Score</p>
+<p class="font-kpi-metric text-kpi-metric text-white">4.8<span class="text-xl text-outline-variant">/5</span></p>
+<div class="mt-4 flex items-center text-sm text-gold">
+<span class="material-symbols-outlined text-[16px] mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] mr-1">star_half</span>
+</div>
+</div>
+</section>
+<!-- Filters & Search -->
+<section class="flex flex-col md:flex-row justify-between items-center mb-6 pt-12 md:pt-8 border-t border-outline-variant">
+<div class="flex items-center space-x-2 w-full md:w-auto mb-4 md:mb-0">
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-transparent border-b border-charcoal focus:outline-none focus:border-gold focus:ring-0 font-body-sm text-body-sm text-ink placeholder-outline transition-colors" placeholder="Search tickets..." type="text"/>
+<div class="absolute top-0 left-0 w-2 h-2 bg-gold hidden" id="search-focus-wedge" style="clip-path: polygon(0 0, 100% 0, 0 100%);"></div>
+</div>
+</div>
+<div class="flex space-x-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+<button class="px-3 py-1 border border-charcoal font-label-caps text-label-caps text-ink hover:bg-surface-container whitespace-nowrap">Status: All <span class="material-symbols-outlined text-[14px] align-middle ml-1">arrow_drop_down</span></button>
+<button class="px-3 py-1 border border-charcoal font-label-caps text-label-caps text-ink hover:bg-surface-container whitespace-nowrap">Priority: High+ <span class="material-symbols-outlined text-[14px] align-middle ml-1">arrow_drop_down</span></button>
+<button class="px-3 py-1 border border-charcoal font-label-caps text-label-caps text-ink hover:bg-surface-container whitespace-nowrap">Category: All <span class="material-symbols-outlined text-[14px] align-middle ml-1">arrow_drop_down</span></button>
+<button class="px-3 py-1 text-gold font-label-caps text-label-caps hover:underline whitespace-nowrap">Clear Filters</button>
+</div>
+</section>
+<!-- Table View -->
+<section class="bg-white border border-charcoal overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-charcoal">
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant w-24">Ticket ID</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant">Category</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant">Priority</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant">Status</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant text-center w-20">Assignee</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant">SLA</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant text-right">Created</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-ink">
+<!-- Row 1: High Priority, Nearing Breach -->
+<tr class="border-b border-outline-variant hover:bg-surface transition-colors cursor-pointer group">
+<td class="px-4 py-4 font-headline-sm text-[16px] font-bold">#IT-4592</td>
+<td class="px-4 py-4">Network Outage</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center px-2 py-1 bg-red-100 text-red-800 text-xs font-bold uppercase tracking-wider border border-red-200">Urgent</span>
+</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center text-ink"><span class="w-2 h-2 bg-blue-500 rounded-none mr-2"></span>In Progress</span>
+</td>
+<td class="px-4 py-4 text-center">
+<img alt="Assignee" class="w-8 h-8 rounded-full border border-charcoal mx-auto inline-block" data-alt="Small round avatar of a network engineer focusing intently on a screen, minimalist lighting, isolated on white background, premium digital aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCz-LLtIjKUP1TYjgb-v3VTaUlGwSDubFtQ-zcHtxYYwu7Og8s89AwwTs0vnNdlD6yNEWyMGrqsHQ0vfIs3diwHdIP-CqeQABnWhSl9GFwq-Fyzo50YlUz0ePoEfM32-nmTC1auny6Txk9JyU7j9yagq5DKHXD0yvndfECe-QLGP4SEuVlmwzAhWsz_Z0ggzQEKQ81vJAfulUbqnvAYRxrML1qxTONEnfLisnnJy9qAY_MY2IGfpaHUA"/>
+</td>
+<td class="px-4 py-4 text-error font-bold flex items-center">
+<span class="material-symbols-outlined text-[16px] mr-1">timer</span> 0h 15m
+                            </td>
+<td class="px-4 py-4 text-right text-on-surface-variant">Today, 09:30 AM</td>
+</tr>
+<!-- Row 2: Medium Priority -->
+<tr class="border-b border-outline-variant hover:bg-surface transition-colors cursor-pointer">
+<td class="px-4 py-4 font-headline-sm text-[16px] font-bold">#HK-8821</td>
+<td class="px-4 py-4">Spill in Lobby B</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold uppercase tracking-wider border border-yellow-200">Medium</span>
+</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center text-ink"><span class="w-2 h-2 bg-green-500 rounded-none mr-2"></span>New</span>
+</td>
+<td class="px-4 py-4 text-center">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline border-dashed flex items-center justify-center mx-auto text-outline text-xs font-bold">--</div>
+</td>
+<td class="px-4 py-4 text-ink flex items-center">
+<span class="material-symbols-outlined text-[16px] mr-1 text-outline">timer</span> 2h 45m
+                            </td>
+<td class="px-4 py-4 text-right text-on-surface-variant">Today, 11:15 AM</td>
+</tr>
+<!-- Row 3: Low Priority, Resolved -->
+<tr class="border-b border-outline-variant hover:bg-surface transition-colors cursor-pointer bg-surface-container-low opacity-75">
+<td class="px-4 py-4 font-headline-sm text-[16px] font-bold">#MA-1104</td>
+<td class="px-4 py-4">Replace Lightbulb</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider border border-blue-200">Low</span>
+</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center text-on-surface-variant"><span class="w-2 h-2 bg-gray-400 rounded-none mr-2"></span>Resolved</span>
+</td>
+<td class="px-4 py-4 text-center">
+<img alt="Assignee" class="w-8 h-8 rounded-full border border-charcoal mx-auto inline-block grayscale" data-alt="Small round avatar of a maintenance worker in a premium uniform, neutral gray background, sharp focus, professional architectural styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMBzOCbPRzkMy1wcshTu1RW3UqQu136CvDFSNTYWGEmeC0RtnLZtLe7Hv1GDcQ7N74oWwNGk9U7eFn1wR2GOMGktPPxMWxDhjtVSq_7V9ajzhz34bl1pS8wbNjuoPlm457LD5vZRiM-P50dEKREh2QXSEg-UogULJz3wIEtNdLE6PteMWiG5WLAvVN2Jv3gIwx03ridJ2e6lo9e-osGQbHEZwOxynB0KfMbJVTjT4ivqVHJ9lHyjJrwQ"/>
+</td>
+<td class="px-4 py-4 text-on-surface-variant flex items-center">
+<span class="material-symbols-outlined text-[16px] mr-1">check_circle</span> Met
+                            </td>
+<td class="px-4 py-4 text-right text-on-surface-variant">Yesterday, 16:40 PM</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-4 py-3 border-t border-charcoal flex justify-between items-center bg-canvas">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 1-3 of 142 tickets</span>
+<div class="flex space-x-1">
+<button class="p-1 border border-outline hover:border-charcoal disabled:opacity-50"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-1 border border-outline hover:border-charcoal"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface-container-lowest border-t border-outline-variant z-40 flex justify-around items-center px-2 pb-safe">
+<a class="flex flex-col items-center p-2 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<span class="text-[10px] mt-1 font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center p-2 text-secondary border-t-2 border-secondary -mt-[2px]" href="#">
+<span class="material-symbols-outlined text-[24px]">confirmation_number</span>
+<span class="text-[10px] mt-1 font-bold">Tickets</span>
+</a>
+<a class="flex flex-col items-center p-2 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-[24px]">analytics</span>
+<span class="text-[10px] mt-1 font-bold">Stats</span>
+</a>
+</nav>
+<script>
+        // Simple script to handle input focus styles for the search wedge
+        const searchInput = document.querySelector('input[type="text"]');
+        const wedge = document.getElementById('search-focus-wedge');
+        
+        searchInput.addEventListener('focus', () => {
+            wedge.classList.remove('hidden');
+        });
+        
+        searchInput.addEventListener('blur', () => {
+            wedge.classList.add('hidden');
+        });
+    </script>
+</body></html>

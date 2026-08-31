@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Workafella - Raise a Ticket</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#444748",
+                        "surface-container-highest": "#e3e2e0",
+                        "tertiary": "#000000",
+                        "secondary-container": "#fdbb12",
+                        "primary-container": "#1c1b1b",
+                        "surface-dim": "#dadad8",
+                        "primary-fixed": "#e5e2e1",
+                        "inverse-on-surface": "#f1f1ef",
+                        "surface-container": "#efeeec",
+                        "on-tertiary-container": "#e65127",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#858383",
+                        "on-tertiary-fixed": "#3b0900",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#882000",
+                        "surface-bright": "#faf9f7",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#000000",
+                        "on-surface": "#1a1c1b",
+                        "outline-variant": "#c4c7c7",
+                        "outline": "#747878",
+                        "tertiary-fixed-dim": "#ffb5a1",
+                        "inverse-surface": "#2f3130",
+                        "surface-variant": "#e3e2e0",
+                        "tertiary-container": "#3b0900",
+                        "on-primary-fixed-variant": "#474746",
+                        "on-secondary-container": "#6c4d00",
+                        "tertiary-fixed": "#ffdbd1",
+                        "on-primary-fixed": "#1c1b1b",
+                        "surface": "#faf9f7",
+                        "on-background": "#1a1c1b",
+                        "secondary-fixed-dim": "#fdbb12",
+                        "surface-container-high": "#e9e8e6",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary": "#7b5900",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#ffdea4",
+                        "on-secondary-fixed": "#261900",
+                        "surface-tint": "#5f5e5e",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c8c6c5",
+                        "background": "#faf9f7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "headline-sm": ["Space Grotesk"],
+                        "label-caps": ["Space Grotesk"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-md": ["Space Grotesk"],
+                        "kpi-metric": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .clip-corner {
+                clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+            }
+            .clip-corner-reverse {
+                clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
+            }
+            .border-b-gold {
+                border-bottom: 2px solid #fdbb12;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md antialiased overflow-x-hidden selection:bg-secondary-container selection:text-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 right-0 left-64 flex justify-between items-center h-20 px-margin-desktop z-40 bg-background border-b border-outline hidden md:flex">
+<div class="flex-1 flex items-center">
+<!-- Search bar 'on_left' implied intent, though JSON just says "on_left" -->
+<div class="relative w-96 flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg">search</span>
+<input class="w-full bg-surface-container border-0 border-b border-outline pl-10 pr-4 py-2 font-body-sm text-body-sm text-on-surface focus:ring-0 focus:border-secondary-fixed-dim focus:bg-surface transition-all placeholder:text-outline" placeholder="Search workspaces, tickets..." type="text"/>
+<div class="absolute top-0 left-0 w-1 h-1 bg-secondary-fixed-dim hidden focus-within:block"></div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-primary hover:text-secondary-fixed-dim transition-transform hover:scale-95 relative group">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-none border border-background"></span>
+</button>
+<button class="text-primary hover:text-secondary-fixed-dim transition-transform hover:scale-95">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 bg-surface-variant border border-outline clip-corner overflow-hidden cursor-pointer">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close up, high key, professional portrait of a business executive in a bright, modern architectural workspace. Subtle gold accents in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP4c4givFtiVrxxyn7-UDK2cJY43arjqlBe_Hwi-WQRmvuhIPV6lBxHphSGuKgArq_d_DcpfFKWKNaBtipzslObdM4sIM1MnZVDkqMKCCn5Ynkb25cGw7hZOZZe7EWzXpEQxvNsTI7mHlEhwKi7w0kHzo2xfY_Gmg1r46dxKUU3R7TlXhChF7GjB96j2hJfCZnUn4qutTXTyfDihGazOLKXEzv0bXalhZbsPclI4FfcvzXO-2GfE-7Hg"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-8 bg-surface w-64 border-r border-outline z-50">
+<div class="px-8 mb-12">
+<h1 class="font-display-md text-[24px] font-bold text-primary tracking-tight">Workafella</h1>
+<p class="font-label-caps text-[10px] text-on-surface-variant mt-1 tracking-widest uppercase">Premium Workspace</p>
+</div>
+<nav class="flex-1 flex flex-col gap-2 px-4">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 font-body-md text-body-md text-on-surface-variant opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Workspaces -->
+<a class="flex items-center gap-3 px-4 py-3 font-body-md text-body-md text-on-surface-variant opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span>Workspaces</span>
+</a>
+<!-- Reservations -->
+<a class="flex items-center gap-3 px-4 py-3 font-body-md text-body-md text-on-surface-variant opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">event_available</span>
+<span>Reservations</span>
+</a>
+<!-- Analytics -->
+<a class="flex items-center gap-3 px-4 py-3 font-body-md text-body-md text-on-surface-variant opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-3 px-4 py-3 font-body-md text-body-md text-on-surface-variant opacity-70 hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<!-- Active State simulated on the CTA for demonstration of 'Raise a Ticket' focus, but normally it'd be a nav item -->
+<button class="w-full bg-secondary-fixed-dim text-primary font-label-caps text-label-caps uppercase py-4 border border-primary hover:bg-primary hover:text-secondary-fixed-dim transition-all flex items-center justify-center gap-2 relative group overflow-hidden">
+<span class="relative z-10">Raise a Ticket</span>
+<span class="material-symbols-outlined text-[16px] relative z-10">add</span>
+<div class="absolute inset-0 bg-surface-container opacity-0 group-hover:opacity-10 transition-opacity"></div>
+</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-20 md:pt-32 px-margin-mobile md:px-margin-desktop pb-32 max-w-container-max mx-auto relative min-h-screen">
+<!-- Animated Lattice Background -->
+<div class="fixed inset-0 pointer-events-none z-[-1] opacity-5">
+<svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="40" id="lattice" patternunits="userSpaceOnUse" width="40">
+<path d="M 40 0 L 0 40 M 0 0 L 40 40" fill="none" stroke="#F5B400" stroke-width="0.5"></path>
+</pattern>
+</defs>
+<rect fill="url(#lattice)" height="100%" width="100%"></rect>
+</svg>
+</div>
+<div class="max-w-4xl mx-auto">
+<!-- Header section -->
+<header class="mb-16 relative">
+<div class="absolute -left-6 top-2 w-3 h-3 bg-secondary-fixed-dim clip-corner"></div>
+<h2 class="font-display-lg text-[40px] md:text-[48px] font-bold text-primary leading-tight">Raise a Ticket</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2">How can we help you today?</p>
+</header>
+<form class="space-y-12">
+<!-- Category Grid -->
+<section class="space-y-6">
+<div class="flex items-baseline justify-between">
+<h3 class="font-headline-sm text-[20px] font-semibold text-primary">1. Select Category</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Required</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- IT -->
+<label class="cursor-pointer relative group">
+<input class="peer sr-only" name="category" type="radio" value="it"/>
+<div class="bg-surface border border-outline clip-corner p-6 flex flex-col items-center justify-center gap-3 transition-all hover:border-primary peer-checked:border-secondary-fixed-dim peer-checked:bg-primary peer-checked:text-background h-32 relative">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">computer</span>
+<span class="font-label-caps text-[12px] uppercase tracking-wider">IT Support</span>
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary-fixed-dim hidden peer-checked:block clip-corner"></div>
+</div>
+</label>
+<!-- Housekeeping -->
+<label class="cursor-pointer relative group">
+<input class="peer sr-only" name="category" type="radio" value="housekeeping"/>
+<div class="bg-surface border border-outline clip-corner p-6 flex flex-col items-center justify-center gap-3 transition-all hover:border-primary peer-checked:border-secondary-fixed-dim peer-checked:bg-primary peer-checked:text-background h-32 relative">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">cleaning_services</span>
+<span class="font-label-caps text-[12px] uppercase tracking-wider">Housekeeping</span>
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary-fixed-dim hidden peer-checked:block clip-corner"></div>
+</div>
+</label>
+<!-- Maintenance -->
+<label class="cursor-pointer relative group">
+<input class="peer sr-only" name="category" type="radio" value="maintenance"/>
+<div class="bg-surface border border-outline clip-corner p-6 flex flex-col items-center justify-center gap-3 transition-all hover:border-primary peer-checked:border-secondary-fixed-dim peer-checked:bg-primary peer-checked:text-background h-32 relative">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">build</span>
+<span class="font-label-caps text-[12px] uppercase tracking-wider">Maintenance</span>
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary-fixed-dim hidden peer-checked:block clip-corner"></div>
+</div>
+</label>
+<!-- Utilities -->
+<label class="cursor-pointer relative group">
+<input class="peer sr-only" name="category" type="radio" value="utilities"/>
+<div class="bg-surface border border-outline clip-corner p-6 flex flex-col items-center justify-center gap-3 transition-all hover:border-primary peer-checked:border-secondary-fixed-dim peer-checked:bg-primary peer-checked:text-background h-32 relative">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">bolt</span>
+<span class="font-label-caps text-[12px] uppercase tracking-wider">Utilities</span>
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary-fixed-dim hidden peer-checked:block clip-corner"></div>
+</div>
+</label>
+<!-- Pantry -->
+<label class="cursor-pointer relative group">
+<input class="peer sr-only" name="category" type="radio" value="pantry"/>
+<div class="bg-surface border border-outline clip-corner p-6 flex flex-col items-center justify-center gap-3 transition-all hover:border-primary peer-checked:border-secondary-fixed-dim peer-checked:bg-primary peer-checked:text-background h-32 relative">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">coffee</span>
+<span class="font-label-caps text-[12px] uppercase tracking-wider">Pantry</span>
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary-fixed-dim hidden peer-checked:block clip-corner"></div>
+</div>
+</label>
+<!-- Wi-Fi -->
+<label class="cursor-pointer relative group">
+<input class="peer sr-only" name="category" type="radio" value="wifi"/>
+<div class="bg-surface border border-outline clip-corner p-6 flex flex-col items-center justify-center gap-3 transition-all hover:border-primary peer-checked:border-secondary-fixed-dim peer-checked:bg-primary peer-checked:text-background h-32 relative">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">wifi</span>
+<span class="font-label-caps text-[12px] uppercase tracking-wider">Internet</span>
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary-fixed-dim hidden peer-checked:block clip-corner"></div>
+</div>
+</label>
+<!-- Other -->
+<label class="cursor-pointer relative group md:col-span-2">
+<input class="peer sr-only" name="category" type="radio" value="other"/>
+<div class="bg-surface border border-outline clip-corner p-6 flex flex-row items-center justify-center gap-3 transition-all hover:border-primary peer-checked:border-secondary-fixed-dim peer-checked:bg-primary peer-checked:text-background h-32 relative">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">more_horiz</span>
+<span class="font-label-caps text-[12px] uppercase tracking-wider">Other Request</span>
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary-fixed-dim hidden peer-checked:block clip-corner"></div>
+</div>
+</label>
+</div>
+</section>
+<div class="grid md:grid-cols-2 gap-12 ml-4">
+<!-- Subcategory -->
+<section class="space-y-4">
+<label class="font-headline-sm text-[20px] font-semibold text-primary block">2. Specific Issue</label>
+<div class="relative">
+<select class="w-full bg-surface-container border-0 border-b border-outline py-4 pl-4 pr-10 font-body-md text-primary focus:ring-0 focus:border-secondary-fixed-dim appearance-none transition-colors">
+<option disabled="" selected="" value="">Select an option...</option>
+<option>Network Outage</option>
+<option>Hardware Fault</option>
+<option>Software License</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+<div class="absolute top-0 left-0 w-2 h-2 bg-secondary-fixed-dim hidden focus-within:block"></div>
+</div>
+</section>
+<!-- Priority -->
+<section class="space-y-4">
+<label class="font-headline-sm text-[20px] font-semibold text-primary block">3. Priority Level</label>
+<div class="flex gap-2">
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="priority" type="radio" value="low"/>
+<div class="text-center py-3 border border-outline font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant peer-checked:bg-surface-variant peer-checked:text-primary peer-checked:border-primary transition-all">Low</div>
+</label>
+<label class="flex-1 cursor-pointer">
+<input checked="" class="peer sr-only" name="priority" type="radio" value="medium"/>
+<div class="text-center py-3 border border-outline font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant peer-checked:bg-secondary-fixed-dim peer-checked:text-primary peer-checked:border-secondary-fixed-dim transition-all">Medium</div>
+</label>
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="priority" type="radio" value="high"/>
+<div class="text-center py-3 border border-outline font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant peer-checked:bg-on-tertiary-container peer-checked:text-background peer-checked:border-on-tertiary-container transition-all">High</div>
+</label>
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="priority" type="radio" value="urgent"/>
+<div class="text-center py-3 border border-outline font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant peer-checked:bg-error peer-checked:text-background peer-checked:border-error transition-all">Urgent</div>
+</label>
+</div>
+</section>
+</div>
+<!-- Description -->
+<section class="space-y-4 ml-8">
+<label class="font-headline-sm text-[20px] font-semibold text-primary block">4. Details</label>
+<div class="relative group">
+<div class="absolute top-0 left-0 w-3 h-3 bg-secondary-fixed-dim hidden group-focus-within:block z-10"></div>
+<textarea class="w-full bg-surface-container border-0 border-b border-outline p-6 font-body-md text-primary focus:ring-0 focus:border-secondary-fixed-dim transition-colors resize-none relative z-0" placeholder="Provide as much detail as possible..." rows="5"></textarea>
+</div>
+</section>
+<!-- Attachments -->
+<section class="space-y-4 ml-12">
+<label class="font-headline-sm text-[20px] font-semibold text-primary block">5. Attachments</label>
+<div class="border border-dashed border-outline bg-surface p-10 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-colors group clip-corner">
+<span class="material-symbols-outlined text-[40px] text-on-surface-variant mb-4 group-hover:text-primary transition-colors">add_photo_alternate</span>
+<p class="font-body-md text-primary mb-1">Drag and drop files here</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant tracking-wider uppercase">or click to browse (Max 10MB)</p>
+</div>
+</section>
+<!-- Actions -->
+<div class="pt-8 flex justify-end gap-4 border-t border-outline">
+<button class="px-8 py-4 font-label-caps text-label-caps uppercase tracking-wider border border-primary text-primary hover:bg-surface-variant transition-colors" type="button">Cancel</button>
+<button class="px-10 py-4 font-label-caps text-label-caps uppercase tracking-wider bg-secondary-container text-primary border border-primary hover:bg-primary hover:text-secondary-fixed-dim transition-all flex items-center gap-2 group" onclick="showToast()" type="button">
+<span>Submit Ticket</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</main>
+<!-- Toast Notification (Hidden by default, shown via JS for mockup) -->
+<div class="fixed bottom-margin-mobile md:bottom-margin-desktop right-margin-mobile md:right-margin-desktop z-50 transform translate-y-full opacity-0 transition-all duration-300" id="toast">
+<div class="bg-primary text-background border border-secondary-fixed-dim p-4 flex items-center gap-4 clip-corner min-w-[320px] shadow-2xl shadow-primary/20">
+<div class="w-10 h-10 bg-secondary-fixed-dim flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-secondary-fixed-dim uppercase tracking-wider mb-1">Success</p>
+<p class="font-body-sm text-background">Ticket #WF-8902 Created Successfully.</p>
+</div>
+<button class="ml-auto text-on-surface-variant hover:text-secondary-fixed-dim" onclick="hideToast()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<script>
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-full', 'opacity-0');
+            
+            // Auto hide after 4 seconds
+            setTimeout(hideToast, 4000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('translate-y-full', 'opacity-0');
+        }
+    </script>
+</body></html>

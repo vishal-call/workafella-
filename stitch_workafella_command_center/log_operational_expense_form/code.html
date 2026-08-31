@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Log Expense - Workafella</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .clipped-corner {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+        .cascade-triangle {
+            position: relative;
+        }
+        .cascade-triangle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 4px 4px 0 0;
+            border-color: #F5B400 transparent transparent transparent;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .cascade-triangle:focus-within::before {
+            opacity: 1;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface": "#faf9f7",
+                        "tertiary-fixed": "#ffdbd1",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "on-secondary-container": "#6c4d00",
+                        "inverse-surface": "#2f3130",
+                        "surface-dim": "#dadad8",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#ffdea4",
+                        "primary-fixed": "#e5e2e1",
+                        "outline": "#747878",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e3e2e0",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-tertiary-fixed-variant": "#882000",
+                        "on-tertiary-fixed": "#3b0900",
+                        "inverse-primary": "#c8c6c5",
+                        "on-surface": "#1a1c1b",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e9e8e6",
+                        "tertiary-fixed-dim": "#ffb5a1",
+                        "on-tertiary-container": "#e65127",
+                        "secondary-container": "#fdbb12",
+                        "inverse-on-surface": "#f1f1ef",
+                        "surface-bright": "#faf9f7",
+                        "on-error": "#ffffff",
+                        "tertiary": "#000000",
+                        "on-background": "#1a1c1b",
+                        "surface-container-low": "#f4f3f1",
+                        "on-primary-container": "#858383",
+                        "error": "#ba1a1a",
+                        "surface-container": "#efeeec",
+                        "background": "#faf9f7",
+                        "primary-container": "#1c1b1b",
+                        "outline-variant": "#c4c7c7",
+                        "secondary": "#7b5900",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#5f5e5e",
+                        "surface-container-highest": "#e3e2e0",
+                        "tertiary-container": "#3b0900",
+                        "on-secondary-fixed": "#261900",
+                        "on-surface-variant": "#444748",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#474746",
+                        "primary": "#000000",
+                        "secondary-fixed-dim": "#fdbb12",
+                        "signature-gold": "#F5B400",
+                        "charcoal": "#3A3A3A",
+                        "ink": "#161616"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "kpi-metric": ["Space Grotesk", "sans-serif"],
+                        "display-md": ["Space Grotesk", "sans-serif"],
+                        "headline-sm": ["Space Grotesk", "sans-serif"],
+                        "display-lg": ["Space Grotesk", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "label-caps": ["Space Grotesk", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "kpi-metric": ["40px", { "lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "display-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden min-h-screen">
+<!-- SideNavBar -->
+<nav aria-label="Sidebar Navigation" class="fixed left-0 top-0 h-full flex flex-col z-40 w-64 border-r border-outline-variant bg-background">
+<div class="p-6 pb-8">
+<h1 class="font-display-md text-display-md font-bold text-primary tracking-tighter">Workafella</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Workspace Management</p>
+</div>
+<ul class="flex flex-col flex-grow">
+<li>
+<a class="flex items-center px-6 py-4 text-on-surface-variant font-medium hover:text-signature-gold transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-6 py-4 text-on-surface-variant font-medium hover:text-signature-gold transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">domain</span>
+<span class="font-body-md text-body-md">Workspaces</span>
+</a>
+</li>
+<li>
+<a aria-current="page" class="flex items-center px-6 py-4 text-signature-gold font-bold relative after:content-[''] after:absolute after:right-0 after:border-y-[8px] after:border-y-transparent after:border-r-[8px] after:border-r-signature-gold bg-surface-container-low" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 1;">engineering</span>
+<span class="font-body-md text-body-md">Operations</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-6 py-4 text-on-surface-variant font-medium hover:text-signature-gold transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">payments</span>
+<span class="font-body-md text-body-md">Finance</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-6 py-4 text-on-surface-variant font-medium hover:text-signature-gold transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">inventory_2</span>
+<span class="font-body-md text-body-md">Assets</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto border-t border-outline-variant py-4">
+<ul>
+<li>
+<a class="flex items-center px-6 py-3 text-on-surface-variant font-medium hover:text-signature-gold transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-6 py-3 text-on-surface-variant font-medium hover:text-signature-gold transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">help_outline</span>
+<span class="font-body-md text-body-md">Support</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-margin-desktop py-4 ml-64 w-[calc(100%-16rem)] z-30 docked full-width top-0 border-b border-outline-variant bg-surface sticky top-0">
+<div class="flex items-center bg-surface-container-low px-4 py-2 border border-outline-variant focus-within:border-signature-gold focus-within:ring-1 focus-within:ring-signature-gold transition-all w-96 max-w-full">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">search</span>
+<input class="bg-transparent border-none focus:ring-0 font-body-sm text-body-sm text-primary w-full p-0" placeholder="Search operations, assets..." type="text"/>
+</div>
+<div class="flex items-center space-x-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">apps</span>
+</button>
+<div class="w-10 h-10 bg-surface-container-high border border-outline-variant overflow-hidden cursor-pointer clipped-corner">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate manager in a sharply tailored dark grey suit, set against a pristine, minimalist white architectural background with subtle natural light. The mood is authoritative yet approachable, reflecting a premium luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASDdYHwMJmnmnhUhLjFRKB9fy4gsZVXRoW7VAYWbQ-aLMiPHY1HJbaxE3wI7AoN2G7ric18PCUrSbQrkgBFe6ymp7nQPnJ3sKJ6N0cT9R_TiguZJ9MDDR-vw95q5hB45lQJnkk-_uk5B_UgcJLZ_Kg7hAZhIVxo-QKK0U8qI9laMfAp0cmMSlMMUD_lFuTaEHJH4N1npBd1zf9wInAggsnmjoAFuEBzgqZz6EPCj3ijcKfKxZnrKNm1g"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-margin-desktop pt-12 min-h-[calc(100vh-80px)]">
+<div class="max-w-[800px] mx-auto">
+<header class="mb-12">
+<div class="flex items-center text-on-surface-variant font-label-caps text-label-caps mb-4 uppercase">
+<span>Operations</span>
+<span class="material-symbols-outlined text-[16px] mx-2">chevron_right</span>
+<span class="text-primary font-bold">Log Expense</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-primary">Log New Expense</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-4 max-w-2xl">Record operational costs with architectural precision. Ensure all fields are accurately documented for financial integrity.</p>
+</header>
+<form class="bg-surface-container-lowest border border-charcoal p-10 clipped-corner shadow-sm">
+<!-- Section 1: Category Picker -->
+<section class="mb-12">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-6 flex items-center">
+<span class="w-2 h-2 bg-signature-gold mr-3"></span>
+                        Primary Category
+                    </h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="category-grid">
+<!-- Facility -->
+<label class="cursor-pointer group relative">
+<input checked="" class="peer sr-only" name="expense_category" type="radio" value="facility"/>
+<div class="border border-outline-variant p-6 h-full transition-all group-hover:border-charcoal peer-checked:border-signature-gold peer-checked:bg-surface-container-low clipped-corner flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-3 peer-checked:text-signature-gold group-hover:text-primary transition-colors">home_repair_service</span>
+<span class="font-body-md text-body-md font-semibold text-primary">Facility</span>
+</div>
+</label>
+<!-- Office -->
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="expense_category" type="radio" value="office"/>
+<div class="border border-outline-variant p-6 h-full transition-all group-hover:border-charcoal peer-checked:border-signature-gold peer-checked:bg-surface-container-low clipped-corner flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-3 peer-checked:text-signature-gold group-hover:text-primary transition-colors">inventory_2</span>
+<span class="font-body-md text-body-md font-semibold text-primary">Office</span>
+</div>
+</label>
+<!-- Vendor -->
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" id="category-vendor" name="expense_category" type="radio" value="vendor"/>
+<div class="border border-outline-variant p-6 h-full transition-all group-hover:border-charcoal peer-checked:border-signature-gold peer-checked:bg-surface-container-low clipped-corner flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-3 peer-checked:text-signature-gold group-hover:text-primary transition-colors">handshake</span>
+<span class="font-body-md text-body-md font-semibold text-primary">Vendor</span>
+</div>
+</label>
+<!-- Asset-Related -->
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" id="category-asset" name="expense_category" type="radio" value="asset"/>
+<div class="border border-outline-variant p-6 h-full transition-all group-hover:border-charcoal peer-checked:border-signature-gold peer-checked:bg-surface-container-low clipped-corner flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-3 peer-checked:text-signature-gold group-hover:text-primary transition-colors">precision_manufacturing</span>
+<span class="font-body-md text-body-md font-semibold text-primary">Asset-Related</span>
+</div>
+</label>
+<!-- Other -->
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="expense_category" type="radio" value="other"/>
+<div class="border border-outline-variant p-6 h-full transition-all group-hover:border-charcoal peer-checked:border-signature-gold peer-checked:bg-surface-container-low clipped-corner flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-3 peer-checked:text-signature-gold group-hover:text-primary transition-colors">more_horiz</span>
+<span class="font-body-md text-body-md font-semibold text-primary">Other</span>
+</div>
+</label>
+</div>
+</section>
+<hr class="border-t border-outline-variant mb-12"/>
+<!-- Section 2: Expense Details -->
+<section class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Subcategory -->
+<div class="cascade-triangle flex flex-col">
+<label class="font-label-caps text-label-caps text-primary mb-2 uppercase" for="subcategory">Subcategory</label>
+<div class="relative">
+<select class="w-full bg-background border-b border-charcoal border-t-0 border-x-0 py-3 pl-0 pr-10 font-body-md text-body-md text-primary focus:border-signature-gold focus:ring-0 transition-colors appearance-none cursor-pointer rounded-none" id="subcategory" name="subcategory">
+<option disabled="" selected="" value="">Select subcategory...</option>
+<option value="electricity">Electricity</option>
+<option value="water">Water</option>
+<option value="internet">Internet</option>
+<option value="cleaning">Cleaning</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">arrow_drop_down</span>
+</div>
+</div>
+<!-- Amount -->
+<div class="cascade-triangle flex flex-col">
+<label class="font-label-caps text-label-caps text-primary mb-2 uppercase" for="amount">Amount</label>
+<div class="relative flex items-center border-b border-charcoal focus-within:border-signature-gold transition-colors">
+<span class="text-on-surface-variant font-body-md mr-2">$</span>
+<input class="w-full bg-transparent border-none py-3 pl-0 font-body-md text-body-md text-primary focus:ring-0 rounded-none" id="amount" name="amount" placeholder="0.00" type="number"/>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Date -->
+<div class="cascade-triangle flex flex-col">
+<label class="font-label-caps text-label-caps text-primary mb-2 uppercase" for="expense_date">Date of Expense</label>
+<div class="relative">
+<input class="w-full bg-background border border-charcoal py-3 px-4 font-body-md text-body-md text-primary focus:border-signature-gold focus:ring-1 focus:ring-signature-gold transition-colors rounded-none appearance-none cursor-pointer" id="expense_date" name="expense_date" type="date"/>
+</div>
+</div>
+<!-- Conditional Vendor/Asset Link -->
+<div class="cascade-triangle flex flex-col opacity-50 pointer-events-none transition-all duration-300" id="vendor-asset-link">
+<label class="font-label-caps text-label-caps text-primary mb-2 uppercase" for="linked_entity">Linked Vendor / Asset</label>
+<div class="relative">
+<select class="w-full bg-surface-container border border-outline-variant py-3 pl-4 pr-10 font-body-md text-body-md text-on-surface-variant focus:border-signature-gold focus:ring-1 focus:ring-signature-gold transition-colors appearance-none cursor-not-allowed rounded-none" id="linked_entity" name="linked_entity">
+<option disabled="" selected="" value="">Select linked entity...</option>
+<option value="v1">Vendor: Elevate Maintenance</option>
+<option value="a1">Asset: HVAC Unit B2</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">search</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-2 font-body-sm">Requires Vendor or Asset category selection.</p>
+</div>
+</div>
+<!-- Receipt Upload -->
+<div class="flex flex-col mt-8">
+<label class="font-label-caps text-label-caps text-primary mb-4 uppercase">Receipt Document <span class="text-error">*</span></label>
+<div class="border border-dashed border-charcoal bg-surface-container-low hover:bg-surface transition-colors p-12 clipped-corner flex flex-col items-center justify-center text-center cursor-pointer group relative">
+<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" required="" type="file"/>
+<div class="w-16 h-16 bg-surface border border-outline-variant rounded-full flex items-center justify-center mb-4 group-hover:border-signature-gold transition-colors shadow-sm">
+<span class="material-symbols-outlined text-signature-gold text-[28px]">upload_file</span>
+</div>
+<p class="font-body-md text-body-md text-primary font-medium mb-1 group-hover:text-signature-gold transition-colors">Drag and drop receipt here</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">PNG, JPG, PDF up to 10MB</p>
+</div>
+</div>
+<!-- Recurring Toggle & Frequency -->
+<div class="bg-surface-container-low border border-outline-variant p-6 flex flex-col space-y-6 mt-8">
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-body-md text-body-md font-semibold text-primary">Recurring Expense</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Automate logging for fixed period costs.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="recurring-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-ink"></div>
+</label>
+</div>
+<div class="hidden cascade-triangle border-t border-outline-variant pt-6" id="frequency-container">
+<label class="font-label-caps text-label-caps text-primary mb-2 uppercase block" for="frequency">Frequency</label>
+<div class="relative w-1/2">
+<select class="w-full bg-background border border-charcoal py-3 pl-4 pr-10 font-body-md text-body-md text-primary focus:border-signature-gold focus:ring-1 focus:ring-signature-gold transition-colors appearance-none cursor-pointer rounded-none" id="frequency" name="frequency">
+<option value="monthly">Monthly</option>
+<option value="quarterly">Quarterly</option>
+<option value="annually">Annually</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">unfold_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Form Actions -->
+<div class="mt-12 flex justify-end space-x-4 border-t border-outline-variant pt-8">
+<button class="px-8 py-3 bg-background border border-ink text-ink font-label-caps text-label-caps uppercase tracking-wider hover:bg-surface-container-low transition-colors group relative overflow-hidden" type="button">
+<span class="relative z-10">Cancel</span>
+<div class="absolute inset-0 border border-signature-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</button>
+<button class="px-8 py-3 bg-signature-gold text-ink font-label-caps text-label-caps uppercase tracking-wider font-bold hover:bg-[#e0a500] transition-colors shadow-sm" type="submit">
+                        Submit Expense
+                    </button>
+</div>
+</form>
+</div>
+</main>
+<script>
+        // Conditional Logic for Vendor/Asset Linking
+        const categoryRadios = document.querySelectorAll('input[name="expense_category"]');
+        const vendorAssetLink = document.getElementById('vendor-asset-link');
+        const linkedSelect = document.getElementById('linked_entity');
+
+        categoryRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'vendor' || e.target.value === 'asset') {
+                    vendorAssetLink.classList.remove('opacity-50', 'pointer-events-none');
+                    linkedSelect.classList.remove('bg-surface-container', 'cursor-not-allowed');
+                    linkedSelect.classList.add('bg-background', 'cursor-pointer', 'border-charcoal');
+                    linkedSelect.disabled = false;
+                } else {
+                    vendorAssetLink.classList.add('opacity-50', 'pointer-events-none');
+                    linkedSelect.classList.add('bg-surface-container', 'cursor-not-allowed');
+                    linkedSelect.classList.remove('bg-background', 'cursor-pointer', 'border-charcoal');
+                    linkedSelect.disabled = true;
+                    linkedSelect.value = "";
+                }
+            });
+        });
+
+        // Recurring Toggle Logic
+        const recurringToggle = document.getElementById('recurring-toggle');
+        const frequencyContainer = document.getElementById('frequency-container');
+
+        recurringToggle.addEventListener('change', (e) => {
+            if(e.target.checked) {
+                frequencyContainer.classList.remove('hidden');
+            } else {
+                frequencyContainer.classList.add('hidden');
+            }
+        });
+    </script>
+</body></html>

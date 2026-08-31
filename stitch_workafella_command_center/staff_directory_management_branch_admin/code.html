@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Workafella - Staff Directory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f1f1ef",
+                        "tertiary-container": "#3b0900",
+                        "surface-tint": "#5f5e5e",
+                        "surface-container-high": "#e9e8e6",
+                        "background": "#faf9f7",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#fdbb12",
+                        "secondary-fixed": "#ffdea4",
+                        "on-surface": "#1a1c1b",
+                        "on-surface-variant": "#444748",
+                        "on-secondary-container": "#6c4d00",
+                        "on-primary-container": "#858383",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "error": "#ba1a1a",
+                        "surface-container": "#efeeec",
+                        "tertiary": "#000000",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "surface-dim": "#dadad8",
+                        "on-tertiary-container": "#e65127",
+                        "outline-variant": "#c4c7c7",
+                        "secondary": "#7b5900",
+                        "secondary-fixed-dim": "#fdbb12",
+                        "on-secondary-fixed": "#261900",
+                        "inverse-primary": "#c8c6c5",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1a1c1b",
+                        "surface-container-highest": "#e3e2e0",
+                        "surface-bright": "#faf9f7",
+                        "inverse-surface": "#2f3130",
+                        "on-tertiary-fixed": "#3b0900",
+                        "surface-container-low": "#f4f3f1",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#474746",
+                        "on-primary-fixed": "#1c1b1b",
+                        "surface": "#faf9f7",
+                        "outline": "#747878",
+                        "surface-variant": "#e3e2e0",
+                        "primary": "#000000",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb5a1",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#1c1b1b",
+                        "tertiary-fixed": "#ffdbd1",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#882000",
+                        "primary-fixed": "#e5e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "display-md": ["Space Grotesk", "sans-serif"],
+                        "kpi-metric": ["Space Grotesk", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "headline-sm": ["Space Grotesk", "sans-serif"],
+                        "label-caps": ["Space Grotesk", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "display-lg": ["Space Grotesk", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "display-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "kpi-metric": ["40px", { "lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .clip-top-right {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+        .lattice-bg {
+            background-image: linear-gradient(#F5B400 1px, transparent 1px), linear-gradient(90deg, #F5B400 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.05;
+        }
+        .toggle-switch:checked {
+            background-color: #F5B400; /* Signature Gold */
+            border-color: #F5B400;
+        }
+        .toggle-switch:checked:after {
+            transform: translateX(100%);
+            border-color: #F5B400;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #faf9f7;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e3e2e0;
+            border-radius: 0;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen overflow-hidden flex">
+<!-- SideNavBar (from JSON) -->
+<nav class="w-64 h-full fixed left-0 top-0 rounded-none bg-primary dark:bg-primary border-r border-outline-variant flex flex-col h-screen py-8 z-50 shadow-none hidden md:flex">
+<div class="px-6 mb-12">
+<h1 class="font-display-md text-display-md text-secondary-fixed">Workafella</h1>
+<p class="font-label-caps text-label-caps uppercase tracking-widest text-on-primary-container mt-2">Hitec City</p>
+</div>
+<ul class="flex flex-col gap-2 flex-grow">
+<!-- Dashboard -->
+<li>
+<a class="flex items-center px-6 py-3 text-on-primary-container hover:text-secondary-fixed hover:bg-primary-container transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-4">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Dashboard</span>
+</a>
+</li>
+<!-- Workspace -->
+<li>
+<a class="flex items-center px-6 py-3 text-on-primary-container hover:text-secondary-fixed hover:bg-primary-container transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-4">calendar_month</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Workspace</span>
+</a>
+</li>
+<!-- Operations -->
+<li>
+<a class="flex items-center px-6 py-3 text-on-primary-container hover:text-secondary-fixed hover:bg-primary-container transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-4">construction</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Operations</span>
+</a>
+</li>
+<!-- Finance -->
+<li>
+<a class="flex items-center px-6 py-3 text-on-primary-container hover:text-secondary-fixed hover:bg-primary-container transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-4">payments</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Finance</span>
+</a>
+</li>
+<!-- Clients -->
+<li>
+<a class="flex items-center px-6 py-3 text-on-primary-container hover:text-secondary-fixed hover:bg-primary-container transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-4">groups</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Clients</span>
+</a>
+</li>
+<!-- AI Insights -->
+<li>
+<a class="flex items-center px-6 py-3 text-on-primary-container hover:text-secondary-fixed hover:bg-primary-container transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-4">psychology</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">AI Insights</span>
+</a>
+</li>
+<!-- Reports -->
+<li>
+<a class="flex items-center px-6 py-3 text-on-primary-container hover:text-secondary-fixed hover:bg-primary-container transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-4">assessment</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Reports</span>
+</a>
+</li>
+<!-- Administration (ACTIVE) -->
+<li>
+<a class="flex items-center px-6 py-3 relative text-secondary-fixed font-bold before:content-[''] before:absolute before:right-0 before:top-1/2 before:-translate-y-1/2 before:border-y-[8px] before:border-y-transparent before:border-r-[8px] before:border-r-secondary-fixed bg-primary-container transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-4">settings</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Administration</span>
+</a>
+</li>
+</ul>
+<div class="px-6 mt-auto">
+<button class="w-full border border-secondary-fixed text-secondary-fixed py-3 font-label-caps text-label-caps uppercase tracking-widest hover:bg-secondary-fixed hover:text-primary transition-colors">
+                Switch Branch
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col ml-0 md:ml-64 w-full relative">
+<!-- TopAppBar (from JSON) -->
+<header class="bg-surface dark:bg-surface docked full-width top-0 h-20 border-b border-outline-variant flat no shadows flex justify-between items-center w-full px-margin-desktop sticky z-40">
+<div class="flex items-center gap-8">
+<!-- Nav structure removed as per "docked full-width" -->
+</div>
+<div class="flex items-center gap-6 w-1/3 min-w-[300px]">
+<div class="relative w-full focus-within:ring-1 focus-within:ring-secondary-fixed border-b border-outline-variant focus-within:border-secondary-fixed transition-colors">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-transparent border-none pl-8 py-2 text-primary focus:ring-0 placeholder:text-on-surface-variant" placeholder="Search staff..." type="text"/>
+<!-- Focus triangle -->
+<div class="absolute top-0 left-0 w-0 h-0 border-t-[4px] border-l-[4px] border-t-[#F5B400] border-l-transparent hidden group-focus-within:block"></div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 bg-surface-variant clip-top-right overflow-hidden border border-outline-variant cursor-pointer">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="Professional headshot of a corporate executive in a modern bright office setting. Sharp focus, high contrast lighting, minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBni_8UUK_PHzIXWMRI-gG0FkqnyeBP3TUGNSEfMMqiNqaocCkHQEVcFcZG9LQP0SEaAzQ_-9sbKK2rIUG03mpPNmXWDtk_vfMmG2bk0dxXBmSQGP8Ir4nQjTkji3qjzl82HtPlZ2juv6yrZblsVr8wDA_L4knHl3M_MO2FeWO4U7GdDMEfq7HdiYSaJ71aHEALjUBtycBPdVgDUo-phAPiDAn74YvqI09SlFa1DWY94F-lMrHsfUtXDg"/>
+</div>
+</div>
+</header>
+<!-- Page Content Workspace -->
+<main class="flex-1 overflow-hidden flex flex-col">
+<!-- Filters Row -->
+<div class="px-margin-desktop py-6 border-b border-outline-variant flex items-center justify-between bg-surface shrink-0">
+<h2 class="font-headline-sm text-headline-sm text-primary">Staff Directory</h2>
+<div class="flex gap-2 overflow-x-auto custom-scrollbar pb-2 md:pb-0">
+<button class="px-4 py-2 text-label-caps font-label-caps uppercase tracking-widest border-b-2 border-secondary-fixed text-primary px-2 mx-2">All Staff</button>
+<button class="px-4 py-2 text-label-caps font-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary hover:border-b-2 hover:border-secondary transition-all">Operations</button>
+<button class="px-4 py-2 text-label-caps font-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary hover:border-b-2 hover:border-secondary transition-all">Finance</button>
+<button class="px-4 py-2 text-label-caps font-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary hover:border-b-2 hover:border-secondary transition-all">Security</button>
+<button class="px-4 py-2 text-label-caps font-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary hover:border-b-2 hover:border-secondary transition-all">IT</button>
+<button class="px-4 py-2 text-label-caps font-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary hover:border-b-2 hover:border-secondary transition-all">Management</button>
+</div>
+</div>
+<!-- Two-Pane Layout -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Pane: Grid -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-margin-desktop bg-background">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface border border-outline-variant clip-top-right group hover:border-[#3A3A3A] transition-colors cursor-pointer relative shadow-none">
+<div class="h-48 bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" data-alt="Portrait of a young female professional smiling in a well-lit modern architectural office corridor. Crisp lighting, sophisticated corporate style, high-end photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgqAKLSrFU13dFd1A9sW1KM5fMPtnFgJgx9qVSJe-3KnouCr_3xfroil1QsOafwrQq1DG5NEzCL6ptqBG4sVBDC21IC5BaXgy180XnMU80kwCKG9UAJbcoAuIGiaV5W7yLTDGA7tJMuzuJ_Qq_FlC2B8jDA4xVw6MO74Jj31Sy2E0DOsSYi0O7P_ru9wS247QlqQ-VShhAm3dbtVTbzvvB_cRWIfDVrMNZ7UNQ_LzZhwEVQ3j9ytickQ"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Elena Rostova</h3>
+<span class="inline-block bg-primary text-on-primary px-2 py-1 text-[10px] font-label-caps uppercase tracking-widest clip-top-right scale-90 origin-top-right">Branch Admin</span>
+</div>
+<p class="text-on-surface-variant font-body-sm mb-6">Lead Concierge</p>
+<div class="flex gap-4 pt-4 border-t border-outline-variant">
+<button class="text-on-surface-variant hover:text-[#F5B400] transition-colors"><span class="material-symbols-outlined text-[20px]">mail</span></button>
+<button class="text-on-surface-variant hover:text-[#F5B400] transition-colors"><span class="material-symbols-outlined text-[20px]">call</span></button>
+<button class="text-on-surface-variant hover:text-[#F5B400] transition-colors"><span class="material-symbols-outlined text-[20px]">chat</span></button>
+</div>
+</div>
+</div>
+<!-- Card 2 (Active State Example) -->
+<div class="bg-surface border border-[#3A3A3A] clip-top-right cursor-pointer relative shadow-none before:absolute before:left-0 before:top-0 before:w-1 before:h-full before:bg-[#F5B400]">
+<div class="h-48 bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a distinguished mature male executive wearing a sharp suit, standing against a minimalist concrete wall with subtle shadow play. High contrast, luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXMIFX248G9H5lQWNhZZYao-cEkcWEjSwubWKuUHKRyW2PI9ocj3FvTXKBaYkLs5OX3Ppa6iHBg8mDcG7W0n_J6k_slT4Q06FKI3Z_ztRNEF0-naknCw7JC92m1digX4F0fZVVNpza5O6YHiD7o-P91OLPqYapHW6D3pLklADqh0-W63RsJwNTeql2mrCD-OPDDp4PLzxAAaQJGmaegVSj1nPzGasXvYeO5bAB2eojKlsUZhQPPLHuMg"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Marcus Chen</h3>
+<span class="inline-block bg-surface-variant text-on-surface-variant px-2 py-1 text-[10px] font-label-caps uppercase tracking-widest clip-top-right scale-90 origin-top-right border border-outline-variant">Operations</span>
+</div>
+<p class="text-on-surface-variant font-body-sm mb-6">Facility Manager</p>
+<div class="flex gap-4 pt-4 border-t border-outline-variant">
+<button class="text-on-surface-variant hover:text-[#F5B400] transition-colors"><span class="material-symbols-outlined text-[20px]">mail</span></button>
+<button class="text-on-surface-variant hover:text-[#F5B400] transition-colors"><span class="material-symbols-outlined text-[20px]">call</span></button>
+<button class="text-on-surface-variant hover:text-[#F5B400] transition-colors"><span class="material-symbols-outlined text-[20px]">chat</span></button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface border border-outline-variant clip-top-right group hover:border-[#3A3A3A] transition-colors cursor-pointer relative shadow-none">
+<div class="h-48 bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" data-alt="Portrait of an IT professional looking confidently at the camera in a server room or tech-focused minimalist space. Cool tones, sharp architectural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClDJEWLBSUAPsqgaB9GAZY0lslRNucqf-F1BQRVJTNYSepuY_Lu6L7nn4wHFWQ9KVn6Jr0ydxj0c1uE5HahyRW9gQNcY20ri4WNP80uBjrLE-6eDVSdw9GNK4AOdQedGIk_jFnQpN391rfTcKMOO6Qwx55rFGRfjukDmFh-ECIvfMd1YFZUTWD8rMbnEeSf6Z8_IegtpvIksfKB4L9-0S1JbF0Uds9p6v0mJwmpS3LZSvxRW26l-_M6Q"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Sarah Jenkins</h3>
+<span class="inline-block bg-surface-variant text-on-surface-variant px-2 py-1 text-[10px] font-label-caps uppercase tracking-widest clip-top-right scale-90 origin-top-right border border-outline-variant">IT Support</span>
+</div>
+<p class="text-on-surface-variant font-body-sm mb-6">Network Specialist</p>
+<div class="flex gap-4 pt-4 border-t border-outline-variant">
+<button class="text-on-surface-variant hover:text-[#F5B400] transition-colors"><span class="material-symbols-outlined text-[20px]">mail</span></button>
+<button class="text-on-surface-variant hover:text-[#F5B400] transition-colors"><span class="material-symbols-outlined text-[20px]">call</span></button>
+<button class="text-on-surface-variant hover:text-[#F5B400] transition-colors"><span class="material-symbols-outlined text-[20px]">chat</span></button>
+</div>
+</div>
+</div>
+<!-- Card 4 (Empty State / Recruiting Placeholder) -->
+<div class="bg-surface border border-dashed border-outline-variant clip-top-right flex flex-col justify-center items-center h-full min-h-[300px] hover:border-[#F5B400] transition-colors cursor-pointer relative lattice-bg">
+<div class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center mb-4 bg-surface">
+<span class="material-symbols-outlined text-on-surface-variant">person_add</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Add Staff</h3>
+<p class="text-on-surface-variant font-body-sm text-center px-6">Invite new members to the branch directory.</p>
+</div>
+</div>
+</div>
+<!-- Right Pane: Detail Panel (Active for Marcus Chen) -->
+<div class="w-1/3 min-w-[400px] border-l border-outline-variant bg-surface flex flex-col shrink-0">
+<!-- Panel Header -->
+<div class="p-6 border-b border-outline-variant flex justify-between items-start sticky top-0 bg-surface z-10">
+<div class="flex gap-4 items-center">
+<div class="w-16 h-16 bg-surface-variant clip-top-right overflow-hidden border border-[#3A3A3A]">
+<img class="w-full h-full object-cover" data-alt="Portrait of a distinguished mature male executive wearing a sharp suit, standing against a minimalist concrete wall with subtle shadow play. High contrast, luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8Zb74AUPcB47Fhai86_vytd6Msc4rXGcYkk9MABTi1KNXvhfJN4w3Ka8cjZmrxe8b0zpwQ-kVtsVrqKp-Al3Cgl7-6rchrN8hno0qk7Ofv2QizA7_ZndqF1kU-DpaenQuPsuVA6bu8v7TInz2eS12V6I2rv66skzaygupCIabp3vWD0rXZ32w0QFDMSXtApuXg0wESVj5Kx4PeqUtdUPkwJfDOEljRhZIU6paVSp-MiOfhfZeQ7YMIQ"/>
+</div>
+<div>
+<h2 class="font-display-md text-[24px] text-primary leading-tight">Marcus Chen</h2>
+<p class="text-on-surface-variant font-body-sm">Facility Manager</p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">close</span></button>
+</div>
+<!-- Panel Scrollable Content -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
+<!-- Contact Info -->
+<div class="space-y-4">
+<h4 class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant border-b border-outline-variant pb-2">Contact</h4>
+<div class="grid grid-cols-[24px_1fr] gap-4 items-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">mail</span>
+<span class="font-body-sm text-primary">m.chen@workafella.com</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">call</span>
+<span class="font-body-sm text-primary">+91 98765 43210</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">location_on</span>
+<span class="font-body-sm text-primary">Desk 402, Level 4</span>
+</div>
+</div>
+<!-- Role & Permissions -->
+<div class="space-y-6">
+<h4 class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant border-b border-outline-variant pb-2">Role &amp; Permissions</h4>
+<div class="flex justify-between items-center">
+<div>
+<p class="font-body-md text-primary font-medium">Branch Access</p>
+<p class="font-body-sm text-on-surface-variant">24/7 keycard access to all zones</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-switch" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant border border-[#3A3A3A] rounded-none peer peer-focus:ring-0 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-primary after:border-primary after:border after:rounded-none after:h-5 after:w-5 after:transition-all peer-checked:bg-[#F5B400] peer-checked:after:bg-primary"></div>
+</label>
+</div>
+<div class="flex justify-between items-center">
+<div>
+<p class="font-body-md text-primary font-medium">Financial Approvals</p>
+<p class="font-body-sm text-on-surface-variant">Up to $5,000 per transaction</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-switch" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant border border-[#3A3A3A] rounded-none peer peer-focus:ring-0 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-primary after:border-primary after:border after:rounded-none after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+</div>
+<!-- Reporting -->
+<div class="space-y-4">
+<h4 class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant border-b border-outline-variant pb-2">Reporting</h4>
+<div>
+<label class="block font-body-sm text-on-surface-variant mb-2">Reporting Manager</label>
+<div class="relative w-full focus-within:ring-1 focus-within:ring-[#F5B400] border border-[#3A3A3A] bg-surface">
+<!-- Focus triangle -->
+<div class="absolute top-0 left-0 w-0 h-0 border-t-[6px] border-l-[6px] border-t-[#F5B400] border-l-transparent hidden focus-within:block z-10"></div>
+<select class="w-full bg-transparent border-none py-3 px-4 text-primary focus:ring-0 appearance-none font-body-md rounded-none">
+<option>Sarah Jenkins (Branch Head)</option>
+<option>Regional Director</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- Attendance Mini-Calendar -->
+<div class="space-y-4">
+<div class="flex justify-between items-end border-b border-outline-variant pb-2">
+<h4 class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Attendance Overview</h4>
+<span class="font-body-sm text-primary">October 2023</span>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center">
+<div class="font-label-caps text-[10px] text-on-surface-variant py-1">M</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant py-1">T</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant py-1">W</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant py-1">T</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant py-1">F</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant py-1">S</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant py-1">S</div>
+<!-- Week 1 -->
+<div class="relative py-2 border border-transparent font-body-sm text-on-surface-variant"></div>
+<div class="relative py-2 border border-transparent font-body-sm text-on-surface-variant"></div>
+<div class="relative py-2 border border-outline-variant font-body-sm text-primary bg-surface-variant">1</div>
+<div class="relative py-2 border border-outline-variant font-body-sm text-primary bg-surface-variant">2<div class="absolute top-0 right-0 w-0 h-0 border-t-[6px] border-r-[6px] border-t-[#F5B400] border-r-transparent"></div></div>
+<div class="relative py-2 border border-outline-variant font-body-sm text-primary bg-surface-variant">3<div class="absolute top-0 right-0 w-0 h-0 border-t-[6px] border-r-[6px] border-t-[#F5B400] border-r-transparent"></div></div>
+<div class="relative py-2 border border-transparent font-body-sm text-on-surface-variant">4</div>
+<div class="relative py-2 border border-transparent font-body-sm text-on-surface-variant">5</div>
+<!-- Week 2 -->
+<div class="relative py-2 border border-outline-variant font-body-sm text-primary bg-surface-variant">6<div class="absolute top-0 right-0 w-0 h-0 border-t-[6px] border-r-[6px] border-t-[#F5B400] border-r-transparent"></div></div>
+<div class="relative py-2 border border-outline-variant font-body-sm text-primary bg-surface-variant">7<div class="absolute top-0 right-0 w-0 h-0 border-t-[6px] border-r-[6px] border-t-[#F5B400] border-r-transparent"></div></div>
+<div class="relative py-2 border border-outline-variant font-body-sm text-primary bg-surface-variant">8<div class="absolute top-0 right-0 w-0 h-0 border-t-[6px] border-r-[6px] border-t-[#F5B400] border-r-transparent"></div></div>
+<div class="relative py-2 border border-outline-variant font-body-sm text-primary bg-surface-variant">9<div class="absolute top-0 right-0 w-0 h-0 border-t-[6px] border-r-[6px] border-t-[#F5B400] border-r-transparent"></div></div>
+<div class="relative py-2 border border-outline-variant font-body-sm text-primary bg-surface-variant">10<div class="absolute top-0 right-0 w-0 h-0 border-t-[6px] border-r-[6px] border-t-[#F5B400] border-r-transparent"></div></div>
+<div class="relative py-2 border border-transparent font-body-sm text-on-surface-variant">11</div>
+<div class="relative py-2 border border-transparent font-body-sm text-on-surface-variant">12</div>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<div class="w-0 h-0 border-t-[6px] border-r-[6px] border-t-[#F5B400] border-r-transparent inline-block"></div>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Present (Checked In)</span>
+</div>
+</div>
+</div>
+<!-- Panel Footer Actions -->
+<div class="p-6 border-t border-outline-variant bg-surface shrink-0 flex gap-4">
+<button class="flex-1 border border-[#3A3A3A] bg-surface text-primary py-3 font-label-caps text-label-caps uppercase tracking-widest hover:bg-surface-variant transition-colors rounded-none">
+                            Message
+                        </button>
+<button class="flex-1 bg-[#F5B400] text-primary py-3 font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#d49b00] transition-colors rounded-none border border-[#F5B400]">
+                            Edit Profile
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Workafella - Book Space</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary": "#ffffff",
+                      "surface-variant": "#e3e2e0",
+                      "error": "#ba1a1a",
+                      "surface-container-low": "#f4f3f1",
+                      "on-primary-fixed-variant": "#474746",
+                      "inverse-on-surface": "#f1f1ef",
+                      "tertiary-fixed-dim": "#ffb5a1",
+                      "inverse-surface": "#2f3130",
+                      "on-background": "#1a1c1b",
+                      "surface-tint": "#5f5e5e",
+                      "surface-container": "#efeeec",
+                      "secondary": "#7b5900",
+                      "on-surface-variant": "#444748",
+                      "inverse-primary": "#c8c6c5",
+                      "surface-container-high": "#e9e8e6",
+                      "on-tertiary-fixed": "#3b0900",
+                      "on-secondary-fixed": "#261900",
+                      "primary-fixed-dim": "#c8c6c5",
+                      "tertiary": "#000000",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed": "#e5e2e1",
+                      "on-tertiary": "#ffffff",
+                      "outline-variant": "#c4c7c7",
+                      "outline": "#747878",
+                      "on-secondary-fixed-variant": "#5d4200",
+                      "on-secondary-container": "#6c4d00",
+                      "tertiary-fixed": "#ffdbd1",
+                      "error-container": "#ffdad6",
+                      "surface": "#faf9f7",
+                      "on-primary-fixed": "#1c1b1b",
+                      "background": "#faf9f7",
+                      "secondary-fixed-dim": "#fdbb12",
+                      "surface-container-highest": "#e3e2e0",
+                      "primary-container": "#1c1b1b",
+                      "tertiary-container": "#3b0900",
+                      "secondary-fixed": "#ffdea4",
+                      "secondary-container": "#fdbb12",
+                      "on-surface": "#1a1c1b",
+                      "surface-bright": "#faf9f7",
+                      "on-tertiary-container": "#e65127",
+                      "primary": "#000000",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-fixed-variant": "#882000",
+                      "surface-dim": "#dadad8",
+                      "on-primary-container": "#858383",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1440px",
+                      "gutter": "24px",
+                      "unit": "8px",
+                      "margin-desktop": "64px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "display-md": [
+                              "Space Grotesk"
+                      ],
+                      "display-lg": [
+                              "Space Grotesk"
+                      ],
+                      "kpi-metric": [
+                              "Space Grotesk"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Space Grotesk"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Space Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "kpi-metric": [
+                              "40px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "-0.03em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body { background-color: #F8F7F5; color: #161616; }
+        
+        /* Custom Cascade Wedge for SideNav */
+        .cascade-wedge::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #F5B400; /* Signature Gold */
+        }
+
+        /* Clipped Corner Utility */
+        .clipped-tr {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+
+        /* Grid Hover Interactions */
+        .room-card:hover .room-img { transform: scale(1.05); }
+        .room-card:hover .room-scrim { opacity: 1; }
+        .room-card:hover .room-details { transform: translateY(0); opacity: 1; }
+        
+        /* Time Slot Base */
+        .time-slot { transition: all 0.2s ease; }
+        .time-slot.available:hover { border-color: #F5B400; cursor: pointer; }
+        .time-slot.selected { background-color: #F5B400; color: #161616; border-color: #F5B400; }
+        .time-slot.booked { background-color: #e3e2e0; color: #858383; cursor: not-allowed; border-color: #e3e2e0; }
+
+        /* Lattice Background for Empty/Subtle states */
+        .bg-lattice {
+            background-image: linear-gradient(#F5B400 1px, transparent 1px), linear-gradient(90deg, #F5B400 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center center;
+            opacity: 0.05;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md text-on-surface bg-background flex min-h-screen relative">
+<!-- JSON: SideNavBar -->
+<nav class="hidden md:flex docked fixed left-0 h-full w-64 rounded-none border-r border-on-primary-fixed-variant flat no shadows bg-primary dark:bg-primary flex flex-col h-full py-unit z-40">
+<!-- Brand / Header -->
+<div class="px-6 py-8 mb-8 border-b border-on-primary-fixed-variant">
+<div class="flex items-center gap-3">
+<img alt="User profile" class="w-10 h-10 rounded-none clipped-tr border border-[#3A3A3A] bg-surface" data-alt="A minimalist, geometric avatar representing a premium workspace manager, styled in sharp monochrome tones against a clean background, fitting an architectural UI aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9mpBuUj9jz4DH_Ns16hEyxLkzJaUnL4mznFTyvV_R9v_5bO-4A9m4N6IVH0gGXqOnLkaGkm4Tac6qv2THd0C4oJ9YobdVpAiklz3OvTuNUh6vjYde3p-8aP_Cx11zV8rqaBexmlGW38w7gjDu7iMZqSxvdV18eLHaxhTnLPMu0R0IzuANaH7kuP68_hn5Ah3WBshDPQ1E1rKlI6sMGQ3e-Sk7t5EU_Psy37iQsSJaRRkRzm8aXsTfKg"/>
+<div>
+<h1 class="font-display-md text-display-md text-on-primary text-xl">Workafella</h1>
+<p class="font-label-caps text-label-caps uppercase tracking-widest text-on-primary-fixed-variant mt-1">Premium Management</p>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<ul class="flex-1 px-4 space-y-2">
+<li>
+<a class="flex items-center text-on-primary-fixed-variant hover:text-on-primary transition-colors transition-all duration-300 ease-in-out hover:bg-primary-container px-4 py-3 rounded-none" href="#">
+<span class="material-symbols-outlined mr-4">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center text-on-primary-fixed-variant hover:text-on-primary transition-colors transition-all duration-300 ease-in-out hover:bg-primary-container px-4 py-3 rounded-none" href="#">
+<span class="material-symbols-outlined mr-4">domain</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Workspaces</span>
+</a>
+</li>
+<!-- Active Tab -->
+<li>
+<a class="relative flex items-center text-secondary font-bold after:content-[''] after:absolute after:right-0 after:w-0 after:h-0 after:border-t-[8px] after:border-t-transparent after:border-b-[8px] after:border-b-transparent after:border-r-[8px] after:border-r-secondary transition-all duration-300 ease-in-out px-4 py-3 rounded-none bg-[#161616]" href="#">
+<span class="material-symbols-outlined mr-4 text-[#F5B400]" style="font-variation-settings: 'FILL' 1;">event_available</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-[#F5B400]">Reservations</span>
+</a>
+</li>
+<li>
+<a class="flex items-center text-on-primary-fixed-variant hover:text-on-primary transition-colors transition-all duration-300 ease-in-out hover:bg-primary-container px-4 py-3 rounded-none" href="#">
+<span class="material-symbols-outlined mr-4">insert_chart</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center text-on-primary-fixed-variant hover:text-on-primary transition-colors transition-all duration-300 ease-in-out hover:bg-primary-container px-4 py-3 rounded-none" href="#">
+<span class="material-symbols-outlined mr-4">settings</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Settings</span>
+</a>
+</li>
+</ul>
+<!-- CTA & Footer -->
+<div class="px-6 py-6 mt-auto border-t border-on-primary-fixed-variant">
+<button class="w-full bg-[#F5B400] text-[#161616] rounded-none py-3 font-label-caps text-label-caps uppercase tracking-widest mb-6 hover:bg-[#d49b00] transition-colors flex items-center justify-center gap-2 border border-[#3A3A3A] clipped-tr">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Book Space
+            </button>
+<ul class="space-y-4">
+<li>
+<a class="flex items-center text-on-primary-fixed-variant hover:text-on-primary transition-colors font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">help</span>
+                        Help
+                    </a>
+</li>
+<li>
+<a class="flex items-center text-on-primary-fixed-variant hover:text-on-primary transition-colors font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">logout</span>
+                        Logout
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 min-h-screen flex flex-col relative bg-background">
+<!-- JSON: TopAppBar -->
+<header class="docked full-width top-0 border-b border-surface-variant flat no shadows bg-background dark:bg-background flex justify-between items-center w-full px-margin-desktop h-20 sticky z-30">
+<!-- Left: Search -->
+<div class="flex-1 flex items-center">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant rounded-none pl-8 py-2 focus:ring-0 focus:border-[#F5B400] font-body-sm text-body-sm text-primary transition-colors placeholder:text-outline-variant outline-none" placeholder="Search spaces..." type="text"/>
+</div>
+</div>
+<!-- Center: Brand (Mobile Only technically based on JSON, but placed here for balance if search is left) -->
+<div class="md:hidden flex-shrink-0 flex items-center justify-center">
+<span class="font-display-md text-display-md text-primary text-xl font-bold tracking-tight">Workafella</span>
+</div>
+<!-- Right: Actions -->
+<div class="flex-1 flex items-center justify-end gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90">
+<span class="material-symbols-outlined">apps</span>
+</button>
+<div class="w-8 h-8 rounded-none clipped-tr border border-[#3A3A3A] overflow-hidden ml-2 cursor-pointer bg-surface">
+<img alt="Manager profile" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate manager, shot in high-key lighting with a minimalist architectural background, reflecting a premium business aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ0q_kNsaSH89EUgqAB639-VVFn66_Dj-ycMvVCteNC8mbalZe1XAvGgVVfXhGT15IkGTUvQqZF1CoKZy3nUWFwmCAn-__WfKdz1GKbFI6_24Q7eAMJ39EzIJ0wwRoV00d8ek_u49f2e9AK2zFvKJ_Mia_Q2ctDvAsZv-60EOAQyrybTgjrNfqWE5fKRz-gjyX7HsNBgDlLyVSjP9bIJEYk0b16EZcIDkgv-dCxYVROrtPCZIl7qH4bA"/>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="flex-1 flex flex-col p-margin-mobile md:p-margin-desktop gap-8 pb-32">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-display-lg text-display-lg text-[#161616]">Book a Meeting Room</h2>
+<p class="font-body-lg text-body-lg text-outline mt-2">Select a premium space for your next engagement.</p>
+</div>
+<div class="hidden md:flex gap-4">
+<button class="border border-[#161616] text-[#161616] px-6 py-3 font-label-caps text-label-caps uppercase tracking-widest rounded-none hover:bg-surface-container transition-colors">
+                        Manage Bookings
+                    </button>
+</div>
+</div>
+<!-- Top Filter Bar -->
+<div class="bg-[#161616] p-6 clipped-tr border border-[#3A3A3A] flex flex-col lg:flex-row items-center justify-between gap-6 shadow-sm">
+<!-- Location & Date -->
+<div class="flex flex-wrap items-center gap-6 text-[#F8F7F5] w-full lg:w-auto">
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps uppercase text-outline-variant tracking-widest text-[10px]">Location</label>
+<button class="flex items-center gap-2 border-b border-[#3A3A3A] pb-1 hover:border-[#F5B400] transition-colors group">
+<span class="material-symbols-outlined text-[18px] text-[#F5B400]">location_on</span>
+<span class="font-body-md text-body-md group-hover:text-white">Hitec City, Floor 4</span>
+<span class="material-symbols-outlined text-[18px] text-outline-variant">keyboard_arrow_down</span>
+</button>
+</div>
+<div class="w-[1px] h-8 bg-[#3A3A3A] hidden lg:block"></div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps uppercase text-outline-variant tracking-widest text-[10px]">Date</label>
+<button class="flex items-center gap-2 border-b border-[#3A3A3A] pb-1 hover:border-[#F5B400] transition-colors group">
+<span class="material-symbols-outlined text-[18px] text-[#F5B400]">calendar_today</span>
+<span class="font-body-md text-body-md group-hover:text-white">Oct 24, 2023</span>
+<span class="material-symbols-outlined text-[18px] text-outline-variant">keyboard_arrow_down</span>
+</button>
+</div>
+</div>
+<!-- Capacity & Amenities -->
+<div class="flex flex-wrap items-center gap-8 w-full lg:w-auto justify-end">
+<div class="flex items-center gap-4 border border-[#3A3A3A] p-2 bg-[#0a0a0a]">
+<button class="text-outline-variant hover:text-[#F5B400]"><span class="material-symbols-outlined">remove</span></button>
+<span class="font-body-md text-body-md text-white min-w-[3ch] text-center">8</span>
+<span class="font-body-sm text-body-sm text-outline-variant">Attendees</span>
+<button class="text-outline-variant hover:text-[#F5B400]"><span class="material-symbols-outlined">add</span></button>
+</div>
+<div class="flex items-center gap-4">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="appearance-none w-4 h-4 border border-[#3A3A3A] bg-transparent checked:bg-[#F5B400] checked:border-[#F5B400] rounded-none transition-colors relative before:content-[''] before:absolute before:inset-0 before:bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23161616%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%2220%206%209%2017%204%2012%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] before:bg-center before:bg-no-repeat before:bg-[length:12px] before:opacity-0 checked:before:opacity-100" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-outline-variant group-hover:text-white transition-colors">Projector</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input checked="" class="appearance-none w-4 h-4 border border-[#3A3A3A] bg-transparent checked:bg-[#F5B400] checked:border-[#F5B400] rounded-none transition-colors relative before:content-[''] before:absolute before:inset-0 before:bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23161616%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%2220%206%209%2017%204%2012%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] before:bg-center before:bg-no-repeat before:bg-[length:12px] before:opacity-0 checked:before:opacity-100" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-outline-variant group-hover:text-white transition-colors">Video Conf</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Room Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="room-card group relative h-[400px] bg-[#161616] border border-[#3A3A3A] clipped-tr overflow-hidden cursor-pointer flex flex-col justify-end">
+<img alt="Boardroom A" class="room-img absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out z-0" data-alt="High-end architectural photography of a modern executive boardroom. Featuring a sleek long wooden table, ergonomic black leather chairs, panoramic windows with city views, soft natural lighting, and a minimalist luxury aesthetic with subtle gold accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXq-NZhi8IcP9AB0ljHdHDXaGshl4mFEcBpKO7VshURMH46zZceQSyIUiIPzgqm4C3dCP9QF8Zru4f1xiFjf_w-rB5GNh0rrz-UZmjg-2rrygoVf2-40Xbzy8fbDHBWizzk9EoKmLlBrLRPeggFGGNJ8HPCd7W4qDVMd5c6lPhTKObaTXa_1Rp7epHvyJwbetkJvsbfpW02s3Mib-dk5yB_nYOMifdU-VCUP40Ku08bPwjzfVo7ivICQ"/>
+<!-- Gradient Scrim -->
+<div class="room-scrim absolute inset-0 bg-gradient-to-t from-[#161616] via-[#161616]/60 to-transparent opacity-0 transition-opacity duration-500 z-10"></div>
+<!-- Content reveal on hover -->
+<div class="room-details relative z-20 p-6 translate-y-8 opacity-0 transition-all duration-500 flex flex-col justify-end h-full">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-white mb-1">Boardroom A</h3>
+<p class="font-body-sm text-body-sm text-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">groups</span> 12 Seats
+                                </p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-[#F5B400] uppercase tracking-widest mb-1">Rate</p>
+<p class="font-body-md text-body-md text-white font-semibold">₹2,500/hr</p>
+</div>
+</div>
+<div class="pt-4 border-t border-[#3A3A3A] flex justify-between items-center mt-2">
+<span class="font-body-sm text-body-sm text-outline-variant">Available next: 14:00</span>
+<div class="w-10 h-10 rounded-full bg-[#F5B400] flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[#161616]">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="room-card group relative h-[400px] bg-[#161616] border border-[#3A3A3A] clipped-tr overflow-hidden cursor-pointer flex flex-col justify-end">
+<img alt="Huddle Space C" class="room-img absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out z-0" data-alt="A bright, modern huddle room designed for collaboration. Features a round white table, colorful upholstered chairs, a large digital whiteboard screen, clean architectural lines, and bright natural lighting from a nearby window, embodying a crisp light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYZcS-wi752-LD-yUokaOwAtACZMQyCHcgJ6aMhXU1A_dd6Ry3ukGVQ1jfYwupaGaHMrie6Z04zxjWJETiuBerNMwmw06lFH-lKnGtrUZqXEBGY1X0zY5pRCLAR4iRfK8fBmQtDD_6ImNxAjLJt2mztTOeBLesATE4gbXgkw9rfT53uJUoG_JPIAbylKMwTfojLRoU9IK1-ZAcZiMqhF21UBLlI_PCdiyDhkqiiXmc2dCUFK7wZNrELQ"/>
+<div class="room-scrim absolute inset-0 bg-gradient-to-t from-[#161616] via-[#161616]/60 to-transparent opacity-0 transition-opacity duration-500 z-10"></div>
+<div class="room-details relative z-20 p-6 translate-y-8 opacity-0 transition-all duration-500 flex flex-col justify-end h-full">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-white mb-1">Huddle Room C</h3>
+<p class="font-body-sm text-body-sm text-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">groups</span> 6 Seats
+                                </p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-[#F5B400] uppercase tracking-widest mb-1">Rate</p>
+<p class="font-body-md text-body-md text-white font-semibold">₹1,200/hr</p>
+</div>
+</div>
+<div class="pt-4 border-t border-[#3A3A3A] flex justify-between items-center mt-2">
+<span class="font-body-sm text-body-sm text-outline-variant">Available next: 11:30</span>
+<div class="w-10 h-10 rounded-full bg-[#F5B400] flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[#161616]">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="room-card group relative h-[400px] bg-[#161616] border border-[#3A3A3A] clipped-tr overflow-hidden cursor-pointer flex flex-col justify-end hidden lg:flex">
+<img alt="Executive Suite 1" class="room-img absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out z-0" data-alt="A luxurious private executive suite tailored for focused meetings. Dark wood paneling, a sleek glass desk, two plush leather guest chairs, ambient warm lighting, projecting authority and high-end boutique hotel design cues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTpn62hZ1ZSvwua8wkbCOKoyYMktnY1kHRulyt5HubyYWchsMKM3KhQJNfSOie17TjEBdikth-S_E-IhJz8TMmZ-gRDHBAzyES0F6Eww0lsg9bwZaCfsp3XANHXMvHpMmZTiSD5qR6ZFH6oce1g2PvGMcNrmmwwVDeZskufym-0gRiLunf7Si8nxDOdwRKPp0flXKtmOTPZCoj5xGFlPYpKoeEVzRkUg_ohNAPnAXgdqWnIH3nktgNNw"/>
+<div class="room-scrim absolute inset-0 bg-gradient-to-t from-[#161616] via-[#161616]/60 to-transparent opacity-0 transition-opacity duration-500 z-10"></div>
+<div class="room-details relative z-20 p-6 translate-y-8 opacity-0 transition-all duration-500 flex flex-col justify-end h-full">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-white mb-1">Exec Suite 1</h3>
+<p class="font-body-sm text-body-sm text-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">groups</span> 4 Seats
+                                </p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-[#F5B400] uppercase tracking-widest mb-1">Rate</p>
+<p class="font-body-md text-body-md text-white font-semibold">₹3,000/hr</p>
+</div>
+</div>
+<div class="pt-4 border-t border-[#3A3A3A] flex justify-between items-center mt-2">
+<span class="font-body-sm text-body-sm text-[#F5B400]">Available Now</span>
+<div class="w-10 h-10 rounded-full bg-[#F5B400] flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[#161616]">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Booking Interface (Split Layout) -->
+<div class="mt-8 border-t border-outline-variant pt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left: Calendar / Time Slots -->
+<div class="lg:col-span-2">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-sm text-headline-sm text-[#161616]">Select Time Slot</h3>
+<p class="font-body-sm text-body-sm text-outline">Boardroom A • Oct 24</p>
+</div>
+<!-- Time Grid (9am to 9pm, hourly for simplicity in UI) -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="time-slot booked border border-[#e3e2e0] p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold line-through">09:00 AM</span>
+</div>
+<div class="time-slot booked border border-[#e3e2e0] p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold line-through">10:00 AM</span>
+</div>
+<div class="time-slot available border border-outline-variant bg-white p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold">11:00 AM</span>
+</div>
+<div class="time-slot available border border-outline-variant bg-white p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold">12:00 PM</span>
+</div>
+<div class="time-slot available border border-outline-variant bg-white p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold">01:00 PM</span>
+</div>
+<div class="time-slot selected border-2 p-4 clipped-tr flex flex-col items-center justify-center h-20 relative">
+<!-- Small gold triangle accent on selected -->
+<div class="absolute top-0 left-0 w-0 h-0 border-t-[8px] border-t-transparent border-l-[8px] border-l-[#161616] border-b-[8px] border-b-transparent hidden"></div>
+<span class="font-body-md text-body-md font-semibold">02:00 PM</span>
+</div>
+<div class="time-slot selected border-2 p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold">03:00 PM</span>
+</div>
+<div class="time-slot available border border-outline-variant bg-white p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold">04:00 PM</span>
+</div>
+<div class="time-slot available border border-outline-variant bg-white p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold">05:00 PM</span>
+</div>
+<div class="time-slot available border border-outline-variant bg-white p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold">06:00 PM</span>
+</div>
+<div class="time-slot booked border border-[#e3e2e0] p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold line-through">07:00 PM</span>
+</div>
+<div class="time-slot booked border border-[#e3e2e0] p-4 clipped-tr flex flex-col items-center justify-center h-20">
+<span class="font-body-md text-body-md font-semibold line-through">08:00 PM</span>
+</div>
+</div>
+</div>
+<!-- Right: Summary Panel -->
+<div class="lg:col-span-1">
+<div class="bg-white border border-[#3A3A3A] clipped-tr p-8 flex flex-col h-full relative overflow-hidden">
+<!-- Lattice background subtle -->
+<div class="absolute inset-0 bg-lattice z-0 pointer-events-none"></div>
+<div class="relative z-10">
+<h3 class="font-display-md text-display-md text-[#161616] mb-6">Booking Summary</h3>
+<div class="space-y-6">
+<div class="flex justify-between items-start border-b border-surface-variant pb-4">
+<div>
+<p class="font-label-caps text-label-caps text-outline uppercase tracking-widest mb-1">Selection</p>
+<p class="font-body-md text-body-md font-semibold text-[#161616]">Boardroom A</p>
+<p class="font-body-sm text-body-sm text-outline-variant">14:00 - 16:00 (2 hrs)</p>
+</div>
+<span class="font-body-md text-body-md font-semibold text-[#161616]">₹5,000</span>
+</div>
+<div class="flex flex-col gap-2 border-b border-surface-variant pb-4">
+<div class="flex justify-between items-center">
+<p class="font-body-sm text-body-sm text-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-[#F5B400]">account_balance_wallet</span>
+                                            Free Entitlement Remaining
+                                        </p>
+<span class="font-body-sm text-body-sm font-semibold text-[#161616]">4.5 hrs</span>
+</div>
+<div class="flex justify-between items-center text-[#F5B400]">
+<p class="font-body-sm text-body-sm">Credits Applied</p>
+<span class="font-body-sm text-body-sm font-semibold">-2.0 hrs (₹5,000)</span>
+</div>
+</div>
+<div class="flex justify-between items-end pt-2">
+<p class="font-label-caps text-label-caps text-[#161616] uppercase tracking-widest">Estimated Billable</p>
+<p class="font-display-md text-display-md text-[#161616]">₹0.00</p>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-8 relative z-10">
+<button class="w-full bg-[#F5B400] text-[#161616] rounded-none py-4 font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#d49b00] transition-colors border border-[#3A3A3A] clipped-tr flex items-center justify-center gap-2">
+                                Hold This Slot
+                                <span class="material-symbols-outlined text-[18px]">lock_clock</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,340 @@
+import React, { useState } from 'react';
+import { useApp, CENTRES } from '../../context/AppContext';
+import { Sparkline } from '../../components/Sparkline';
+import { soundFx } from '../../utils/audioEffects';
+
+export const SuperAdminDashboard = () => {
+  const { clients, setCurrentScreen, setActiveBranch } = useApp();
+  const [activeKpiIndex, setActiveKpiIndex] = useState(0);
+
+  const totalSeats = CENTRES.reduce((acc, c) => acc + c.seats, 0);
+  const totalOccupiedSeats = CENTRES.reduce(
+    (acc, c) => acc + Math.round((c.seats * c.occupancy) / 100),
+    0
+  );
+  const avgOccupancy = Math.round((totalOccupiedSeats / totalSeats) * 100);
+
+  const kpis = [
+    {
+      id: 'rev',
+      label: 'Network Total Revenue (MTD)',
+      shortLabel: 'Total Revenue',
+      value: '₹4.82 Cr',
+      sub: '+12.4% vs last month',
+      isPositive: true,
+      trend: [3.8, 4.1, 4.0, 4.3, 4.5, 4.7, 4.82]
+    },
+    {
+      id: 'occ',
+      label: 'Overall Desk Occupancy',
+      shortLabel: 'Desk Occupancy',
+      value: `${avgOccupancy}%`,
+      sub: `${totalOccupiedSeats} / ${totalSeats} desks`,
+      isPositive: true,
+      trend: [82, 84, 83, 86, 88, 87, 89]
+    },
+    {
+      id: 'cli',
+      label: 'Active Enterprise Clients',
+      shortLabel: 'Enterprise Clients',
+      value: `${clients.length}`,
+      sub: 'Across 11 physical centres',
+      isPositive: true,
+      trend: [24, 25, 27, 28, 29, 31, 32]
+    },
+    {
+      id: 'risk',
+      label: 'Predictive Churn Risk',
+      shortLabel: 'Churn Risk',
+      value: '78 / 100',
+      sub: 'Zenith Systems (Sept 30)',
+      isPositive: false,
+      trend: [45, 52, 60, 68, 72, 75, 78]
+    }
+  ];
+
+  const handleCardClick = (idx) => {
+    soundFx.playClick();
+    const offset = (idx - activeKpiIndex + kpis.length) % kpis.length;
+    if (offset === 0) {
+      // Clicking the front active card advances to the next card in the stack
+      setActiveKpiIndex((prev) => (prev + 1) % kpis.length);
+    } else {
+      // Clicking a background card brings that specific card to the front
+      setActiveKpiIndex(idx);
+    }
+  };
+
+  // Stacked Card Configuration (z-index & Rotation)
+  const getCardStyle = (idx) => {
+    const offset = (idx - activeKpiIndex + kpis.length) % kpis.length;
+    
+    if (offset === 0) {
+      // Front active card
+      return {
+        zIndex: 40,
+        transform: 'translateY(0px) scale(1) rotate(0deg)',
+        opacity: 1,
+        pointerEvents: 'auto',
+        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.04)'
+      };
+    } else if (offset === 1) {
+      // 1st Layer behind
+      return {
+        zIndex: 30,
+        transform: 'translateY(12px) scale(0.985) rotate(-1.2deg)',
+        opacity: 0.96,
+        pointerEvents: 'auto',
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.06)'
+      };
+    } else if (offset === 2) {
+      // 2nd Layer behind
+      return {
+        zIndex: 20,
+        transform: 'translateY(24px) scale(0.97) rotate(1.4deg)',
+        opacity: 0.92,
+        pointerEvents: 'auto',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.04)'
+      };
+    } else {
+      // 3rd Layer behind
+      return {
+        zIndex: 10,
+        transform: 'translateY(36px) scale(0.955) rotate(-2.2deg)',
+        opacity: 0.86,
+        pointerEvents: 'auto',
+        boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.03)'
+      };
+    }
+  };
+
+  return (
+    <div className="p-8 max-w-7xl mx-auto space-y-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e3e2e0] pb-6">
+        <div>
+          <div className="text-[11px] uppercase tracking-widest text-[#7b5900] font-bold mb-1">
+            Enterprise Command Center • Multi-Centre
+          </div>
+          <h1 className="font-['Space_Grotesk'] text-3xl font-bold text-[#161616]">
+            Executive Leadership Overview
+          </h1>
+          <p className="text-xs text-[#747878] mt-1">
+            Consolidated real-time operational telemetry across Hyderabad, Chennai, Bangalore, and Mumbai.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setCurrentScreen('reports')}
+            className="px-4 py-2 bg-white border border-[#3a3a3a] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#f4f3f1] rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-base">assessment</span>
+            <span>Reports & Exports</span>
+          </button>
+
+          <button
+            onClick={() => setCurrentScreen('onboarding_wizard')}
+            className="px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-base">add_business</span>
+            <span>+ Onboard New Client</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Full-Width Aligned Big Stacked Card Layering Container */}
+      <div className="relative w-full h-[235px] select-none">
+        {kpis.map((kpi, idx) => {
+          const cardStyle = getCardStyle(idx);
+          const isFront = (idx - activeKpiIndex + kpis.length) % kpis.length === 0;
+
+          return (
+            <div
+              key={kpi.id}
+              onClick={() => handleCardClick(idx)}
+              style={cardStyle}
+              className={`absolute inset-x-0 top-0 w-full bg-white border border-[#e3e2e0] p-6 sm:p-7 rounded-3xl transition-all duration-500 ease-out cursor-pointer luxury-card flex flex-col justify-between h-[185px] group active:scale-[0.99] ${
+                isFront ? 'border-[#f5b400] shadow-md' : 'hover:brightness-95'
+              }`}
+            >
+              {/* Decorative corner layer accent matching reference */}
+              <div
+                className="absolute top-0 right-0 w-8 h-8 bg-[#f5b400]/20 rounded-tr-3xl"
+                style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }}
+              />
+
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="text-[11px] uppercase tracking-wider font-bold text-[#747878] mb-1.5 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-base text-[#f5b400]">
+                      {kpi.id === 'rev' ? 'payments' : kpi.id === 'occ' ? 'meeting_room' : kpi.id === 'cli' ? 'corporate_fare' : 'warning'}
+                    </span>
+                    <span>{kpi.label}</span>
+                  </div>
+                  <div className="font-['Space_Grotesk'] font-mono tabular-nums text-4xl sm:text-5xl font-bold text-[#161616] tracking-tight">
+                    {kpi.value}
+                  </div>
+                </div>
+
+                {/* Card index & shuffle hint badge */}
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-mono font-bold text-[#747878] bg-[#f8f7f5] px-2.5 py-1 rounded-full border border-[#e3e2e0]">
+                    {idx + 1} of {kpis.length}
+                  </span>
+                  <div className="hidden sm:flex items-center gap-1 text-[11px] font-bold text-[#747878] bg-[#f8f7f5] px-3 py-1 rounded-full border border-[#e3e2e0] group-hover:border-[#f5b400] transition-colors">
+                    <span className="material-symbols-outlined text-xs text-[#f5b400]">
+                      {isFront ? 'style' : 'touch_app'}
+                    </span>
+                    <span>{isFront ? 'Click Card to Shuffle →' : 'Click to Bring to Front'}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-end justify-between pt-3 border-t border-[#f4f3f1]">
+                <div className="text-xs sm:text-sm">
+                  <span
+                    className={`font-bold ${
+                      kpi.isPositive ? 'text-[#1e8a5f]' : 'text-[#c4432b]'
+                    }`}
+                  >
+                    {kpi.sub}
+                  </span>
+                </div>
+                <Sparkline data={kpi.trend} isPositive={kpi.isPositive} width={140} height={38} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Centre Comparison Matrix & Anomaly Detection */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Column: 11 Centres Comparison Table */}
+        <div className="lg:col-span-8 bg-white border border-[#e3e2e0] rounded-2xl p-6 shadow-sm space-y-4">
+          <div className="flex justify-between items-center pb-3 border-b border-[#e3e2e0]">
+            <div>
+              <h3 className="font-['Space_Grotesk'] text-lg font-bold text-[#161616]">
+                Centre Performance Matrix (11 Branches)
+              </h3>
+              <p className="text-xs text-[#747878]">Occupancy, capacity utilization, and physical suites</p>
+            </div>
+            <button
+              onClick={() => setCurrentScreen('enterprise_ops')}
+              className="text-xs text-[#7b5900] font-bold hover:underline"
+            >
+              View Grid Telemetry →
+            </button>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-[#e3e2e0] text-[#747878] uppercase text-[10px] tracking-wider">
+                  <th className="pb-3 font-bold">Centre Name</th>
+                  <th className="pb-3 font-bold">City</th>
+                  <th className="pb-3 font-bold">Occupancy</th>
+                  <th className="pb-3 font-bold">Capacity</th>
+                  <th className="pb-3 font-bold text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#f4f3f1]">
+                {CENTRES.map((c) => (
+                  <tr key={c.id} className="hover:bg-[#f8f7f5] transition-colors">
+                    <td className="py-3 font-semibold text-[#161616] flex items-center gap-2">
+                      <span className="material-symbols-outlined text-sm text-[#f5b400]">domain</span>
+                      <span>{c.name}</span>
+                    </td>
+                    <td className="py-3 text-[#444748]">{c.city}</td>
+                    <td className="py-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-20 bg-[#f4f3f1] h-2 rounded-full overflow-hidden border border-[#e3e2e0]">
+                          <div
+                            className={`h-full rounded-full ${
+                              c.occupancy >= 85
+                                ? 'bg-[#1e8a5f]'
+                                : c.occupancy >= 80
+                                ? 'bg-[#f5b400]'
+                                : 'bg-[#c4432b]'
+                            }`}
+                            style={{ width: `${c.occupancy}%` }}
+                          ></div>
+                        </div>
+                        <span className="font-bold text-[#161616]">{c.occupancy}%</span>
+                      </div>
+                    </td>
+                    <td className="py-3 text-[#747878]">
+                      {c.seats} Desks • {c.rooms} Suites
+                    </td>
+                    <td className="py-3 text-right">
+                      <button
+                        onClick={() => {
+                          setActiveBranch(c);
+                          setCurrentScreen('dashboard');
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold bg-[#f4f3f1] hover:bg-[#f5b400] text-[#161616] rounded-lg transition-colors"
+                      >
+                        Inspect
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Right Column: AI Anomalies & Retention Alerts */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-white border border-[#e3e2e0] rounded-2xl p-6 shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#e3e2e0]">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[#f5b400]">psychology</span>
+                <h3 className="font-['Space_Grotesk'] text-base font-bold text-[#161616]">
+                  AI Decision Alerts
+                </h3>
+              </div>
+              <span className="text-[10px] font-bold text-[#1e8a5f] bg-[#e7f5ed] px-2 py-0.5 rounded-full">
+                Active Models
+              </span>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              <div className="p-3.5 bg-[#fff8f7] border border-[#ffdad6] rounded-xl space-y-1">
+                <div className="flex justify-between font-bold text-[#ba1a1a]">
+                  <span>Zenith Systems (Hitec City)</span>
+                  <span>Risk: 78/100</span>
+                </div>
+                <p className="text-[#444748] text-[11px] leading-relaxed">
+                  Contract expires in 32 days. Meeting room usage has declined by 40% while 2 HVAC comfort tickets remain pending.
+                </p>
+                <button
+                  onClick={() => setCurrentScreen('ai_insights')}
+                  className="mt-2 text-[#7b5900] font-bold hover:underline block text-[11px]"
+                >
+                  Inspect Retention Proposal →
+                </button>
+              </div>
+
+              <div className="p-3.5 bg-[#fffbf2] border border-[#f5b400] rounded-xl space-y-1">
+                <div className="flex justify-between font-bold text-[#7b5900]">
+                  <span>Acme Innovations Upsell</span>
+                  <span>Expansion Signal</span>
+                </div>
+                <p className="text-[#444748] text-[11px] leading-relaxed">
+                  Floor 7 Suite 704 & 705 seat occupancy at 100%. 3 new biometric employee access requests submitted this week.
+                </p>
+                <button
+                  onClick={() => setCurrentScreen('ai_insights')}
+                  className="mt-2 text-[#7b5900] font-bold hover:underline block text-[11px]"
+                >
+                  Propose Adjacent Suite 706 →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

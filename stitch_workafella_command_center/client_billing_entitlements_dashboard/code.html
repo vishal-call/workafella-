@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Billing &amp; Payments - Workafella Client Admin</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config injected from Style Guidance -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#c8c6c5",
+                        "primary-fixed": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "surface-bright": "#faf9f7",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#fdbb12",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e9e8e6",
+                        "on-secondary-fixed": "#261900",
+                        "surface-variant": "#e3e2e0",
+                        "tertiary-fixed": "#ffdbd1",
+                        "on-primary-fixed-variant": "#474746",
+                        "inverse-surface": "#2f3130",
+                        "on-tertiary-fixed-variant": "#882000",
+                        "on-tertiary-container": "#e65127",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e3e2e0",
+                        "on-tertiary-fixed": "#3b0900",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#faf9f7",
+                        "on-primary-container": "#858383",
+                        "surface-container-low": "#f4f3f1",
+                        "surface-dim": "#dadad8",
+                        "on-background": "#1a1c1b",
+                        "on-secondary-container": "#6c4d00",
+                        "secondary-container": "#fdbb12",
+                        "outline": "#747878",
+                        "inverse-on-surface": "#f1f1ef",
+                        "surface-tint": "#5f5e5e",
+                        "tertiary-container": "#3b0900",
+                        "outline-variant": "#c4c7c7",
+                        "tertiary-fixed-dim": "#ffb5a1",
+                        "surface-container": "#efeeec",
+                        "on-surface-variant": "#444748",
+                        "primary": "#000000",
+                        "background": "#faf9f7",
+                        "secondary": "#7b5900",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#1c1b1b",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#ffdea4",
+                        "tertiary": "#000000",
+                        "on-surface": "#1a1c1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Space Grotesk"],
+                        "kpi-metric": ["Space Grotesk"],
+                        "body-sm": ["Inter"],
+                        "display-md": ["Space Grotesk"],
+                        "label-caps": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "kpi-metric": ["40px", { "lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "display-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom Styles for Workafella Design System */
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Clipped Corner Motif - Architectural Minimalism */
+        .clipped-corner {
+            position: relative;
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+            border-radius: 0 !important;
+        }
+        
+        .clipped-corner-inverse {
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+            border-radius: 0 !important;
+        }
+
+        /* Custom Scrollbar for sleekness */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.surface'); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.surface-tint'); 
+            border-radius: 0px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline'); 
+        }
+        
+        /* Table Styles */
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        th, td {
+            border-bottom: 1px solid theme('colors.outline-variant');
+        }
+        th {
+            border-top: 1px solid theme('colors.outline-variant');
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden font-body-md text-body-md antialiased bg-background">
+<!-- SideNavBar (Shared Component) -->
+<!-- Applying style_ shell layout, shape, bg, etc from JSON -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 py-8 border-r border-outline bg-surface-container-lowest z-20">
+<!-- Header / Brand -->
+<div class="px-6 mb-12">
+<!-- Organization Logo Placeholder -->
+<div class="w-12 h-12 mb-4 bg-surface-variant flex items-center justify-center">
+<img alt="Organization Logo" class="w-full h-full object-cover grayscale opacity-80" data-alt="A clean, minimalist abstract logo mark representing a premium corporate identity. The logo is rendered in stark black ink against a crisp white canvas background, embodying architectural precision. High-contrast, sharp geometric edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6QwE3RIgUuhw9h_jASYl1hHiBDYUY3b5BKhzffKEslSBJ9ri4UvrfpOtAwlXxASmiN2_bngbiPOpRunAY14_MLzrtibhEKk24r2sgYpgCZ4WT1Z7DG_KgJdUeaitO4EApMN6Ozy9dDXzTja33z-X9kZi2BY7DZmt5TfNNAJYLKF1HwLHYrRzUAC495SA84jJGnnTm-bFJOgd3N0Drb-4F0hzTZhwgqIp8VZ7lOE1OpZ1tHvtpsOmpzw"/>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-primary mb-1">Client Portal</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Premium Admin Access</p>
+</div>
+<!-- Navigation Links -->
+<!-- ACTIVE TAB: Billing (Maps to Payments or Invoices based on context. Let's make "Payments" active for this screen) -->
+<ul class="flex flex-col flex-grow">
+<!-- Overview: Inactive -->
+<li>
+<a class="flex items-center gap-4 py-3 px-6 cursor-pointer text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Overview</span>
+</a>
+</li>
+<!-- Invoices: Inactive -->
+<li>
+<a class="flex items-center gap-4 py-3 px-6 cursor-pointer text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-caps text-label-caps">Invoices</span>
+</a>
+</li>
+<!-- Payments: ACTIVE (Matches 'Billing & Payments' intent closely) -->
+<li>
+<a class="flex items-center gap-4 py-3 px-6 cursor-pointer text-primary relative after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:border-y-[6px] after:border-y-transparent after:border-r-[8px] after:border-r-secondary-container hover:bg-surface-container-high transition-all bg-surface" href="#">
+<span class="material-symbols-outlined text-secondary-container" data-icon="payments" data-weight="fill">payments</span>
+<span class="font-label-caps text-label-caps">Payments</span>
+</a>
+</li>
+<!-- Entitlements: Inactive -->
+<li>
+<a class="flex items-center gap-4 py-3 px-6 cursor-pointer text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="stars">stars</span>
+<span class="font-label-caps text-label-caps">Entitlements</span>
+</a>
+</li>
+<!-- Support: Inactive -->
+<li>
+<a class="flex items-center gap-4 py-3 px-6 cursor-pointer text-on-surface-variant hover:bg-surface-container-high transition-all mt-auto" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</a>
+</li>
+</ul>
+<!-- CTA Widget at bottom -->
+<div class="px-6 mt-8">
+<button class="w-full py-3 bg-secondary-container text-primary font-label-caps text-label-caps uppercase hover:opacity-90 transition-opacity border-none rounded-none flex items-center justify-center gap-2">
+                Make Payment
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</nav>
+<!-- Main Wrapper (accounts for SideNav) -->
+<div class="flex flex-col flex-1 md:ml-64 relative min-h-screen">
+<!-- TopAppBar (Shared Component) -->
+<header class="flex justify-between items-center px-margin-desktop py-4 w-full max-w-container-max mx-auto border-b border-outline bg-surface z-10 sticky top-0">
+<!-- Brand Logo / Product Name -->
+<div class="font-display-md text-display-md text-primary uppercase tracking-widest">
+                Workafella
+            </div>
+<!-- Top Nav Links (Desktop) -->
+<!-- ACTIVE: Billing -->
+<nav class="hidden md:flex gap-8 items-center h-full">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors cursor-pointer active:opacity-80" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors cursor-pointer active:opacity-80" href="#">Workspaces</a>
+<a class="font-body-md text-body-md text-primary border-b-2 border-secondary-container pb-1 cursor-pointer active:opacity-80" href="#">Billing</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors cursor-pointer active:opacity-80" href="#">Members</a>
+</nav>
+<!-- Trailing Actions & Profile -->
+<div class="flex items-center gap-6">
+<div class="flex gap-4 text-on-surface-variant">
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<!-- Profile Image -->
+<div class="w-10 h-10 bg-surface-variant rounded-none border border-outline overflow-hidden">
+<img alt="Client Admin Profile" class="w-full h-full object-cover grayscale" data-alt="A professional headshot of a corporate executive, representing the Client Admin profile. Lit with soft, bright architectural lighting against a neutral light grey wall. The mood is confident, authoritative, and clean, aligning with the premium aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJaomUhzOfAqHQkn7LFJLEugxdgMNN3yQFfaMTwB1PpaPsZWueLzB1BAgRRaRfeIvcJinln2sK1Poq6xDjjC6Hci3O8PF74lnDrSmAewqWLmCNqymEdG7pWOt_G_6drmR-EWmuCxldxWdyh-cHHq2aQFQyzFNS1oe6T-52lXjGcIESdCm3OV82HoWpog5tWs6P4s8GK80g0dh0xE4EM__mtlCu9qqlkZv254F3jikIYhcw8-Aq9HPC9A"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Page Title -->
+<div class="mb-gutter flex flex-col md:flex-row md:items-end justify-between">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Billing Center</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Manage your workspace financial commitments and history.</p>
+</div>
+<!-- Desktop Only Action -->
+<button class="hidden md:flex py-3 px-6 bg-transparent border border-primary text-primary font-label-caps text-label-caps uppercase hover:bg-surface-container-highest transition-colors rounded-none items-center gap-2 mt-4 md:mt-0">
+<span class="material-symbols-outlined text-sm">download</span>
+                    Download Statement
+                </button>
+</div>
+<!-- Hero Section: Current Invoice Status Card -->
+<section class="mb-margin-desktop">
+<div class="bg-primary-container text-on-primary clipped-corner p-8 md:p-12 relative overflow-hidden group">
+<!-- Subtle Geometric Background Pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, theme('colors.secondary-container') 1px, transparent 0); background-size: 24px 24px;"></div>
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+<div>
+<div class="font-label-caps text-label-caps text-on-primary/70 mb-4 tracking-widest uppercase flex items-center gap-2">
+<span class="w-2 h-2 bg-secondary-container inline-block"></span>
+                                Current Invoice Status
+                            </div>
+<div class="flex items-baseline gap-4 mb-2">
+<span class="font-kpi-metric text-kpi-metric text-on-primary">$4,250.00</span>
+<span class="font-body-md text-body-md text-on-primary/70">USD</span>
+</div>
+<p class="font-body-md text-body-md text-on-primary/90">Due Date: October 15, 2023</p>
+</div>
+<div class="flex flex-col items-start md:items-end gap-4">
+<!-- Status Badge -->
+<div class="px-4 py-2 border border-secondary-container text-secondary-container font-label-caps text-label-caps bg-transparent inline-flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="pending">pending</span>
+                                Payment Pending
+                            </div>
+<button class="py-3 px-8 bg-secondary-container text-primary font-label-caps text-label-caps uppercase hover:opacity-90 transition-opacity border-none rounded-none flex items-center gap-2">
+                                Pay Now
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Decorative architectural lines -->
+<div class="absolute bottom-0 left-0 w-full h-[1px] bg-secondary-container/30"></div>
+<div class="absolute left-8 bottom-0 w-[1px] h-16 bg-secondary-container/30"></div>
+</div>
+</section>
+<!-- Main Layout (Two Columns) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Payment History -->
+<div class="lg:col-span-8 flex flex-col gap-unit">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">history</span>
+                        Payment History
+                    </h3>
+<div class="bg-surface-container-lowest border border-outline clipped-corner overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps">
+<th class="py-4 px-6 font-normal tracking-widest uppercase">Invoice Date</th>
+<th class="py-4 px-6 font-normal tracking-widest uppercase">Description</th>
+<th class="py-4 px-6 font-normal tracking-widest uppercase">Amount</th>
+<th class="py-4 px-6 font-normal tracking-widest uppercase">Status</th>
+<th class="py-4 px-6 font-normal tracking-widest uppercase text-right">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="hover:bg-surface-bright transition-colors group cursor-pointer">
+<td class="py-4 px-6 text-primary">Sep 01, 2023</td>
+<td class="py-4 px-6 text-on-surface-variant">Monthly Retainer - Suite A</td>
+<td class="py-4 px-6 text-primary font-medium">$4,250.00</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-surface-container-highest text-primary border border-outline text-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary block"></span>
+                                            Paid
+                                        </span>
+</td>
+<td class="py-4 px-6 text-right">
+<button aria-label="Download Invoice" class="text-on-surface-variant hover:text-secondary-container transition-colors p-1">
+<span class="material-symbols-outlined text-lg" data-icon="download">download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group cursor-pointer">
+<td class="py-4 px-6 text-primary">Aug 01, 2023</td>
+<td class="py-4 px-6 text-on-surface-variant">Monthly Retainer - Suite A</td>
+<td class="py-4 px-6 text-primary font-medium">$4,250.00</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-surface-container-highest text-primary border border-outline text-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary block"></span>
+                                            Paid
+                                        </span>
+</td>
+<td class="py-4 px-6 text-right">
+<button aria-label="Download Invoice" class="text-on-surface-variant hover:text-secondary-container transition-colors p-1">
+<span class="material-symbols-outlined text-lg" data-icon="download">download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group cursor-pointer border-b-0">
+<td class="py-4 px-6 text-primary border-b-0">Jul 01, 2023</td>
+<td class="py-4 px-6 text-on-surface-variant border-b-0">Monthly Retainer + Catering</td>
+<td class="py-4 px-6 text-primary font-medium border-b-0">$4,850.00</td>
+<td class="py-4 px-6 border-b-0">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-surface-container-highest text-primary border border-outline text-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary block"></span>
+                                            Paid
+                                        </span>
+</td>
+<td class="py-4 px-6 text-right border-b-0">
+<button aria-label="Download Invoice" class="text-on-surface-variant hover:text-secondary-container transition-colors p-1">
+<span class="material-symbols-outlined text-lg" data-icon="download">download</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination Minimal -->
+<div class="border-t border-outline-variant py-3 px-6 flex justify-between items-center bg-surface">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 3 of 24 records</span>
+<div class="flex gap-2">
+<button class="p-1 text-outline hover:text-primary transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Entitlements Widget -->
+<div class="lg:col-span-4 flex flex-col gap-unit mt-8 lg:mt-0">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">pie_chart</span>
+                        Entitlements
+                    </h3>
+<div class="bg-surface-container-lowest border border-outline p-6 flex flex-col items-center justify-center text-center relative clipped-corner">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-6 w-full text-left">Meeting Room Usage</p>
+<!-- Minimalist SVG Progress Ring -->
+<div class="relative w-48 h-48 mb-6">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<!-- Background Circle -->
+<circle class="text-surface-variant" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-width="2"></circle>
+<!-- Progress Circle (approx 66% for 8/12) -->
+<circle class="text-secondary-container" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-dasharray="283" stroke-dashoffset="94" stroke-linecap="square" stroke-width="6"></circle>
+</svg>
+<!-- Inner Content -->
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-md text-display-md text-primary leading-none">8</span>
+<div class="w-8 h-px bg-outline-variant my-2"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">12 hrs</span>
+</div>
+</div>
+<div class="w-full text-left">
+<h4 class="font-body-lg text-body-lg text-primary mb-1">September Allowance</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">You have 4 hours of complimentary meeting room time remaining this billing cycle.</p>
+<button class="w-full py-2 px-4 bg-transparent border border-outline text-primary font-label-caps text-label-caps uppercase hover:border-primary transition-colors rounded-none">
+                                Book a Room
+                            </button>
+</div>
+</div>
+<!-- Decorative Graphic Panel to fill space -->
+<div class="mt-4 bg-surface-container-low border border-outline h-32 relative overflow-hidden flex items-center justify-center group cursor-pointer">
+<div class="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwek0yMCAyMGgtdjIwSDIweiIgZmlsbD0iIzM4MzgzOCIgZmlsbC1vcGFjaXR5PSIuMSIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+')]"></div>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-on-surface-variant mb-1">help</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Billing FAQ</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

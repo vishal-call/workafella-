@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cascade Workspace Allocation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-surface": "#2f3130",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#000000",
+                      "surface-bright": "#faf9f7",
+                      "on-tertiary": "#ffffff",
+                      "surface-tint": "#5f5e5e",
+                      "tertiary-container": "#3b0900",
+                      "surface-container": "#efeeec",
+                      "surface-variant": "#e3e2e0",
+                      "surface-container-highest": "#e3e2e0",
+                      "secondary-container": "#fdbb12",
+                      "on-primary-fixed": "#1c1b1b",
+                      "on-primary": "#ffffff",
+                      "inverse-on-surface": "#f1f1ef",
+                      "surface-dim": "#dadad8",
+                      "on-secondary": "#ffffff",
+                      "secondary": "#7b5900",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "on-primary-fixed-variant": "#474746",
+                      "on-tertiary-fixed": "#3b0900",
+                      "surface": "#faf9f7",
+                      "inverse-primary": "#c8c6c5",
+                      "secondary-fixed-dim": "#fdbb12",
+                      "error": "#ba1a1a",
+                      "on-primary-container": "#858383",
+                      "tertiary-fixed-dim": "#ffb5a1",
+                      "primary": "#000000",
+                      "on-background": "#1a1c1b",
+                      "on-tertiary-container": "#e65127",
+                      "background": "#faf9f7",
+                      "surface-container-low": "#f4f3f1",
+                      "primary-container": "#1c1b1b",
+                      "tertiary-fixed": "#ffdbd1",
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#e5e2e1",
+                      "on-surface": "#1a1c1b",
+                      "on-secondary-container": "#6c4d00",
+                      "on-secondary-fixed": "#261900",
+                      "primary-fixed-dim": "#c8c6c5",
+                      "on-secondary-fixed-variant": "#5d4200",
+                      "outline": "#747878",
+                      "secondary-fixed": "#ffdea4",
+                      "on-surface-variant": "#444748",
+                      "on-tertiary-fixed-variant": "#882000",
+                      "surface-container-high": "#e9e8e6",
+                      "outline-variant": "#c4c7c7"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "unit": "8px",
+                      "container-max": "1440px",
+                      "margin-mobile": "20px",
+                      "margin-desktop": "64px"
+              },
+              "fontFamily": {
+                      "display-md": [
+                              "Space Grotesk"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Space Grotesk"
+                      ],
+                      "kpi-metric": [
+                              "Space Grotesk"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Space Grotesk"
+                      ],
+                      "display-lg": [
+                              "Space Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "display-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "kpi-metric": [
+                              "40px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "-0.03em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        /* The Cascade Motif - Clipped Corner */
+        .card-clipped {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        }
+        
+        /* Fine geometric lattice pattern for empty states / background texture */
+        .bg-lattice {
+            background-image: 
+                linear-gradient(to right, rgba(245, 180, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(245, 180, 0, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Material Symbols Fill Configuration */
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #faf9f7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e3e2e0;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c8c6c5;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-hidden flex h-screen">
+<!-- Shared Component: SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 rounded-0 border-r border-inverse-surface bg-primary dark:bg-primary z-50">
+<!-- Header -->
+<div class="p-6 border-b border-inverse-surface/10 flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary flex items-center justify-center rounded-0 card-clipped">
+<span class="font-display-md text-primary text-xl font-bold">C</span>
+</div>
+<div>
+<h1 class="font-display-md text-surface-container-lowest text-lg leading-tight">Cascade Admin</h1>
+<p class="font-label-caps text-surface-tint">Elite Tier</p>
+</div>
+</div>
+<!-- Main Tabs -->
+<div class="flex-1 py-6 flex flex-col gap-1">
+<a class="text-surface-variant dark:text-surface-variant flex items-center gap-3 px-6 py-4 hover:bg-surface-container-highest/10 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<!-- Active Tab: Workspaces -->
+<a class="relative text-secondary font-bold after:content-[''] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:border-y-[8px] after:border-y-transparent after:border-r-[8px] after:border-r-secondary flex items-center gap-3 px-6 py-4 bg-surface-container-highest/5 transition-transform scale-[0.99]" href="#">
+<span class="material-symbols-outlined" data-weight="fill">domain</span>
+<span class="font-label-caps text-label-caps text-secondary">Workspaces</span>
+</a>
+<a class="text-surface-variant dark:text-surface-variant flex items-center gap-3 px-6 py-4 hover:bg-surface-container-highest/10 transition-colors" href="#">
+<span class="material-symbols-outlined">event_seat</span>
+<span class="font-label-caps text-label-caps">Reservations</span>
+</a>
+<a class="text-surface-variant dark:text-surface-variant flex items-center gap-3 px-6 py-4 hover:bg-surface-container-highest/10 transition-colors" href="#">
+<span class="material-symbols-outlined">insert_chart</span>
+<span class="font-label-caps text-label-caps">Analytics</span>
+</a>
+<a class="text-surface-variant dark:text-surface-variant flex items-center gap-3 px-6 py-4 hover:bg-surface-container-highest/10 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</div>
+<!-- CTA -->
+<div class="px-6 py-4">
+<button class="w-full bg-secondary text-primary font-label-caps text-label-caps py-3 px-4 rounded-0 hover:bg-secondary-container transition-colors card-clipped flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                New Booking
+            </button>
+</div>
+<!-- Footer Tabs -->
+<div class="border-t border-inverse-surface/10 py-4 flex flex-col gap-1">
+<a class="text-surface-variant dark:text-surface-variant flex items-center gap-3 px-6 py-3 hover:bg-surface-container-highest/10 transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</a>
+<a class="text-surface-variant dark:text-surface-variant flex items-center gap-3 px-6 py-3 hover:bg-surface-container-highest/10 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-caps text-label-caps">Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col relative w-full h-full overflow-hidden bg-lattice">
+<!-- Shared Component: TopAppBar -->
+<header class="flex justify-between items-center w-full pl-gutter pr-gutter h-20 bg-surface dark:bg-surface border-b border-surface-variant z-40 sticky top-0 shadow-sm">
+<!-- Left: Search / Brand (if sidebar hidden on mobile) -->
+<div class="flex items-center gap-4">
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-lowest border border-surface-variant rounded-0 focus:border-secondary focus:ring-0 font-body-sm text-body-sm w-64 transition-colors" placeholder="Search resources..." type="text"/>
+</div>
+</div>
+<!-- Center: Location Switcher -->
+<div class="absolute left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-2 cursor-pointer hover:text-secondary transition-colors group">
+<span class="material-symbols-outlined text-primary group-hover:text-secondary transition-colors">location_on</span>
+<span class="font-headline-sm text-headline-sm text-primary group-hover:text-secondary transition-colors">Hitec City</span>
+<span class="material-symbols-outlined text-primary group-hover:text-secondary transition-colors text-sm">expand_more</span>
+</div>
+<!-- Right: Actions & Profile -->
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">apps</span>
+</button>
+</div>
+<div class="w-10 h-10 bg-surface-container border border-surface-variant rounded-0 overflow-hidden cursor-pointer hover:border-secondary transition-colors card-clipped">
+<img alt="User profile with role badge" class="w-full h-full object-cover" data-alt="A highly detailed close up portrait of a professional corporate administrator in a bright, modern, minimalist office setting. The lighting is soft and natural, emphasizing a high-key light mode aesthetic. The color palette focuses on crisp whites, soft canvas tones, and subtle charcoal accents. The mood is confident, clean, and authoritative, matching a premium workspace management platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZJGU8ezmMp7IjJLeh1tK5aU_Do_OEYvfivyrz-gBl0hpSsmCY2PVoEzyOAihJ70yWpFI2dHo_yZ2L9ZviXyvbion2mCH0a1VLXnphGF0bz36LtmOc9qhpmNBz06BPxoglw_howRjy-bCnJyFW9ZKosn0yT_Klf9DuG5ZBkSuJ3RS7B4RfsT7bmiPZmilKCLaJy0SFlQYkVH98HE0HRH6b5ScM2jJL6WAJdkTZyNJQk3RN-_OUuycpWA"/>
+</div>
+</div>
+</header>
+<!-- Page Content Canvas -->
+<main class="flex-1 overflow-auto p-gutter lg:p-margin-desktop flex flex-col lg:flex-row gap-gutter max-w-container-max mx-auto w-full">
+<!-- Left Panel: Room Grid -->
+<section class="flex-1 min-w-[300px] flex flex-col gap-6">
+<h2 class="font-display-md text-display-md text-primary">Room Inventory</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Room Card 1 (High Occupancy) -->
+<div class="bg-surface-container-lowest border border-[#3A3A3A] p-5 card-clipped group hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative cursor-pointer">
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary opacity-0 group-hover:opacity-100 transition-opacity clip-path-polygon-[100%_0,0_0,100%_100%]"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-sm text-lg text-primary font-bold">Suite 101</h3>
+<p class="font-body-sm text-on-surface-variant">20 Seats Total</p>
+</div>
+<span class="material-symbols-outlined text-secondary">meeting_room</span>
+</div>
+<div class="flex justify-between items-end mb-2">
+<span class="font-kpi-metric text-2xl text-primary">18</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">/ 20 Allocated</span>
+</div>
+<div class="w-full h-1 bg-surface-container mt-2">
+<div class="h-full bg-secondary w-[90%]"></div>
+</div>
+</div>
+<!-- Room Card 2 (Medium Occupancy) -->
+<div class="bg-surface-container-lowest border border-[#3A3A3A] p-5 card-clipped group hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative cursor-pointer">
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary opacity-0 group-hover:opacity-100 transition-opacity clip-path-polygon-[100%_0,0_0,100%_100%]"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-sm text-lg text-primary font-bold">Boardroom A</h3>
+<p class="font-body-sm text-on-surface-variant">12 Seats Total</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">meeting_room</span>
+</div>
+<div class="flex justify-between items-end mb-2">
+<span class="font-kpi-metric text-2xl text-primary">6</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">/ 12 Allocated</span>
+</div>
+<div class="w-full h-1 bg-surface-container mt-2">
+<div class="h-full bg-[#3A3A3A] w-[50%]"></div>
+</div>
+</div>
+<!-- Room Card 3 (Empty) -->
+<div class="bg-surface-container-lowest border border-[#3A3A3A] p-5 card-clipped group hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative cursor-pointer">
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary opacity-0 group-hover:opacity-100 transition-opacity clip-path-polygon-[100%_0,0_0,100%_100%]"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-sm text-lg text-primary font-bold">Studio 4B</h3>
+<p class="font-body-sm text-on-surface-variant">8 Seats Total</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">meeting_room</span>
+</div>
+<div class="flex justify-between items-end mb-2">
+<span class="font-kpi-metric text-2xl text-primary">0</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">/ 8 Allocated</span>
+</div>
+<div class="w-full h-1 bg-surface-container mt-2">
+<div class="h-full bg-surface-variant w-[0%]"></div>
+</div>
+</div>
+<!-- Room Card 4 (Full) -->
+<div class="bg-surface-container-lowest border border-[#3A3A3A] p-5 card-clipped group hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative cursor-pointer">
+<div class="absolute top-0 right-0 w-4 h-4 bg-secondary opacity-0 group-hover:opacity-100 transition-opacity clip-path-polygon-[100%_0,0_0,100%_100%]"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-sm text-lg text-primary font-bold">Exec Suite</h3>
+<p class="font-body-sm text-on-surface-variant">4 Seats Total</p>
+</div>
+<span class="material-symbols-outlined text-error">meeting_room</span>
+</div>
+<div class="flex justify-between items-end mb-2">
+<span class="font-kpi-metric text-2xl text-primary">4</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">/ 4 Allocated</span>
+</div>
+<div class="w-full h-1 bg-surface-container mt-2">
+<div class="h-full bg-error w-[100%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Allocation Table -->
+<section class="flex-[2] min-w-[300px] flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<h2 class="font-display-md text-display-md text-primary">Current Allocations</h2>
+<!-- Signature Gold Button -->
+<button class="bg-secondary text-primary font-label-caps text-label-caps py-2 px-6 rounded-0 hover:bg-secondary-container transition-colors card-clipped border border-transparent hover:border-primary">
+                        New Allocation
+                    </button>
+</div>
+<div class="bg-surface-container-lowest border border-[#3A3A3A] card-clipped overflow-hidden flex flex-col flex-1">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface font-label-caps text-label-caps text-on-surface-variant border-b border-[#3A3A3A]">
+<th class="p-4 py-3 font-semibold">Client</th>
+<th class="p-4 py-3 font-semibold">Room</th>
+<th class="p-4 py-3 font-semibold">Contract</th>
+<th class="p-4 py-3 font-semibold">Seats</th>
+<th class="p-4 py-3 font-semibold">Start Date</th>
+<th class="p-4 py-3 font-semibold text-right">Status</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-primary divide-y divide-surface-variant">
+<tr class="hover:bg-surface-bright transition-colors group cursor-default">
+<td class="p-4 font-medium flex items-center gap-2">
+<div class="w-6 h-6 bg-surface-variant rounded-0 card-clipped flex items-center justify-center text-xs">A</div>
+                                        Acme Corp
+                                    </td>
+<td class="p-4">Suite 101</td>
+<td class="p-4">Annual</td>
+<td class="p-4 font-kpi-metric text-lg">12</td>
+<td class="p-4 text-on-surface-variant">Oct 1, 2023</td>
+<td class="p-4 text-right">
+<span class="inline-flex items-center px-2 py-1 bg-surface-container text-[#1e4620] border border-[#1e4620]/20 font-label-caps text-[10px] uppercase card-clipped">
+                                            Active
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group cursor-default">
+<td class="p-4 font-medium flex items-center gap-2">
+<div class="w-6 h-6 bg-surface-variant rounded-0 card-clipped flex items-center justify-center text-xs">G</div>
+                                        Global Tech
+                                    </td>
+<td class="p-4">Suite 101</td>
+<td class="p-4">Monthly</td>
+<td class="p-4 font-kpi-metric text-lg">6</td>
+<td class="p-4 text-on-surface-variant">Nov 15, 2023</td>
+<td class="p-4 text-right">
+<span class="inline-flex items-center px-2 py-1 bg-surface-container text-[#8c6b00] border border-[#8c6b00]/20 font-label-caps text-[10px] uppercase card-clipped">
+                                            Pending
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group cursor-default">
+<td class="p-4 font-medium flex items-center gap-2">
+<div class="w-6 h-6 bg-surface-variant rounded-0 card-clipped flex items-center justify-center text-xs">S</div>
+                                        Stark Ind.
+                                    </td>
+<td class="p-4">Boardroom A</td>
+<td class="p-4">Quarterly</td>
+<td class="p-4 font-kpi-metric text-lg">6</td>
+<td class="p-4 text-on-surface-variant">Jan 1, 2023</td>
+<td class="p-4 text-right">
+<span class="inline-flex items-center px-2 py-1 bg-surface-container text-error border border-error/20 font-label-caps text-[10px] uppercase card-clipped">
+                                            Ending Soon
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group cursor-default">
+<td class="p-4 font-medium flex items-center gap-2">
+<div class="w-6 h-6 bg-surface-variant rounded-0 card-clipped flex items-center justify-center text-xs">W</div>
+                                        Wayne Ent.
+                                    </td>
+<td class="p-4">Exec Suite</td>
+<td class="p-4">Annual</td>
+<td class="p-4 font-kpi-metric text-lg">4</td>
+<td class="p-4 text-on-surface-variant">Mar 10, 2023</td>
+<td class="p-4 text-right">
+<span class="inline-flex items-center px-2 py-1 bg-surface-container text-[#1e4620] border border-[#1e4620]/20 font-label-caps text-[10px] uppercase card-clipped">
+                                            Active
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</main>
+<!-- Overlay for Modal Demonstration (hidden by default, shown for prompt requirement) -->
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<!-- Modal: New Allocation -->
+<div class="bg-surface-container-lowest border border-[#3A3A3A] w-full max-w-md card-clipped shadow-2xl flex flex-col">
+<div class="p-6 border-b border-surface-variant flex justify-between items-center bg-surface">
+<h2 class="font-headline-sm text-xl text-primary font-bold">New Allocation</h2>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-5">
+<!-- Warning Banner Active State -->
+<div class="bg-[#D9481E]/10 border border-[#D9481E] p-3 flex items-start gap-3 rounded-0 card-clipped">
+<span class="material-symbols-outlined text-[#D9481E] mt-0.5">warning</span>
+<p class="font-body-sm text-primary font-medium">Warning: Requested seats exceed room capacity.</p>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Select Client</label>
+<select class="w-full border-b border-[#3A3A3A] bg-transparent py-2 px-0 focus:border-secondary focus:ring-0 font-body-md text-primary appearance-none cursor-pointer transition-colors outline-none">
+<option>LexCorp</option>
+<option>Initech</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Select Room</label>
+<select class="w-full border-b border-[#3A3A3A] bg-transparent py-2 px-0 focus:border-secondary focus:ring-0 font-body-md text-primary appearance-none cursor-pointer transition-colors outline-none">
+<option>Studio 4B (0/8 Allocated)</option>
+<option>Boardroom A (6/12 Allocated)</option>
+</select>
+</div>
+<div class="flex flex-col gap-2 relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Seat Count</label>
+<!-- Focused state simulation for input -->
+<div class="relative">
+<div class="absolute top-0 left-0 w-2 h-2 bg-secondary clip-path-polygon-[0_0,100%_0,0_100%]"></div>
+<input class="w-full border-b-2 border-[#D9481E] bg-transparent py-2 px-3 focus:ring-0 font-kpi-metric text-2xl text-[#D9481E] outline-none" type="number" value="10"/>
+</div>
+</div>
+</div>
+<div class="p-6 border-t border-surface-variant bg-surface flex justify-end gap-3">
+<button class="bg-transparent text-primary border border-[#3A3A3A] font-label-caps text-label-caps py-2 px-6 rounded-0 hover:bg-surface-variant transition-colors card-clipped">
+                        Cancel
+                    </button>
+<!-- Disabled button due to warning -->
+<button class="bg-surface-variant text-on-surface-variant font-label-caps text-label-caps py-2 px-6 rounded-0 cursor-not-allowed card-clipped">
+                        Confirm Allocation
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>
