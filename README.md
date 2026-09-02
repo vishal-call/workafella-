@@ -1,146 +1,77 @@
-# 🏢 Workafella — Enterprise Digital Workspace Platform
+# Workafella-Demo
 
-An enterprise-grade, multi-role digital workspace operations platform for co-working spaces and managed offices. Built with **Next.js 14, React 18, and Tailwind CSS**, featuring real-time data synchronization across all branch operations, client portals, and executive cockpits.
-
----
-
-## 🌟 Key Features & Modules
-
-### 1. 👑 Executive Leadership & Super Admin
-* **Multi-City Portfolio Cockpit:** Real-time telemetry tracking monthly revenue (₹4.82 Cr), national occupancy (88%), and 11 branches across Hyderabad, Chennai, Bangalore, and Mumbai.
-* **Stacked Card Layering:** Interactive 3D physical card deck with rotation physics and click-to-shuffle interactions.
-* **Strategic Financial Reports:** Automated EBITDA run rates, electricity cost efficiency, and AI-driven predictive churn risk models.
-
-### 2. 📐 Branch Management & CAD Floor Blueprints
-* **Interactive CAD Floor Map:** Live 3D architectural blueprint of Floor 7 with occupancy telemetry, vacancy filters, and 360° suite inspection drawers.
-* **5-Step Client Onboarding Wizard:** Entity setup, contract term definition, blueprint suite allocation, and Client Admin provisioning with celebratory confetti.
-* **Staff Directory & Shift Rosters:** On-duty operations rosters with direct call and WhatsApp actions.
-
-### 3. 📅 Meeting Rooms & Dynamic Calendar Matrix
-* **Multi-Month Room Calendar:** Switch seamlessly between **Month View**, **Week View**, and **Day View** with dynamic month navigation (August, September, October 2026).
-* **5-Minute Temporary Hold Lock:** 300-second live anti-double-booking timer with visual warning below 60s.
-* **Entitlement Wallet:** Automatically computes free hours vs. chargeable overage (e.g. 27/45 hrs remaining).
-* **360° Virtual Ambience Tour:** 4-mode lighting simulator (*Warm Luxury, Cool Focus, Sunset Gold, Ambient Dark*).
-
-### 4. 🛠️ SLA Incidents & Kanban Service Desk
-* **Audio Voice Memo Incident Logging:** 12-second voice waveform recorder with auto-transcription for field problem statements.
-* **Kanban Service Desk:** Visual incident triage with live SLA countdown telemetry (`🟢 Safe`, `🟡 Warning < 1h`, `🔴 Breached`).
-* **SLA Breach Penalty Credit Memo:** Automatically calculates and issues ₹2,500 compensatory wallet credit on breach risks.
-* **Technician Work-Order Checklist:** 4-step diagnostic protocol with CSAT 5-star rating submission.
-
-### 5. 👥 Visitor Management & Security Gate Pass
-* **Pre-Registration & Digital QR Passes:** Host pre-registration generating digitally signed QR passes.
-* **Turnstile QR Scanner:** 1-click scan simulation to unlatch turnstile gates, record check-in/out timestamps, and notify hosts.
-* **Security Watchlist Alerts:** Real-time red security banners on flagged individuals.
-
-### 6. 💰 Finance, GST Invoicing & Expense Approvals
-* **Automated GST Invoices:** Calculates monthly recurring seat lease + conference room overages + 18% GST (SAC: 997212).
-* **Printable Tax Invoice Modal:** Government-compliant tax invoice template with reverse charge flags and printable PDF layout.
-* **Client Self-Service Billing:** Invoices, line items, wallet quota, and 1-click corporate payment reconciliation.
-* **Multi-Tier Expense Approvals:** Tier-1 Branch Admin approval + automatic routing to Finance Controller for high-value claims (>₹1,00,000).
-
-### 7. 📦 Facility Assets & Consumable Inventory
-* **Smart 1-Click Purchase Orders (PO):** Automated PO generator for low-stock consumables with 18% GST tax breakdowns.
-* **Asset Register & AMC Maintenance:** Capital equipment register with dynamic Net Book Value calculation and printable digital QR equipment tags.
-* **5-Star Vendor Scorecards:** Performance rating matrix (Punctuality, SLA Compliance, Quality) and 1-click 1-year contract extension generator.
+This repository is created to store and manage the source code for the Workafella OS web application, developed by Vishal specifically for demonstration and evaluation purposes.
 
 ---
 
-## 💻 Tech Stack
+## 🏢 About Workafella OS
 
-* **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
-* **Library:** [React 18](https://react.dev/)
-* **Styling:** [Tailwind CSS](https://tailwindcss.com/) with Custom Luxury Glassmorphism Theme
-* **Icons:** Material Symbols & [Lucide Icons](https://lucide.dev/)
-* **Audio FX:** Web Audio API & Sound synthesis
-* **Visual Effects:** Canvas Confetti
+**Workafella OS** is an enterprise-grade digital workspace platform tailored for premium co-working portfolios across India (Hyderabad, Chennai, Bangalore, Mumbai). It unifies multi-centre branch operations, enterprise client lifecycle management, real-time meeting room scheduling with quota protection, QR biometric gate passes, SLA-backed service desk triage, and automated GST billing.
 
 ---
 
-## 🚀 Getting Started & Installation
+## 🚀 Quick Start & Installation
 
-Follow these simple steps to download, install, and run the project locally on your computer:
+### 1. Prerequisites
+* **Node.js**: `v18.0.0` or higher
+* **npm**: `v9.0.0` or higher
 
-### Prerequisites
-
-Ensure you have the following installed on your computer:
-* **Node.js** (v18.17.0 or higher recommended) — [Download Node.js](https://nodejs.org/)
-* **Git** — [Download Git](https://git-scm.com/)
-
----
-
-### Step 1: Clone the Repository
-
-Open your terminal (PowerShell, Command Prompt, or Terminal) and run:
-
+### 2. Clone the Repository
 ```bash
-git clone https://github.com/vishal-call/workafella-.git
+git clone https://github.com/SAProduct/Workafella-Demo.git
+cd Workafella-Demo
 ```
 
----
-
-### Step 2: Navigate to the Project Directory
-
-```bash
-cd workafella-
-```
-
----
-
-### Step 3: Install Dependencies
-
-Install all required npm packages:
-
+### 3. Install Dependencies
 ```bash
 npm install
 ```
 
----
-
-### Step 4: Run the Development Server
-
-Start the local Next.js dev server:
-
+### 4. Run Development Server
 ```bash
 npm run dev
 ```
 
----
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Step 5: Open in Your Browser
-
-Open your browser and navigate to:
-
-👉 **[http://localhost:3000](http://localhost:3000)**
-
----
-
-## 🎭 How to Test the 6 User Roles
-
-Workafella includes an instant **Role Switcher** docked at the **bottom-left of the sidebar**. Click any persona to test role-specific workflows:
-
-| Role | Persona | Key Responsibilities to Test |
-|---|---|---|
-| 👑 **Super Admin** | Vikram Malhotra | Multi-city portfolio, stacked KPI cards, national P&L reports, AI churn risk. |
-| 🏢 **Branch Admin** | Sarah Jenkins | 5-Step client onboarding wizard, 3D CAD floor plan, staff directory. |
-| 💰 **Finance Controller** | Rohan Mehta | Monthly GST invoicing, bulk invoice dispatch, multi-tier expense sign-offs. |
-| 🛠️ **Operations Manager** | Karthik Raja | Dynamic multi-month room calendar, Kanban service desk, inventory POs, asset QR tags. |
-| 👤 **Client Admin** | Ananya Sharma (Acme / NovaTech) | Meeting room 5-min holds, wallet balance, support tickets with voice notes, visitor passes. |
-| 🛡️ **Front Desk Security** | Suresh Kumar | Turnstile QR scan simulation, visitor logs, host arrival alerts. |
-
----
-
-## 📦 Production Build
-
-To test an optimized production build:
-
+### 5. Production Build
 ```bash
 npm run build
-npm run start
+npm start
 ```
 
 ---
 
-## 📄 License
+## 🎭 Role-Based Access Control (RBAC)
 
-Private and proprietary. Designed for Workafella Workspace Operations.
+The application includes 6 pre-configured personas ready for interactive demonstration:
+
+| Persona Role | User Name | Scope & Authority | Demo Login Email |
+|---|---|---|---|
+| **Super Admin** | **Ananya Rao** | Enterprise CEO / Managing Director • All National Flagships | `ananya.rao@workafella.com` |
+| **Branch Admin** | **Ramesh Kumar** | Centre General Manager • Hitec City Flagship | `ramesh.kumar@workafella.com` |
+| **Finance Controller** | **Kavya Reddy** | Enterprise Billing, GST & Expense Audits | `kavya.reddy@workafella.com` |
+| **Operations Manager** | **Arjun Mehta** | Facility Triage, Assets, Vendors & Work Orders | `arjun.mehta@workafella.com` |
+| **Client Admin** | **Priya Sharma** | NovaTech Solutions Tenant Admin • Suite 704 & 705 | `priya.sharma@novatech.io` |
+| **Security Officer** | **Suresh Goud** | Front Desk Gate Kiosk & QR Scanner | `suresh.goud@workafella.com` |
+
+---
+
+## 🌟 Core System Capabilities
+
+1. **National Multi-Centre Command Center:** Real-time occupancy, revenue density, city filters (Hyderabad, Chennai, Bangalore, Mumbai), and geographic map visualization.
+2. **Interactive 2D & 360° Visual Floorplan:** Live inventory status (`Vacant`, `Occupied`, `Reserved`, `Maintenance`) with 5-minute temporary reservation holds.
+3. **Meeting Room Calendar Engine:** Day, Week, and 7-column Month views with multi-month scheduling, free credit quota enforcement, and automatic overage billing.
+4. **Interactive Service Desk with SLA Shield:** 4-stage Kanban triage board, 1-click on-duty technician dispatch, voice incident notes, diagnostic checklists, and automated ₹2,500 SLA breach credit memos.
+5. **Visitor Gate Pass & Biometrics:** Dynamic QR entry pass generation, instant turnstile clearance simulator, and digital NDA logs.
+6. **Finance & Contract Automation:** Automated 18% GST invoices, PDF statement generation, and recurring expense approval workflows.
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+* **Framework:** Next.js 14 (App Router)
+* **UI & Styling:** Tailwind CSS, Space Grotesk & Inter Typography, Material Symbols
+* **Audio FX:** Web Audio API synthesizer for sensory UX feedback (zero external audio dependencies)
+* **State Management:** React Context Architecture (`AppContext.jsx`) with reactive event synchronizer
+* **Visual Effects:** Canvas Confetti & SVG Interactive Floor Layouts
