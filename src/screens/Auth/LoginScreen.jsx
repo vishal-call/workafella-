@@ -48,15 +48,15 @@ export const LoginScreen = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     soundFx.playClick();
-    if (email.includes('sarah') || email.includes('branch')) {
+    if (email.includes('ramesh') || email.includes('branch')) {
       switchRole('branch_admin');
-    } else if (email.includes('finance') || email.includes('rohan')) {
+    } else if (email.includes('finance') || email.includes('kavya')) {
       switchRole('finance_user');
-    } else if (email.includes('ops') || email.includes('karthik')) {
+    } else if (email.includes('ops') || email.includes('arjun') || email.includes('karthik')) {
       switchRole('operations_facility');
-    } else if (email.includes('acme') || email.includes('ananya')) {
+    } else if (email.includes('novatech') || email.includes('priya') || email.includes('client') || email.includes('acme')) {
       switchRole('client_admin');
-    } else if (email.includes('security') || email.includes('ramesh')) {
+    } else if (email.includes('security') || email.includes('suresh')) {
       switchRole('security_guard');
     } else {
       switchRole('super_admin');

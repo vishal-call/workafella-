@@ -3,12 +3,71 @@ import { useApp } from '../../context/AppContext';
 import { soundFx } from '../../utils/audioEffects';
 import confetti from 'canvas-confetti';
 
+export const BRANCH_WORKERS = [
+  {
+    id: 'tech-1',
+    name: 'Naveen Kumar',
+    designation: 'Enterprise Network & IT Lead',
+    specialty: 'Internet / Wi-Fi',
+    phone: '+91 98400 67890',
+    shift: '10:00 AM - 07:00 PM',
+    activeTickets: 1,
+    status: 'On-Duty',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80'
+  },
+  {
+    id: 'tech-2',
+    name: 'Suresh Babu',
+    designation: 'Chief HVAC & Climate Systems Lead',
+    specialty: 'Maintenance & AC',
+    phone: '+91 98400 99887',
+    shift: '07:00 AM - 04:00 PM',
+    activeTickets: 0,
+    status: 'On-Duty / Available',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80'
+  },
+  {
+    id: 'tech-3',
+    name: 'Venkat Ramana',
+    designation: 'Senior Facility & Power Systems Lead',
+    specialty: 'Utilities & Power',
+    phone: '+91 98400 33445',
+    shift: '08:00 AM - 05:00 PM',
+    activeTickets: 2,
+    status: 'On-Duty',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80'
+  },
+  {
+    id: 'tech-4',
+    name: 'Chandana Reddy',
+    designation: 'Housekeeping & Hospitality Lead',
+    specialty: 'Housekeeping',
+    phone: '+91 98400 77665',
+    shift: '06:30 AM - 03:30 PM',
+    activeTickets: 0,
+    status: 'On-Duty / Available',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'
+  },
+  {
+    id: 'tech-5',
+    name: 'Arjun Mehta',
+    designation: 'Operations & Facility Manager',
+    specialty: 'General Ops',
+    phone: '+91 98400 54321',
+    shift: '08:30 AM - 05:30 PM',
+    activeTickets: 0,
+    status: 'On-Duty',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80'
+  }
+];
+
 export const TicketManagementDashboard = () => {
   const { tickets, setTickets, setSelectedTicket, setCurrentScreen, activeBranch, addToast } = useApp();
   const [viewMode, setViewMode] = useState('kanban'); // 'kanban' | 'table'
   const [filterCategory, setFilterCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [penaltyModalTicket, setPenaltyModalTicket] = useState(null);
+  const [assignModalTicket, setAssignModalTicket] = useState(null);
 
   const columns = [
     { id: 'New', label: 'New / Triaged', color: 'border-l-4 border-l-blue-500', badge: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300' },
@@ -17,11 +76,49 @@ export const TicketManagementDashboard = () => {
     { id: 'Resolved', label: 'Resolved & Verified', color: 'border-l-4 border-l-[#1e8a5f]', badge: 'bg-[#e6f4ea] dark:bg-[#1e8a5f]/20 text-[#1e8a5f] dark:text-[#4ade80]' }
   ];
 
+  const handleAssignWorker = (worker) => {
+    soundFx.playChime();
+    const updatedStatus = assignModalTicket.status === 'New' ? 'Assigned' : assignModalTicket.status;
+
+    setTickets(
+      tickets.map((t) =>
+        t.id === assignModalTicket.id
+          ? {
+              ...t,
+              assignee: `${worker.name} (${worker.designation.split(' ')[0]})`,
+              status: updatedStatus,
+              comments: [
+                ...(t.comments || []),
+                {
+                  author: 'Operations Dispatch',
+                  time: 'Just now',
+                  text: `Dispatched work-order to ${worker.name} (${worker.designation}). Shift: ${worker.shift}.`
+                }
+              ]
+            }
+          : t
+      )
+    );
+
+    addToast(
+      `Assigned ${assignModalTicket.id} to ${worker.name} (${worker.designation})!`,
+      'success',
+      'Work-Order Dispatched'
+    );
+    setAssignModalTicket(null);
+  };
+
   const handleAdvanceStatus = (ticketId, currentStatus) => {
     let nextStatus = 'Assigned';
-    if (currentStatus === 'New') nextStatus = 'Assigned';
-    else if (currentStatus === 'Assigned') nextStatus = 'In Progress';
-    else if (currentStatus === 'In Progress') nextStatus = 'Resolved';
+    if (currentStatus === 'New') {
+      const targetTick = tickets.find((t) => t.id === ticketId);
+      setAssignModalTicket(targetTick);
+      return;
+    } else if (currentStatus === 'Assigned') {
+      nextStatus = 'In Progress';
+    } else if (currentStatus === 'In Progress') {
+      nextStatus = 'Resolved';
+    }
 
     if (nextStatus === 'Resolved') {
       soundFx.playChime();
@@ -57,13 +154,14 @@ export const TicketManagementDashboard = () => {
     const matchesSearch =
       t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       t.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.company.toLowerCase().includes(searchQuery.toLowerCase());
+      (t.company && t.company.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (t.assignee && t.assignee.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesCategory && matchesSearch;
   });
 
   const getSlaHealth = (ticket) => {
     if (ticket.status === 'Resolved') return { label: 'Met SLA', color: 'text-[#1e8a5f]', pct: 100, isBreached: false };
-    if (ticket.slaDue.includes('30 mins') || ticket.priority === 'Urgent') {
+    if ((ticket.slaDue && ticket.slaDue.includes('30 mins')) || ticket.priority === 'Urgent') {
       return { label: 'Critical (< 45m)', color: 'text-[#ef4444]', pct: 85, isBreached: false, penaltyEligible: true };
     }
     return { label: 'Healthy (3h+)', color: 'text-[#1e8a5f]', pct: 35, isBreached: false };
@@ -81,7 +179,7 @@ export const TicketManagementDashboard = () => {
             Incident & Maintenance Service Desk
           </h1>
           <p className="text-xs text-[#747878] dark:text-[#a1a1aa] mt-1">
-            Live SLA countdowns, automated breach penalty credits, and field technician dispatch at {activeBranch.name}.
+            Live SLA countdowns, technician work-order dispatch, and automated breach penalty credits at {activeBranch.name}.
           </p>
         </div>
 
@@ -146,9 +244,11 @@ export const TicketManagementDashboard = () => {
         </div>
 
         <div className="p-4 bg-white dark:bg-[#17181a] border border-[#e3e2e0] dark:border-[#27272a] rounded-2xl shadow-xs">
-          <div className="text-[10px] uppercase font-bold text-[#747878] dark:text-[#a1a1aa]">Active Breaches</div>
-          <div className="font-['Space_Grotesk'] text-xl font-bold text-[#15803d] mt-0.5">0 Active</div>
-          <div className="text-[10px] text-[#747878] mt-0.5">1 Critical at Risk</div>
+          <div className="text-[10px] uppercase font-bold text-[#747878] dark:text-[#a1a1aa]">On-Duty Staff</div>
+          <div className="font-['Space_Grotesk'] text-xl font-bold text-[#7b5900] dark:text-[#f5b400] mt-0.5">
+            {BRANCH_WORKERS.length} Active Leads
+          </div>
+          <div className="text-[10px] text-[#747878] mt-0.5">Ready for Dispatch</div>
         </div>
 
         <div className="p-4 bg-white dark:bg-[#17181a] border border-[#e3e2e0] dark:border-[#27272a] rounded-2xl shadow-xs">
@@ -187,7 +287,7 @@ export const TicketManagementDashboard = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search tickets, suites, IDs..."
+            placeholder="Search tickets, suites, workers..."
             className="w-full pl-9 pr-3 py-1.5 bg-[#f4f3f1] dark:bg-[#202024] border border-[#e3e2e0] dark:border-[#2e2f33] focus:border-[#f5b400] text-xs outline-none rounded-xl text-[#161616] dark:text-white transition-all"
           />
         </div>
@@ -281,13 +381,39 @@ export const TicketManagementDashboard = () => {
                           </div>
 
                           {/* Card Footer: Assignee & Action Buttons */}
-                          <div className="pt-2 border-t border-[#f4f3f1] dark:border-[#27272a] flex items-center justify-between">
-                            <span className="font-bold text-[#161616] dark:text-white bg-[#f4f3f1] dark:bg-[#202024] px-2 py-0.5 rounded-md text-[10px]">
-                              👤 {t.assignee.split(' ')[0]}
-                            </span>
+                          <div className="pt-2 border-t border-[#f4f3f1] dark:border-[#27272a] flex items-center justify-between gap-1">
+                            {/* Assignee Badge / Assign Trigger */}
+                            {col.id === 'New' ? (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  soundFx.playClick();
+                                  setAssignModalTicket(t);
+                                }}
+                                className="px-2.5 py-1 bg-[#f5b400] hover:bg-[#ffdea4] text-[#161616] font-bold rounded-lg text-[10px] flex items-center gap-1 shadow-xs transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                              >
+                                <span className="material-symbols-outlined text-xs">person_add</span>
+                                <span>Assign Staff</span>
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  soundFx.playClick();
+                                  setAssignModalTicket(t);
+                                }}
+                                title="Click to reassign technician"
+                                className="font-bold text-[#161616] dark:text-white bg-[#f4f3f1] dark:bg-[#202024] hover:bg-[#e3e2e0] px-2 py-0.5 rounded-md text-[10px] truncate max-w-[120px] flex items-center gap-1 cursor-pointer transition-colors"
+                              >
+                                <span>👤 {t.assignee ? t.assignee.split(' ')[0] : 'Unassigned'}</span>
+                                <span className="material-symbols-outlined text-[10px] opacity-70">sync_alt</span>
+                              </button>
+                            )}
 
                             {col.id !== 'Resolved' ? (
-                              <div className="flex items-center gap-1.5">
+                              <div className="flex items-center gap-1">
                                 {slaHealth.penaltyEligible && (
                                   <button
                                     type="button"
@@ -295,7 +421,7 @@ export const TicketManagementDashboard = () => {
                                       e.stopPropagation();
                                       setPenaltyModalTicket(t);
                                     }}
-                                    className="text-[10px] font-bold text-[#ef4444] bg-[#ffdad6] dark:bg-[#ef4444]/20 px-2 py-1 rounded-lg hover:scale-105 transition-all"
+                                    className="text-[10px] font-bold text-[#ef4444] bg-[#ffdad6] dark:bg-[#ef4444]/20 px-1.5 py-1 rounded-lg hover:scale-105 transition-all"
                                     title="SLA Risk: Calculate Penalty Credit"
                                   >
                                     ₹ Credit
@@ -308,7 +434,7 @@ export const TicketManagementDashboard = () => {
                                     e.stopPropagation();
                                     handleAdvanceStatus(t.id, col.id);
                                   }}
-                                  className="text-[10px] font-bold text-[#161616] bg-[#f4f3f1] hover:bg-[#f5b400] hover:text-[#161616] px-2.5 py-1 rounded-lg transition-all flex items-center gap-1 shadow-2xs hover:scale-105 active:scale-95 cursor-pointer"
+                                  className="text-[10px] font-bold text-[#161616] dark:text-white bg-[#f4f3f1] dark:bg-[#202024] hover:bg-[#f5b400] hover:text-[#161616] px-2 py-1 rounded-lg transition-all flex items-center gap-1 shadow-2xs hover:scale-105 active:scale-95 cursor-pointer"
                                 >
                                   <span>{col.id === 'In Progress' ? 'Resolve ✓' : 'Advance →'}</span>
                                 </button>
@@ -340,7 +466,7 @@ export const TicketManagementDashboard = () => {
                 <th className="p-3.5 font-bold font-['Space_Grotesk']">Priority</th>
                 <th className="p-3.5 font-bold font-['Space_Grotesk']">Status</th>
                 <th className="p-3.5 font-bold font-['Space_Grotesk']">SLA Target</th>
-                <th className="p-3.5 font-bold font-['Space_Grotesk']">Assignee</th>
+                <th className="p-3.5 font-bold font-['Space_Grotesk']">Assigned Worker</th>
                 <th className="p-3.5 font-bold font-['Space_Grotesk'] text-right">Action</th>
               </tr>
             </thead>
@@ -353,20 +479,17 @@ export const TicketManagementDashboard = () => {
                     setSelectedTicket(t);
                     setCurrentScreen('ticket_detail');
                   }}
-                  className="hover:bg-[#f4f3f1] dark:hover:bg-[#202024] cursor-pointer transition-colors"
+                  className="hover:bg-[#f8f7f5] dark:hover:bg-[#202024]/50 cursor-pointer transition-colors"
                 >
                   <td className="p-3.5 font-mono font-bold text-[#7b5900] dark:text-[#f5b400]">{t.id}</td>
                   <td className="p-3.5">
                     <div className="font-bold text-[#161616] dark:text-white">{t.title}</div>
-                    <div className="text-[10px] text-[#747878] dark:text-[#a1a1aa]">{t.category}</div>
+                    <div className="text-[11px] text-[#747878]">{t.category}</div>
                   </td>
-                  <td className="p-3.5">
-                    <div className="font-medium text-[#161616] dark:text-white">{t.company}</div>
-                    <div className="text-[10px] text-[#747878] dark:text-[#a1a1aa]">{t.suite}</div>
-                  </td>
+                  <td className="p-3.5 text-[#444748] dark:text-[#a1a1aa]">{t.company} • {t.suite}</td>
                   <td className="p-3.5">
                     <span
-                      className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                         t.priority === 'Urgent'
                           ? 'bg-[#ffdad6] text-[#ba1a1a]'
                           : t.priority === 'High'
@@ -377,9 +500,26 @@ export const TicketManagementDashboard = () => {
                       {t.priority}
                     </span>
                   </td>
-                  <td className="p-3.5 font-bold text-[#161616] dark:text-white">{t.status}</td>
-                  <td className="p-3.5 font-mono text-[#747878] dark:text-[#a1a1aa]">{t.slaDue}</td>
-                  <td className="p-3.5 font-medium text-[#161616] dark:text-white">{t.assignee}</td>
+                  <td className="p-3.5">
+                    <span className="font-bold text-[11px] text-[#161616] dark:text-white bg-[#f4f3f1] dark:bg-[#202024] px-2.5 py-1 rounded-lg">
+                      {t.status}
+                    </span>
+                  </td>
+                  <td className="p-3.5 font-mono text-[11px] text-[#ef4444] font-bold">{t.slaDue}</td>
+                  <td className="p-3.5">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        soundFx.playClick();
+                        setAssignModalTicket(t);
+                      }}
+                      className="px-2.5 py-1 bg-[#f4f3f1] dark:bg-[#202024] hover:bg-[#f5b400] hover:text-[#161616] rounded-lg font-bold text-[11px] text-[#161616] dark:text-white inline-flex items-center gap-1 transition-colors"
+                    >
+                      <span>👤 {t.assignee || 'Unassigned'}</span>
+                      <span className="material-symbols-outlined text-xs">edit</span>
+                    </button>
+                  </td>
                   <td className="p-3.5 text-right">
                     <button
                       onClick={(e) => {
@@ -388,7 +528,7 @@ export const TicketManagementDashboard = () => {
                         setSelectedTicket(t);
                         setCurrentScreen('ticket_detail');
                       }}
-                      className="px-3 py-1 bg-[#161616] text-[#f5b400] text-[10px] font-bold rounded-lg hover:bg-[#f5b400] hover:text-[#161616] transition-colors"
+                      className="px-3 py-1 bg-[#161616] text-[#f5b400] font-bold rounded-lg text-xs hover:bg-[#333]"
                     >
                       Inspect →
                     </button>
@@ -400,55 +540,148 @@ export const TicketManagementDashboard = () => {
         </div>
       )}
 
-      {/* SLA Breach Penalty Credit Memo Modal */}
-      {penaltyModalTicket && (
-        <div className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center p-4">
-          <div
-            onClick={() => setPenaltyModalTicket(null)}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-          ></div>
+      {/* MODAL 1: Assign On-Duty Staff / Lead Technician */}
+      {assignModalTicket && (
+        <div className="fixed inset-0 bg-[#161616]/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in">
+          <div className="bg-white dark:bg-[#17181a] border-2 border-[#161616] dark:border-[#3a3a3a] rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl space-y-6">
+            <div className="flex justify-between items-start border-b border-[#e3e2e0] dark:border-[#27272a] pb-4">
+              <div>
+                <div className="text-[10px] uppercase font-bold tracking-widest text-[#7b5900] dark:text-[#f5b400]">
+                  Operations Workforce Dispatch
+                </div>
+                <h3 className="font-['Space_Grotesk'] text-2xl font-bold text-[#161616] dark:text-white mt-0.5">
+                  Assign Lead Technician to #{assignModalTicket.id}
+                </h3>
+                <p className="text-xs text-[#747878] dark:text-[#a1a1aa] mt-1">
+                  Incident: <span className="font-bold text-[#161616] dark:text-white">{assignModalTicket.title}</span> • Category: <span className="font-bold text-[#7b5900] dark:text-[#f5b400]">{assignModalTicket.category}</span>
+                </p>
+              </div>
 
-          <div className="relative bg-white dark:bg-[#17181a] border border-[#e3e2e0] dark:border-[#27272a] rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4 animate-fade-in-up z-10 text-[#161616] dark:text-white">
-            <div className="flex items-center gap-2 text-[#ef4444]">
-              <span className="material-symbols-outlined text-2xl">warning</span>
-              <h3 className="font-['Space_Grotesk'] text-lg font-bold">
-                SLA Guarantee Compensation Calculator
-              </h3>
+              <button
+                onClick={() => setAssignModalTicket(null)}
+                className="text-[#747878] hover:text-[#161616] dark:hover:text-white p-1 rounded-full cursor-pointer"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
             </div>
 
-            <p className="text-xs text-[#747878] dark:text-[#a1a1aa] leading-relaxed">
-              Ticket <strong>{penaltyModalTicket.id}</strong> ({penaltyModalTicket.title}) has reached critical risk threshold. Under the Workafella Enterprise Service Agreement, the tenant is entitled to a service credit.
-            </p>
+            {/* On-Duty Workers List */}
+            <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
+              <div className="text-xs font-bold text-[#747878] dark:text-[#a1a1aa] uppercase tracking-wider">
+                Available On-Duty Staff at {activeBranch.name}:
+              </div>
 
-            <div className="p-4 bg-[#f8f7f5] dark:bg-[#1a1b1d] border border-[#e3e2e0] dark:border-[#27272a] rounded-2xl space-y-2 text-xs">
-              <div className="flex justify-between">
-                <span>Client Beneficiary:</span>
-                <strong className="text-[#161616] dark:text-white">{penaltyModalTicket.company}</strong>
-              </div>
-              <div className="flex justify-between">
-                <span>Guaranteed SLA Target:</span>
-                <strong className="text-[#161616] dark:text-white">4 Hours (Urgent Tier)</strong>
-              </div>
-              <div className="flex justify-between border-t border-[#e3e2e0] dark:border-[#27272a] pt-2">
-                <span>Calculated Penalty Credit:</span>
-                <strong className="text-[#1e8a5f] text-sm font-mono">₹2,500.00</strong>
-              </div>
+              {BRANCH_WORKERS.map((worker) => {
+                const isRecommended =
+                  assignModalTicket.category.toLowerCase().includes(worker.specialty.toLowerCase().slice(0, 4)) ||
+                  worker.specialty.toLowerCase().includes(assignModalTicket.category.toLowerCase().slice(0, 4));
+
+                return (
+                  <div
+                    key={worker.id}
+                    onClick={() => handleAssignWorker(worker)}
+                    className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between hover:scale-[1.01] ${
+                      isRecommended
+                        ? 'bg-[#fffdf7] dark:bg-[#232014] border-[#f5b400] ring-1 ring-[#f5b400]'
+                        : 'bg-[#f8f7f5] dark:bg-[#1a1b1d] border-[#e3e2e0] dark:border-[#27272a] hover:border-[#f5b400]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <img
+                        src={worker.avatar}
+                        alt={worker.name}
+                        className="w-12 h-12 rounded-2xl object-cover border border-[#e3e2e0] dark:border-[#27272a]"
+                      />
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-sm text-[#161616] dark:text-white">{worker.name}</span>
+                          {isRecommended && (
+                            <span className="text-[10px] font-bold bg-[#f5b400] text-[#161616] px-2 py-0.5 rounded-full">
+                              ★ Recommended
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-xs text-[#747878] dark:text-[#a1a1aa] mt-0.5">{worker.designation}</div>
+                        <div className="flex items-center gap-3 text-[11px] text-[#444748] dark:text-[#a1a1aa] mt-1 font-mono">
+                          <span>⏱️ {worker.shift}</span>
+                          <span>•</span>
+                          <span className={worker.activeTickets === 0 ? 'text-[#1e8a5f] font-bold' : 'text-[#747878]'}>
+                            📋 {worker.activeTickets} Active Task{worker.activeTickets === 1 ? '' : 's'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="px-4 py-2 bg-[#161616] hover:bg-[#f5b400] text-white hover:text-[#161616] font-['Space_Grotesk'] font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
+                    >
+                      Assign →
+                    </button>
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="flex gap-3 pt-2">
+            <div className="pt-3 border-t border-[#e3e2e0] dark:border-[#27272a] flex justify-between items-center text-xs">
+              <span className="text-[#747878]">
+                ✓ Selected technician will receive immediate work-order dispatch notification.
+              </span>
               <button
                 type="button"
+                onClick={() => setAssignModalTicket(null)}
+                className="px-4 py-2 bg-[#f4f3f1] dark:bg-[#202024] font-bold rounded-xl text-[#161616] dark:text-white cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 2: SLA Penalty Compensation Credit */}
+      {penaltyModalTicket && (
+        <div className="fixed inset-0 bg-[#161616]/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in">
+          <div className="bg-white dark:bg-[#17181a] border-2 border-[#161616] dark:border-[#3a3a3a] rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex justify-between items-start border-b border-[#e3e2e0] dark:border-[#27272a] pb-3">
+              <div>
+                <span className="text-[10px] uppercase font-bold text-[#ba1a1a] bg-[#ffdad6] px-2 py-0.5 rounded-full">
+                  SLA Breach Guarantee Policy
+                </span>
+                <h3 className="font-['Space_Grotesk'] text-xl font-bold text-[#161616] dark:text-white mt-1">
+                  Issue Compensatory Credit
+                </h3>
+              </div>
+              <button
                 onClick={() => setPenaltyModalTicket(null)}
-                className="flex-1 py-2.5 bg-[#f4f3f1] dark:bg-[#242528] text-[#747878] dark:text-[#a1a1aa] font-bold text-xs rounded-xl"
+                className="text-[#747878] hover:text-[#161616] p-1 rounded-full cursor-pointer"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+            <p className="text-xs text-[#444748] dark:text-[#a1a1aa] leading-relaxed">
+              Ticket <span className="font-bold text-[#161616] dark:text-white">#{penaltyModalTicket.id}</span> ({penaltyModalTicket.title}) has exceeded its guaranteed 4-hour SLA window for {penaltyModalTicket.company}.
+            </p>
+
+            <div className="p-4 bg-[#fff8f7] border border-[#ffdad6] rounded-2xl space-y-1">
+              <div className="text-[11px] text-[#747878]">Compensatory Wallet Credit Amount:</div>
+              <div className="font-['Space_Grotesk'] font-mono text-3xl font-bold text-[#ba1a1a]">₹2,500.00</div>
+              <div className="text-[10px] text-[#747878]">Credited towards next month's invoice deduction</div>
+            </div>
+
+            <div className="pt-2 flex justify-end gap-2">
+              <button
+                onClick={() => setPenaltyModalTicket(null)}
+                className="px-4 py-2 bg-[#f4f3f1] dark:bg-[#202024] font-bold text-xs rounded-xl text-[#161616] dark:text-white cursor-pointer"
               >
                 Cancel
               </button>
               <button
-                type="button"
                 onClick={() => handleIssuePenaltyCredit(penaltyModalTicket)}
-                className="flex-1 py-2.5 bg-[#1e8a5f] text-white font-bold text-xs rounded-xl shadow-md hover:bg-[#15803d] transition-all"
+                className="px-5 py-2 bg-[#ba1a1a] hover:bg-[#931212] text-white font-['Space_Grotesk'] font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer"
               >
-                Issue ₹2,500 Wallet Credit
+                Deposit ₹2,500 Credit
               </button>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
+import { soundFx } from '../../utils/audioEffects';
 
 export const BranchAdminDashboard = () => {
   const {
@@ -18,11 +19,41 @@ export const BranchAdminDashboard = () => {
   const pendingExpenses = expenses.filter((e) => e.status === 'Branch Admin Review' || e.status === 'Submitted');
   const openTickets = tickets.filter((t) => t.status !== 'Resolved' && t.status !== 'Closed');
 
+  // Dynamic Occupancy & Seat Calculations
+  const branchOccupiedSeats = branchClients.reduce((acc, c) => acc + (c.seats || 0), 0);
+  const totalBranchCapacity = activeBranch.seats || 480;
+  const branchOccupancyPercent = Math.min(
+    100,
+    Math.round((branchOccupiedSeats / totalBranchCapacity) * 100) || activeBranch.occupancy
+  );
+
   const kpis = [
-    { label: 'Centre Occupancy', value: `${activeBranch.occupancy}%`, sub: `${activeBranch.seats} Total Desks`, icon: 'chair' },
-    { label: 'Active Enterprise Orgs', value: `${branchClients.length}`, sub: 'Across 4 Main Floors', icon: 'business' },
-    { label: 'Open Service Tickets', value: `${openTickets.length}`, sub: '1 Urgent Escalation', icon: 'support_agent', alert: true },
-    { label: 'Pending Approvals', value: `${pendingAccess.length + pendingExpenses.length}`, sub: 'Access & Expenses', icon: 'pending_actions', alert: true }
+    {
+      label: 'Centre Occupancy',
+      value: `${branchOccupancyPercent}%`,
+      sub: `${branchOccupiedSeats} / ${totalBranchCapacity} Desks Occupied`,
+      icon: 'chair'
+    },
+    {
+      label: 'Active Enterprise Orgs',
+      value: `${branchClients.length}`,
+      sub: `Tenants at ${activeBranch.name}`,
+      icon: 'business'
+    },
+    {
+      label: 'Open Service Tickets',
+      value: `${openTickets.length}`,
+      sub: '1 Urgent Escalation',
+      icon: 'support_agent',
+      alert: true
+    },
+    {
+      label: 'Pending Approvals',
+      value: `${pendingAccess.length + pendingExpenses.length}`,
+      sub: 'Access & Expenses',
+      icon: 'pending_actions',
+      alert: true
+    }
   ];
 
   return (
@@ -43,16 +74,22 @@ export const BranchAdminDashboard = () => {
 
         <div className="flex items-center gap-3">
           <button
-            onClick={() => setCurrentScreen('workspace_allocation')}
-            className="px-4 py-2 bg-white border border-[#3a3a3a] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#f4f3f1] rounded-xl flex items-center gap-1.5 transition-colors"
+            onClick={() => {
+              soundFx.playClick();
+              setCurrentScreen('workspace_allocation');
+            }}
+            className="px-4 py-2 bg-white border border-[#3a3a3a] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#f4f3f1] rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-base">grid_view</span>
             <span>Allocation Board</span>
           </button>
 
           <button
-            onClick={() => setCurrentScreen('onboarding_wizard')}
-            className="px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-colors"
+            onClick={() => {
+              soundFx.playClick();
+              setCurrentScreen('onboarding_wizard');
+            }}
+            className="px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-base">person_add</span>
             <span>+ Onboard Client</span>
@@ -81,6 +118,124 @@ export const BranchAdminDashboard = () => {
             <div className="text-xs text-[#747878] mt-1">{kpi.sub}</div>
           </div>
         ))}
+      </div>
+
+      {/* Active Branch Enterprise Tenants Section */}
+      <div className="bg-white border border-[#e3e2e0] rounded-3xl p-6 sm:p-7 shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#e3e2e0]">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-[#f5b400]">business</span>
+              <h3 className="font-['Space_Grotesk'] text-lg font-bold text-[#161616]">
+                Active Enterprise Tenants at {activeBranch.name}
+              </h3>
+            </div>
+            <p className="text-xs text-[#747878]">
+              Contracted client organizations operating at this physical centre ({branchClients.length} Organizations).
+            </p>
+          </div>
+
+          <button
+            onClick={() => {
+              soundFx.playClick();
+              setCurrentScreen('onboarding_wizard');
+            }}
+            className="px-3.5 py-1.5 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1 shadow-xs transition-transform hover:scale-105 active:scale-95 cursor-pointer self-start sm:self-auto"
+          >
+            <span className="material-symbols-outlined text-sm">add</span>
+            <span>+ Onboard New Tenant</span>
+          </button>
+        </div>
+
+        {branchClients.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse min-w-[750px]">
+              <thead>
+                <tr className="border-b border-[#e3e2e0] text-[#747878] uppercase text-[10px] tracking-wider bg-[#faf9f7]">
+                  <th className="p-3 font-bold">Client Entity</th>
+                  <th className="p-3 font-bold">Suites & Wings</th>
+                  <th className="p-3 font-bold">Desks Committed</th>
+                  <th className="p-3 font-bold">Monthly Rent (MRR)</th>
+                  <th className="p-3 font-bold">Primary Admin</th>
+                  <th className="p-3 font-bold">Status</th>
+                  <th className="p-3 font-bold text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#f4f3f1]">
+                {branchClients.map((client) => {
+                  const mrr = (client.seats || 20) * (client.ratePerSeat || 15000);
+                  return (
+                    <tr key={client.id} className="hover:bg-[#f8f7f5] transition-colors">
+                      <td className="p-3">
+                        <div className="font-bold text-sm text-[#161616]">{client.name}</div>
+                        <div className="text-[11px] text-[#747878]">{client.legalEntity || client.name}</div>
+                      </td>
+
+                      <td className="p-3">
+                        <div className="font-bold text-[#161616]">
+                          {Array.isArray(client.rooms) ? client.rooms.map(r => `Suite ${r}`).join(', ') : 'Dedicated Wing'}
+                        </div>
+                        <div className="text-[10px] text-[#747878]">Floor 6 & 7</div>
+                      </td>
+
+                      <td className="p-3">
+                        <span className="font-['Space_Grotesk'] font-bold text-sm text-[#1e8a5f] bg-[#e7f5ed] px-2.5 py-0.5 rounded-md">
+                          {client.seats} Desks
+                        </span>
+                      </td>
+
+                      <td className="p-3 font-mono font-bold text-[#161616]">
+                        ₹{mrr.toLocaleString('en-IN')}{' '}
+                        <span className="text-[10px] text-[#747878] font-normal">/mo</span>
+                      </td>
+
+                      <td className="p-3 text-[11px] text-[#444748]">
+                        <div className="font-medium">{client.adminName || 'Corporate Admin'}</div>
+                        <div className="text-[#747878]">{client.adminEmail || 'admin@client.com'}</div>
+                      </td>
+
+                      <td className="p-3">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#e7f5ed] text-[#1e8a5f]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                          <span>{client.status || 'Active'}</span>
+                        </span>
+                      </td>
+
+                      <td className="p-3 text-right">
+                        <button
+                          onClick={() => {
+                            soundFx.playClick();
+                            setCurrentScreen('workspace_allocation');
+                          }}
+                          className="px-2.5 py-1 text-[11px] font-bold bg-[#f4f3f1] hover:bg-[#f5b400] text-[#161616] rounded-lg transition-colors cursor-pointer inline-flex items-center gap-1"
+                        >
+                          <span>Allocation</span>
+                          <span className="material-symbols-outlined text-xs">arrow_forward</span>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="p-8 text-center bg-[#faf9f7] rounded-2xl border border-dashed border-[#e3e2e0] space-y-2">
+            <span className="material-symbols-outlined text-3xl text-[#747878]">domain_disabled</span>
+            <div className="font-bold text-sm text-[#161616]">No active clients onboarded at {activeBranch.name} yet</div>
+            <p className="text-xs text-[#747878]">Click the button below to onboard the first enterprise client to this branch.</p>
+            <button
+              onClick={() => {
+                soundFx.playClick();
+                setCurrentScreen('onboarding_wizard');
+              }}
+              className="mt-2 px-4 py-2 bg-[#f5b400] text-[#161616] font-bold text-xs rounded-xl inline-flex items-center gap-1 shadow-xs cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-sm">add</span>
+              <span>Onboard First Client</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Two Column Layout: Actionable Queue & Live Centre Activity */}
@@ -118,8 +273,11 @@ export const BranchAdminDashboard = () => {
                 </div>
 
                 <button
-                  onClick={() => setCurrentScreen('access_approvals')}
-                  className="px-3 py-1.5 bg-[#161616] text-[#f5b400] text-xs font-bold hover:bg-[#2f3130] rounded-lg transition-colors"
+                  onClick={() => {
+                    soundFx.playClick();
+                    setCurrentScreen('access_approvals');
+                  }}
+                  className="px-3 py-1.5 bg-[#161616] text-[#f5b400] text-xs font-bold hover:bg-[#2f3130] rounded-lg transition-colors cursor-pointer"
                 >
                   Review
                 </button>
@@ -146,8 +304,11 @@ export const BranchAdminDashboard = () => {
                 </div>
 
                 <button
-                  onClick={() => setCurrentScreen('expense_approvals')}
-                  className="px-3 py-1.5 bg-[#f5b400] text-[#161616] text-xs font-bold hover:bg-[#ffdea4] rounded-lg transition-colors"
+                  onClick={() => {
+                    soundFx.playClick();
+                    setCurrentScreen('expense_approvals');
+                  }}
+                  className="px-3 py-1.5 bg-[#f5b400] text-[#161616] text-xs font-bold hover:bg-[#ffdea4] rounded-lg transition-colors cursor-pointer"
                 >
                   Sign Off
                 </button>
@@ -166,8 +327,11 @@ export const BranchAdminDashboard = () => {
               <p className="text-xs text-[#747878]">Live stream of room bookings, visitors and tickets</p>
             </div>
             <button
-              onClick={() => setCurrentScreen('centre_calendar')}
-              className="text-xs text-[#7b5900] font-bold hover:underline"
+              onClick={() => {
+                soundFx.playClick();
+                setCurrentScreen('centre_calendar');
+              }}
+              className="text-xs text-[#7b5900] font-bold hover:underline cursor-pointer"
             >
               Room Calendar →
             </button>

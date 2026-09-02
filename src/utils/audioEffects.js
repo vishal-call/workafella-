@@ -42,6 +42,37 @@ class SoundEngine {
     }
   }
 
+  playChime() {
+    if (this.isMuted) return;
+    try {
+      this.init();
+      if (!this.audioCtx) return;
+      if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+
+      const now = this.audioCtx.currentTime;
+      // Dual harmonic luxury chime (E5 -> B5 -> E6)
+      const freqs = [659.25, 987.77, 1318.51];
+      freqs.forEach((freq, i) => {
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + i * 0.08);
+
+        gain.gain.setValueAtTime(0.06, now + i * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
+
+        osc.connect(gain);
+        gain.connect(this.audioCtx.destination);
+
+        osc.start(now + i * 0.08);
+        osc.stop(now + i * 0.08 + 0.35);
+      });
+    } catch (e) {
+      // Ignore
+    }
+  }
+
   playLock() {
     if (this.isMuted) return;
     try {
@@ -101,6 +132,34 @@ class SoundEngine {
         osc.start(now + i * 0.06);
         osc.stop(now + i * 0.06 + 0.25);
       });
+    } catch (e) {
+      // Ignore
+    }
+  }
+
+  playAlert() {
+    if (this.isMuted) return;
+    try {
+      this.init();
+      if (!this.audioCtx) return;
+      if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+
+      const now = this.audioCtx.currentTime;
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.setValueAtTime(880, now + 0.1);
+
+      gain.gain.setValueAtTime(0.05, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.2);
     } catch (e) {
       // Ignore
     }

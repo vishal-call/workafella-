@@ -6,20 +6,20 @@ export const StaffDirectory = () => {
 
   const staffMembers = [
     {
-      name: 'Sarah Jenkins',
+      name: 'Ramesh Kumar',
       designation: 'Centre General Manager / Branch Admin',
       role: 'Branch Admin',
-      email: 'sarah.j@workafella.com',
+      email: 'ramesh.kumar@workafella.com',
       phone: '+91 98400 12345',
       shift: '09:00 AM - 06:00 PM',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
       attendance: [1, 1, 1, 1, 1, 1, 1] // 7 days check-in dots
     },
     {
-      name: 'Karthik Raja',
+      name: 'Arjun Mehta',
       designation: 'Operations & Facility Manager',
       role: 'Operations / Facility',
-      email: 'karthik.r@workafella.com',
+      email: 'arjun.mehta@workafella.com',
       phone: '+91 98400 54321',
       shift: '08:30 AM - 05:30 PM',
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
@@ -32,7 +32,7 @@ export const StaffDirectory = () => {
       email: 'naveen.k@workafella.com',
       phone: '+91 98400 67890',
       shift: '10:00 AM - 07:00 PM',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+      avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80',
       attendance: [1, 1, 1, 1, 1, 1, 1]
     },
     {
@@ -44,6 +44,16 @@ export const StaffDirectory = () => {
       shift: '07:00 AM - 04:00 PM',
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
       attendance: [1, 1, 1, 1, 1, 1, 0]
+    },
+    {
+      name: 'Chandana Reddy',
+      designation: 'Housekeeping & Pantry Services Lead',
+      role: 'Operations Staff',
+      email: 'chandana.r@workafella.com',
+      phone: '+91 98400 77665',
+      shift: '06:30 AM - 03:30 PM',
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+      attendance: [1, 1, 1, 1, 1, 1, 1]
     }
   ];
 

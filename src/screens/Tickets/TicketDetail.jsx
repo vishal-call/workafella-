@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { soundFx } from '../../utils/audioEffects';
+import { BRANCH_WORKERS } from './TicketManagementDashboard';
 
 export const TicketDetail = () => {
-  const { tickets, setTickets, setSelectedTicket, setCurrentScreen, currentUser, addToast } = useApp();
+  const { tickets, setTickets, setSelectedTicket, setCurrentScreen, currentUser, activeBranch, addToast } = useApp();
   const activeTicket = tickets[0] || {
     id: 'TICK-8021',
     title: 'Dedicated Leased-Line Fiber Latency Spike',
@@ -24,6 +25,7 @@ export const TicketDetail = () => {
   const [commentText, setCommentText] = useState('');
   const [csatRating, setCsatRating] = useState(5);
   const [hasRated, setHasRated] = useState(false);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
   // Field Technician Work-Order Checklist State
   const [techChecklist, setTechChecklist] = useState([
@@ -47,6 +49,31 @@ export const TicketDetail = () => {
     soundFx.playClick();
     setTickets(tickets.map((t) => (t.id === activeTicket.id ? { ...t, status: newStatus } : t)));
     addToast(`Ticket status updated to ${newStatus}`, 'success');
+  };
+
+  const handleAssignWorker = (worker) => {
+    soundFx.playChime();
+    setTickets(
+      tickets.map((t) =>
+        t.id === activeTicket.id
+          ? {
+              ...t,
+              assignee: `${worker.name} (${worker.designation.split(' ')[0]})`,
+              status: t.status === 'New' ? 'Assigned' : t.status,
+              comments: [
+                ...(t.comments || []),
+                {
+                  author: 'Operations Lead',
+                  time: 'Just now',
+                  text: `Reassigned ticket to ${worker.name} (${worker.designation}). Shift: ${worker.shift}.`
+                }
+              ]
+            }
+          : t
+      )
+    );
+    addToast(`Assigned ${activeTicket.id} to ${worker.name} (${worker.designation})`, 'success');
+    setIsAssignModalOpen(false);
   };
 
   const handleAddComment = (e) => {
@@ -144,7 +171,7 @@ export const TicketDetail = () => {
                   <span>Field Technician Work-Order Protocol</span>
                 </h3>
                 <p className="text-xs text-[#747878] dark:text-[#a1a1aa] mt-0.5">
-                  Assigned Engineer: {activeTicket.assignee}
+                  Assigned Worker: <span className="font-bold text-[#161616] dark:text-white">{activeTicket.assignee}</span>
                 </p>
               </div>
 
@@ -229,8 +256,47 @@ export const TicketDetail = () => {
           </div>
         </div>
 
-        {/* Right Sidebar: Status, SLA Timer & CSAT Rating */}
+        {/* Right Sidebar: Assignee Card, Status, SLA Timer & CSAT Rating */}
         <div className="lg:col-span-4 space-y-6">
+          {/* Assigned Technician Card */}
+          <div className="bg-white dark:bg-[#17181a] border border-[#e3e2e0] dark:border-[#27272a] rounded-3xl p-6 shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="font-['Space_Grotesk'] text-sm font-bold text-[#161616] dark:text-white flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[#f5b400] text-base">engineering</span>
+                <span>Assigned Lead Technician</span>
+              </h4>
+              <span className="text-[10px] font-bold bg-[#e7f5ed] text-[#1e8a5f] px-2 py-0.5 rounded-full">
+                Active On-Duty
+              </span>
+            </div>
+
+            <div className="p-3.5 bg-[#f8f7f5] dark:bg-[#1a1b1d] rounded-2xl border border-[#e3e2e0] dark:border-[#2e2f33] flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#f5b400] text-[#161616] flex items-center justify-center font-bold text-base">
+                👤
+              </div>
+              <div className="flex-1">
+                <div className="font-bold text-xs text-[#161616] dark:text-white">
+                  {activeTicket.assignee || 'Unassigned Staff'}
+                </div>
+                <div className="text-[10px] text-[#747878] dark:text-[#a1a1aa] mt-0.5">
+                  Assigned at {activeBranch.name}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                soundFx.playClick();
+                setIsAssignModalOpen(true);
+              }}
+              className="w-full py-2.5 bg-[#161616] hover:bg-[#f5b400] text-white hover:text-[#161616] font-['Space_Grotesk'] font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-sm">person_add</span>
+              <span>Reassign / Change Worker</span>
+            </button>
+          </div>
+
           {/* Quick Status Box */}
           <div className="bg-white dark:bg-[#17181a] border border-[#e3e2e0] dark:border-[#27272a] rounded-3xl p-6 shadow-sm space-y-4">
             <h4 className="font-['Space_Grotesk'] text-sm font-bold text-[#161616] dark:text-white">
@@ -287,7 +353,7 @@ export const TicketDetail = () => {
                       key={star}
                       type="button"
                       onClick={() => setCsatRating(star)}
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center text-base transition-all ${
+                      className={`w-9 h-9 rounded-xl flex items-center justify-center text-base transition-all cursor-pointer ${
                         csatRating >= star
                           ? 'bg-[#f5b400] text-[#161616] shadow-sm scale-105'
                           : 'bg-[#f4f3f1] dark:bg-[#202024] text-[#747878]'
@@ -320,6 +386,79 @@ export const TicketDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal: Reassign Worker */}
+      {isAssignModalOpen && (
+        <div className="fixed inset-0 bg-[#161616]/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in">
+          <div className="bg-white dark:bg-[#17181a] border-2 border-[#161616] dark:border-[#3a3a3a] rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl space-y-6">
+            <div className="flex justify-between items-start border-b border-[#e3e2e0] dark:border-[#27272a] pb-4">
+              <div>
+                <div className="text-[10px] uppercase font-bold tracking-widest text-[#7b5900] dark:text-[#f5b400]">
+                  Operations Workforce Dispatch
+                </div>
+                <h3 className="font-['Space_Grotesk'] text-2xl font-bold text-[#161616] dark:text-white mt-0.5">
+                  Assign Lead Technician to #{activeTicket.id}
+                </h3>
+                <p className="text-xs text-[#747878] dark:text-[#a1a1aa] mt-1">
+                  Category: <span className="font-bold text-[#7b5900] dark:text-[#f5b400]">{activeTicket.category}</span>
+                </p>
+              </div>
+
+              <button
+                onClick={() => setIsAssignModalOpen(false)}
+                className="text-[#747878] hover:text-[#161616] dark:hover:text-white p-1 rounded-full cursor-pointer"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+            {/* On-Duty Workers List */}
+            <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
+              {BRANCH_WORKERS.map((worker) => (
+                <div
+                  key={worker.id}
+                  onClick={() => handleAssignWorker(worker)}
+                  className="p-4 rounded-2xl border bg-[#f8f7f5] dark:bg-[#1a1b1d] border-[#e3e2e0] dark:border-[#27272a] hover:border-[#f5b400] transition-all cursor-pointer flex items-center justify-between hover:scale-[1.01]"
+                >
+                  <div className="flex items-center gap-3.5">
+                    <img
+                      src={worker.avatar}
+                      alt={worker.name}
+                      className="w-12 h-12 rounded-2xl object-cover border border-[#e3e2e0] dark:border-[#27272a]"
+                    />
+                    <div>
+                      <div className="font-bold text-sm text-[#161616] dark:text-white">{worker.name}</div>
+                      <div className="text-xs text-[#747878] dark:text-[#a1a1aa] mt-0.5">{worker.designation}</div>
+                      <div className="flex items-center gap-3 text-[11px] text-[#444748] dark:text-[#a1a1aa] mt-1 font-mono">
+                        <span>⏱️ {worker.shift}</span>
+                        <span>•</span>
+                        <span className="text-[#1e8a5f] font-bold">🟢 {worker.status}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-[#161616] hover:bg-[#f5b400] text-white hover:text-[#161616] font-['Space_Grotesk'] font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
+                  >
+                    Select →
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-3 border-t border-[#e3e2e0] dark:border-[#27272a] flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsAssignModalOpen(false)}
+                className="px-4 py-2 bg-[#f4f3f1] dark:bg-[#202024] font-bold rounded-xl text-xs text-[#161616] dark:text-white cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

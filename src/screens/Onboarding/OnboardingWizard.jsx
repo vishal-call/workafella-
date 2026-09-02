@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp, CENTRES } from '../../context/AppContext';
 import confetti from 'canvas-confetti';
 import { InteractiveFloorMap } from '../../components/InteractiveFloorMap';
+import { soundFx } from '../../utils/audioEffects';
 
 export const OnboardingWizard = () => {
-  const { clients, setClients, setCurrentScreen, activeBranch, addToast } = useApp();
+  const { clients, setClients, setCurrentScreen, activeBranch, setActiveBranch, addToast } = useApp();
   const [currentStep, setCurrentStep] = useState(1);
 
   // Form State across Steps
@@ -14,6 +15,7 @@ export const OnboardingWizard = () => {
     pan: 'AABCN7788P',
     gstin: '36AABCN7788P1Z4',
     parentGroup: 'Nexora Global Holdings',
+    centre: activeBranch.name,
     billingContactEmail: 'finance@nexorahealth.com',
     billingContactPhone: '+91 98450 11223',
     contractStart: '2026-09-01',
@@ -28,6 +30,7 @@ export const OnboardingWizard = () => {
   });
 
   const toggleRoomSelection = (roomLabel) => {
+    soundFx.playClick();
     if (formData.selectedRooms.includes(roomLabel)) {
       setFormData({
         ...formData,
@@ -42,16 +45,20 @@ export const OnboardingWizard = () => {
   };
 
   const handleFinalActivation = () => {
+    soundFx.playChime();
     try {
       confetti({
-        particleCount: 100,
-        spread: 80,
+        particleCount: 120,
+        spread: 90,
         origin: { y: 0.6 },
         colors: ['#F5B400', '#161616', '#1E8A5F', '#FFDEA4']
       });
     } catch (e) {
       // Ignore
     }
+
+    const assignedCentreName = formData.centre || activeBranch.name;
+    const targetCentreObj = CENTRES.find((c) => c.name === assignedCentreName) || activeBranch;
 
     const newClient = {
       id: `CL-${Date.now().toString().slice(-3)}`,
@@ -60,7 +67,7 @@ export const OnboardingWizard = () => {
       pan: formData.pan,
       gstin: formData.gstin,
       parentGroup: formData.parentGroup,
-      centre: activeBranch.name,
+      centre: assignedCentreName,
       rooms: formData.selectedRooms.map((r) => (r.includes(' ') ? r.split(' ')[1] : r)),
       seats: Number(formData.seatsRequested),
       ratePerSeat: Number(formData.ratePerSeat),
@@ -69,13 +76,28 @@ export const OnboardingWizard = () => {
       status: 'Active',
       freeHoursEntitlement: Number(formData.seatsRequested),
       freeHoursUsed: 0,
-      riskScore: 10,
-      churnRisk: 'Low'
+      riskScore: 12,
+      churnRisk: 'Low',
+      adminName: formData.adminName,
+      adminEmail: formData.adminEmail
     };
 
+    // Update global clients state
     setClients([newClient, ...clients]);
-    addToast(`Client "${formData.clientName}" successfully onboarded! Activation sent to ${formData.adminEmail}.`, 'success', 'Client Activated');
-    setCurrentScreen('workspace_allocation');
+
+    // Ensure active branch matches if needed
+    if (targetCentreObj) {
+      setActiveBranch(targetCentreObj);
+    }
+
+    addToast(
+      `Client "${formData.clientName}" successfully onboarded at ${assignedCentreName}! Visible in Super Admin and ${assignedCentreName} Branch Admin dashboards.`,
+      'success',
+      'Client Activated'
+    );
+
+    // Route to the branch dashboard to see the newly activated tenant
+    setCurrentScreen('branch_dashboard');
   };
 
   const steps = [
@@ -98,13 +120,16 @@ export const OnboardingWizard = () => {
             New Client Onboarding Wizard
           </h1>
           <p className="text-xs text-[#747878] mt-1">
-            Provision legal entities, contracts, workspace allocations, and client admin accounts in one unified flow.
+            Provision legal entities, contracts, workspace allocations, and client admin accounts with real-time portfolio sync.
           </p>
         </div>
 
         <button
-          onClick={() => setCurrentScreen('dashboard')}
-          className="text-xs text-[#747878] hover:text-[#161616] font-semibold flex items-center gap-1"
+          onClick={() => {
+            soundFx.playClick();
+            setCurrentScreen('branch_dashboard');
+          }}
+          className="text-xs text-[#747878] hover:text-[#161616] font-semibold flex items-center gap-1 cursor-pointer"
         >
           <span className="material-symbols-outlined text-sm">close</span>
           <span>Cancel Onboarding</span>
@@ -119,7 +144,10 @@ export const OnboardingWizard = () => {
           return (
             <div
               key={step.num}
-              onClick={() => setCurrentStep(step.num)}
+              onClick={() => {
+                soundFx.playClick();
+                setCurrentStep(step.num);
+              }}
               className={`flex items-center gap-2 cursor-pointer transition-colors ${
                 isCurrent
                   ? 'text-[#161616] font-bold'
@@ -152,10 +180,10 @@ export const OnboardingWizard = () => {
           <div className="space-y-6">
             <div>
               <h2 className="font-['Space_Grotesk'] text-xl font-bold text-[#161616]">
-                1. Legal Entity & Tax KYC
+                1. Legal Entity, Centre & Tax KYC
               </h2>
               <p className="text-xs text-[#747878] mt-1">
-                Enter official legal registered company name, PAN, and state GSTIN credentials.
+                Enter official legal registered company name, target branch location, PAN, and state GSTIN credentials.
               </p>
             </div>
 
@@ -166,8 +194,23 @@ export const OnboardingWizard = () => {
                   type="text"
                   value={formData.clientName}
                   onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl"
+                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-medium"
                 />
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#161616] mb-1">Target Physical Centre / Branch</label>
+                <select
+                  value={formData.centre}
+                  onChange={(e) => setFormData({ ...formData, centre: e.target.value })}
+                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-bold cursor-pointer"
+                >
+                  {CENTRES.map((c) => (
+                    <option key={c.id} value={c.name}>
+                      {c.name} ({c.city})
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
@@ -176,7 +219,17 @@ export const OnboardingWizard = () => {
                   type="text"
                   value={formData.legalEntityName}
                   onChange={(e) => setFormData({ ...formData, legalEntityName: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl"
+                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#161616] mb-1">Corporate Parent Group (Optional)</label>
+                <input
+                  type="text"
+                  value={formData.parentGroup}
+                  onChange={(e) => setFormData({ ...formData, parentGroup: e.target.value })}
+                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-medium"
                 />
               </div>
 
@@ -186,17 +239,17 @@ export const OnboardingWizard = () => {
                   type="text"
                   value={formData.pan}
                   onChange={(e) => setFormData({ ...formData, pan: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-mono uppercase"
+                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-mono uppercase font-bold"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-[#161616] mb-1">GSTIN Number (15-Digit)</label>
+                <label className="block font-bold text-[#161616] mb-1">GSTIN Number (15-Digit State Registered)</label>
                 <input
                   type="text"
                   value={formData.gstin}
                   onChange={(e) => setFormData({ ...formData, gstin: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-mono uppercase"
+                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-mono uppercase font-bold"
                 />
               </div>
             </div>
@@ -211,7 +264,7 @@ export const OnboardingWizard = () => {
                 2. Contract Terms & Seat Pricing
               </h2>
               <p className="text-xs text-[#747878] mt-1">
-                Configure lease duration, seat quotas, and monthly billing per desk.
+                Configure lease duration, seat quotas, and monthly billing per desk for {formData.centre}.
               </p>
             </div>
 
@@ -222,7 +275,7 @@ export const OnboardingWizard = () => {
                   type="date"
                   value={formData.contractStart}
                   onChange={(e) => setFormData({ ...formData, contractStart: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl"
+                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-medium"
                 />
               </div>
 
@@ -232,7 +285,7 @@ export const OnboardingWizard = () => {
                   type="date"
                   value={formData.contractEnd}
                   onChange={(e) => setFormData({ ...formData, contractEnd: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl"
+                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-medium"
                 />
               </div>
 
@@ -258,13 +311,13 @@ export const OnboardingWizard = () => {
             </div>
 
             <div className="p-5 bg-[#f8f7f5] border border-[#e3e2e0] rounded-2xl text-xs space-y-1">
-              <div className="font-bold text-[#161616]">Monthly Billing Projection:</div>
+              <div className="font-bold text-[#161616]">Monthly Billing Projection ({formData.centre}):</div>
               <div className="font-['Space_Grotesk'] font-mono tabular-nums text-2xl font-bold text-[#161616]">
                 ₹{(formData.seatsRequested * formData.ratePerSeat).toLocaleString('en-IN')}{' '}
-                <span className="text-xs text-[#747878] font-normal">+ 18% GST</span>
+                <span className="text-xs text-[#747878] font-normal">+ 18% GST (SAC: 997212)</span>
               </div>
               <p className="text-[11px] text-[#1e8a5f] font-bold">
-                ✓ Entitlement: {formData.seatsRequested} Free Meeting Room Hours / month included.
+                ✓ Entitlement: {formData.seatsRequested} Free Meeting Room Hours / month allocated automatically.
               </p>
             </div>
           </div>
@@ -275,7 +328,7 @@ export const OnboardingWizard = () => {
           <div className="space-y-6">
             <div>
               <h2 className="font-['Space_Grotesk'] text-xl font-bold text-[#161616]">
-                3. Interactive Floor Plan & Room Selection
+                3. Interactive Floor Plan & Room Selection ({formData.centre})
               </h2>
               <p className="text-xs text-[#747878] mt-1">
                 Select available suites from the blueprint to fulfill the {formData.seatsRequested} contracted seats.
@@ -320,7 +373,7 @@ export const OnboardingWizard = () => {
                   type="text"
                   value={formData.adminName}
                   onChange={(e) => setFormData({ ...formData, adminName: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl"
+                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-medium"
                 />
               </div>
 
@@ -330,7 +383,7 @@ export const OnboardingWizard = () => {
                   type="email"
                   value={formData.adminEmail}
                   onChange={(e) => setFormData({ ...formData, adminEmail: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl"
+                  className="w-full px-3.5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] focus:border-[#f5b400] outline-none rounded-xl font-medium"
                 />
               </div>
             </div>
@@ -355,17 +408,23 @@ export const OnboardingWizard = () => {
                 <span className="font-bold text-[#161616]">{formData.clientName} ({formData.legalEntityName})</span>
               </div>
               <div className="flex justify-between border-b border-[#e3e2e0] pb-2">
-                <span className="text-[#747878]">Allocated Suites:</span>
-                <span className="font-bold text-[#161616]">{formData.selectedRooms.join(', ')}</span>
+                <span className="text-[#747878]">Target Branch Centre:</span>
+                <span className="font-bold text-[#7b5900] bg-[#fff4e5] px-2 py-0.5 rounded-md font-['Space_Grotesk']">
+                  📍 {formData.centre}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-[#e3e2e0] pb-2">
+                <span className="text-[#747878]">Allocated Suites & Seats:</span>
+                <span className="font-bold text-[#161616]">{formData.selectedRooms.join(', ')} ({formData.seatsRequested} Desks)</span>
               </div>
               <div className="flex justify-between border-b border-[#e3e2e0] pb-2">
                 <span className="text-[#747878]">Contract Duration:</span>
                 <span className="font-bold text-[#161616]">{formData.contractStart} to {formData.contractEnd}</span>
               </div>
               <div className="flex justify-between font-bold text-sm pt-1">
-                <span className="text-[#161616]">Monthly Billing:</span>
+                <span className="text-[#161616]">Monthly Contract Value (MRR):</span>
                 <span className="font-['Space_Grotesk'] font-mono tabular-nums text-base text-[#161616]">
-                  ₹{(formData.seatsRequested * formData.ratePerSeat).toLocaleString('en-IN')} + GST
+                  ₹{(formData.seatsRequested * formData.ratePerSeat).toLocaleString('en-IN')} + 18% GST
                 </span>
               </div>
             </div>
@@ -377,8 +436,11 @@ export const OnboardingWizard = () => {
           {currentStep > 1 ? (
             <button
               type="button"
-              onClick={() => setCurrentStep(currentStep - 1)}
-              className="px-5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] text-[#161616] font-bold text-xs hover:bg-[#e3e2e0] rounded-xl transition-colors"
+              onClick={() => {
+                soundFx.playClick();
+                setCurrentStep(currentStep - 1);
+              }}
+              className="px-5 py-2.5 bg-[#f4f3f1] border border-[#e3e2e0] text-[#161616] font-bold text-xs hover:bg-[#e3e2e0] rounded-xl transition-colors cursor-pointer"
             >
               ← Back
             </button>
@@ -389,8 +451,11 @@ export const OnboardingWizard = () => {
           {currentStep < 5 ? (
             <button
               type="button"
-              onClick={() => setCurrentStep(currentStep + 1)}
-              className="px-7 py-3 bg-[#161616] text-[#f5b400] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#2f3130] rounded-xl transition-all shadow-md flex items-center gap-1.5"
+              onClick={() => {
+                soundFx.playClick();
+                setCurrentStep(currentStep + 1);
+              }}
+              className="px-7 py-3 bg-[#161616] text-[#f5b400] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#2f3130] rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
             >
               <span>Continue Step {currentStep + 1}</span>
               <span className="material-symbols-outlined text-sm">arrow_forward</span>

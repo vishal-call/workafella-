@@ -6,6 +6,8 @@ import { soundFx } from '../../utils/audioEffects';
 export const SuperAdminDashboard = () => {
   const { clients, setCurrentScreen, setActiveBranch } = useApp();
   const [activeKpiIndex, setActiveKpiIndex] = useState(0);
+  const [clientFilterCentre, setClientFilterCentre] = useState('All Centres');
+  const [clientSearch, setClientSearch] = useState('');
 
   const totalSeats = CENTRES.reduce((acc, c) => acc + c.seats, 0);
   const totalOccupiedSeats = CENTRES.reduce(
@@ -13,6 +15,16 @@ export const SuperAdminDashboard = () => {
     0
   );
   const avgOccupancy = Math.round((totalOccupiedSeats / totalSeats) * 100);
+
+  const filteredClients = clients.filter((c) => {
+    const matchesCentre = clientFilterCentre === 'All Centres' || c.centre === clientFilterCentre;
+    const matchesSearch =
+      !clientSearch ||
+      c.name.toLowerCase().includes(clientSearch.toLowerCase()) ||
+      (c.legalEntity && c.legalEntity.toLowerCase().includes(clientSearch.toLowerCase())) ||
+      (c.centre && c.centre.toLowerCase().includes(clientSearch.toLowerCase()));
+    return matchesCentre && matchesSearch;
+  });
 
   const kpis = [
     {
@@ -38,9 +50,9 @@ export const SuperAdminDashboard = () => {
       label: 'Active Enterprise Clients',
       shortLabel: 'Enterprise Clients',
       value: `${clients.length}`,
-      sub: 'Across 11 physical centres',
+      sub: `Across 11 physical centres`,
       isPositive: true,
-      trend: [24, 25, 27, 28, 29, 31, 32]
+      trend: [24, 25, 27, 28, 29, 31, clients.length]
     },
     {
       id: 'risk',
@@ -126,7 +138,10 @@ export const SuperAdminDashboard = () => {
 
         <div className="flex items-center gap-3">
           <button
-            onClick={() => setCurrentScreen('reports')}
+            onClick={() => {
+              soundFx.playClick();
+              setCurrentScreen('reports');
+            }}
             className="px-4 py-2 bg-white border border-[#3a3a3a] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#f4f3f1] rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-base">assessment</span>
@@ -134,7 +149,10 @@ export const SuperAdminDashboard = () => {
           </button>
 
           <button
-            onClick={() => setCurrentScreen('onboarding_wizard')}
+            onClick={() => {
+              soundFx.playClick();
+              setCurrentScreen('onboarding_wizard');
+            }}
             className="px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-base">add_business</span>
@@ -220,8 +238,11 @@ export const SuperAdminDashboard = () => {
               <p className="text-xs text-[#747878]">Occupancy, capacity utilization, and physical suites</p>
             </div>
             <button
-              onClick={() => setCurrentScreen('enterprise_ops')}
-              className="text-xs text-[#7b5900] font-bold hover:underline"
+              onClick={() => {
+                soundFx.playClick();
+                setCurrentScreen('enterprise_ops');
+              }}
+              className="text-xs text-[#7b5900] font-bold hover:underline cursor-pointer"
             >
               View Grid Telemetry →
             </button>
@@ -269,10 +290,11 @@ export const SuperAdminDashboard = () => {
                     <td className="py-3 text-right">
                       <button
                         onClick={() => {
+                          soundFx.playClick();
                           setActiveBranch(c);
-                          setCurrentScreen('dashboard');
+                          setCurrentScreen('branch_dashboard');
                         }}
-                        className="px-2.5 py-1 text-[11px] font-bold bg-[#f4f3f1] hover:bg-[#f5b400] text-[#161616] rounded-lg transition-colors"
+                        className="px-2.5 py-1 text-[11px] font-bold bg-[#f4f3f1] hover:bg-[#f5b400] text-[#161616] rounded-lg transition-colors cursor-pointer"
                       >
                         Inspect
                       </button>
@@ -309,8 +331,11 @@ export const SuperAdminDashboard = () => {
                   Contract expires in 32 days. Meeting room usage has declined by 40% while 2 HVAC comfort tickets remain pending.
                 </p>
                 <button
-                  onClick={() => setCurrentScreen('ai_insights')}
-                  className="mt-2 text-[#7b5900] font-bold hover:underline block text-[11px]"
+                  onClick={() => {
+                    soundFx.playClick();
+                    setCurrentScreen('ai_insights');
+                  }}
+                  className="mt-2 text-[#7b5900] font-bold hover:underline block text-[11px] cursor-pointer"
                 >
                   Inspect Retention Proposal →
                 </button>
@@ -325,14 +350,166 @@ export const SuperAdminDashboard = () => {
                   Floor 7 Suite 704 & 705 seat occupancy at 100%. 3 new biometric employee access requests submitted this week.
                 </p>
                 <button
-                  onClick={() => setCurrentScreen('ai_insights')}
-                  className="mt-2 text-[#7b5900] font-bold hover:underline block text-[11px]"
+                  onClick={() => {
+                    soundFx.playClick();
+                    setCurrentScreen('ai_insights');
+                  }}
+                  className="mt-2 text-[#7b5900] font-bold hover:underline block text-[11px] cursor-pointer"
                 >
                   Propose Adjacent Suite 706 →
                 </button>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* NEW: Universal Active Enterprise Client Directory (National Portfolio) */}
+      <div className="bg-white border border-[#e3e2e0] rounded-3xl p-6 sm:p-7 shadow-sm space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#e3e2e0]">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-[#f5b400]">corporate_fare</span>
+              <h3 className="font-['Space_Grotesk'] text-xl font-bold text-[#161616]">
+                Active Enterprise Client Directory (National Portfolio)
+              </h3>
+            </div>
+            <p className="text-xs text-[#747878] mt-0.5">
+              Live enterprise client accounts, contracted desks, and assigned branch locations ({clients.length} Total Enterprise Tenants).
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Search Input */}
+            <div className="relative">
+              <span className="material-symbols-outlined absolute left-2.5 top-2 text-sm text-[#747878]">
+                search
+              </span>
+              <input
+                type="text"
+                placeholder="Search tenant or entity..."
+                value={clientSearch}
+                onChange={(e) => setClientSearch(e.target.value)}
+                className="pl-8 pr-3 py-1.5 text-xs bg-[#f4f3f1] border border-[#e3e2e0] rounded-xl outline-none focus:border-[#f5b400] text-[#161616] w-48 font-medium"
+              />
+            </div>
+
+            {/* Centre Filter */}
+            <select
+              value={clientFilterCentre}
+              onChange={(e) => setClientFilterCentre(e.target.value)}
+              className="px-3 py-1.5 text-xs bg-[#f4f3f1] border border-[#e3e2e0] rounded-xl font-bold outline-none text-[#161616] cursor-pointer"
+            >
+              <option>All Centres</option>
+              {CENTRES.map((c) => (
+                <option key={c.id} value={c.name}>
+                  {c.name} ({c.city})
+                </option>
+              ))}
+            </select>
+
+            <button
+              onClick={() => {
+                soundFx.playClick();
+                setCurrentScreen('onboarding_wizard');
+              }}
+              className="px-3.5 py-1.5 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1 shadow-xs transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-sm">add</span>
+              <span>Onboard Client</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs border-collapse min-w-[800px]">
+            <thead>
+              <tr className="border-b border-[#e3e2e0] text-[#747878] uppercase text-[10px] tracking-wider bg-[#faf9f7]">
+                <th className="p-3 font-bold">Client Entity</th>
+                <th className="p-3 font-bold">Branch Centre</th>
+                <th className="p-3 font-bold">Suites & Desks</th>
+                <th className="p-3 font-bold">Monthly Contract (MRR)</th>
+                <th className="p-3 font-bold">Contract Term</th>
+                <th className="p-3 font-bold">Status</th>
+                <th className="p-3 font-bold text-right">Branch Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#f4f3f1]">
+              {filteredClients.map((client) => {
+                const targetCentreObj = CENTRES.find((c) => c.name === client.centre) || CENTRES[0];
+                const mrr = (client.seats || 20) * (client.ratePerSeat || 15000);
+
+                return (
+                  <tr key={client.id} className="hover:bg-[#f8f7f5] transition-colors">
+                    <td className="p-3">
+                      <div className="font-bold text-sm text-[#161616]">{client.name}</div>
+                      <div className="text-[11px] text-[#747878]">
+                        {client.legalEntity || client.name} • {client.pan || 'PAN Verified'}
+                      </div>
+                    </td>
+
+                    <td className="p-3">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#fff4e5] text-[#7b5900] font-bold text-[11px]">
+                        <span className="material-symbols-outlined text-xs">location_on</span>
+                        <span>{client.centre || 'Hitec City'}</span>
+                      </span>
+                    </td>
+
+                    <td className="p-3">
+                      <div className="font-bold text-[#161616]">
+                        {Array.isArray(client.rooms) ? client.rooms.map(r => `Suite ${r}`).join(', ') : 'Dedicated Wing'}
+                      </div>
+                      <div className="text-[11px] text-[#1e8a5f] font-semibold">
+                        {client.seats} Contracted Desks
+                      </div>
+                    </td>
+
+                    <td className="p-3">
+                      <div className="font-mono font-bold text-sm text-[#161616]">
+                        ₹{mrr.toLocaleString('en-IN')}{' '}
+                        <span className="text-[10px] text-[#747878] font-normal">/mo</span>
+                      </div>
+                      <div className="text-[10px] text-[#747878]">
+                        @ ₹{(client.ratePerSeat || 15000).toLocaleString('en-IN')}/desk
+                      </div>
+                    </td>
+
+                    <td className="p-3 text-[11px] text-[#444748]">
+                      <div>{client.contractStart || '2026-09-01'}</div>
+                      <div className="text-[#747878]">to {client.contractEnd || '2027-08-31'}</div>
+                    </td>
+
+                    <td className="p-3">
+                      <span
+                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                          client.status === 'Expiring Soon'
+                            ? 'bg-[#fff0ed] text-[#c4432b]'
+                            : 'bg-[#e7f5ed] text-[#1e8a5f]'
+                        }`}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                        <span>{client.status || 'Active'}</span>
+                      </span>
+                    </td>
+
+                    <td className="p-3 text-right">
+                      <button
+                        onClick={() => {
+                          soundFx.playClick();
+                          setActiveBranch(targetCentreObj);
+                          setCurrentScreen('branch_dashboard');
+                        }}
+                        className="px-3 py-1.5 bg-[#161616] hover:bg-[#f5b400] text-white hover:text-[#161616] font-['Space_Grotesk'] font-bold text-xs rounded-xl transition-all cursor-pointer inline-flex items-center gap-1"
+                      >
+                        <span>Open Branch</span>
+                        <span className="material-symbols-outlined text-xs">arrow_forward</span>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
