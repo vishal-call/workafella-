@@ -271,46 +271,7 @@ export const AppShell = ({ children }) => {
           </nav>
         </div>
 
-        {/* Sidebar Footer: Quick Role Switcher (ALWAYS PINNED TO BOTTOM) */}
-        <div className="px-3 pt-3 flex-shrink-0 border-t border-[#27272a]/60">
-          {isSidebarOpen ? (
-            <div className="bg-gradient-to-b from-[#1e1e20] to-[#151516] border border-[#2e2e32] p-3.5 rounded-2xl shadow-sm">
-              <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-[#858383] font-bold mb-2">
-                <span>Demo Role Switcher</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#f5b400]"></span>
-              </div>
-              <div className="grid grid-cols-2 gap-1.5">
-                {Object.keys(ROLES).map((rKey) => (
-                  <button
-                    key={rKey}
-                    onClick={() => {
-                      soundFx.playClick();
-                      switchRole(rKey);
-                    }}
-                    className={`text-[10px] py-2 px-2 text-center rounded-xl truncate font-bold transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] ${
-                      currentUser.id === rKey
-                        ? 'bg-[#f5b400] text-[#161616] shadow-md shadow-[#f5b400]/20'
-                        : 'bg-[#27272a] text-[#dadad8] hover:bg-[#333338] hover:text-white'
-                    }`}
-                  >
-                    {ROLES[rKey].roleLabel.split('—')[0].trim()}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <button
-              onClick={() => {
-                soundFx.playClick();
-                setIsSidebarOpen(true);
-              }}
-              className="w-12 h-12 mx-auto flex items-center justify-center text-[#f5b400] bg-[#202022] hover:bg-[#28282d] border border-[#2e2e32] rounded-2xl transition-all hover:scale-110 shadow-sm"
-              title="Open Role Switcher"
-            >
-              <span className="material-symbols-outlined text-xl">swap_horiz</span>
-            </button>
-          )}
-        </div>
+
       </aside>
 
       {/* Main Content Area */}
