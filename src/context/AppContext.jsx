@@ -76,7 +76,7 @@ export const AppProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(ROLES.branch_admin);
   const [activeBranch, setActiveBranch] = useState(CENTRES[0]);
   const [activeCity, setActiveCity] = useState('All Cities');
-  const [currentScreen, setCurrentScreen] = useState('dashboard');
+  const [currentScreen, setCurrentScreen] = useState('login');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
