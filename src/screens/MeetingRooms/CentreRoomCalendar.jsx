@@ -253,22 +253,22 @@ export const CentreRoomCalendar = () => {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8">
       {/* Calendar Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e3e2e0] dark:border-[#27272a] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e3e2e0] dark:border-[#27272a] pb-5 sm:pb-6">
         <div>
-          <div className="text-[11px] uppercase tracking-widest text-[#7b5900] dark:text-[#f5b400] font-bold mb-1">
+          <div className="text-[10px] sm:text-[11px] uppercase tracking-widest text-[#7b5900] dark:text-[#f5b400] font-bold mb-1">
             Operations & Facility Management • {activeBranch.city}
           </div>
-          <h1 className="font-['Space_Grotesk'] text-3xl font-bold text-[#161616] dark:text-white">
+          <h1 className="font-['Space_Grotesk'] text-2xl sm:text-3xl font-bold text-[#161616] dark:text-white">
             Centre-Wide Room Booking Calendar
           </h1>
-          <p className="text-xs text-[#747878] dark:text-[#a1a1aa] mt-1">
+          <p className="text-xs text-[#747878] dark:text-[#a1a1aa] mt-1 leading-relaxed">
             Real-time live synchronization across all meeting spaces at {activeBranch.name} • Internal client and guest reservations.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           {/* View Mode Switcher */}
           <div className="flex bg-[#f4f3f1] dark:bg-[#202024] border border-[#e3e2e0] dark:border-[#2e2f33] rounded-xl p-1 text-xs font-bold">
             {['Day View', 'Week View', 'Month View'].map((v) => (
@@ -278,7 +278,7 @@ export const CentreRoomCalendar = () => {
                   soundFx.playClick();
                   setSelectedView(v);
                 }}
-                className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                className={`px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
                   selectedView === v
                     ? 'bg-[#161616] dark:bg-[#f5b400] text-[#f5b400] dark:text-[#161616] shadow-sm'
                     : 'text-[#747878] dark:text-[#a1a1aa]'
@@ -294,7 +294,7 @@ export const CentreRoomCalendar = () => {
               soundFx.playClick();
               setQuickBookSlot({ label: formatDateStr(currentDate), dateStr: formatDateStr(currentDate), hour: '10:00 AM' });
             }}
-            className="px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
+            className="px-3.5 sm:px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
           >
             <span className="material-symbols-outlined text-sm">add</span>
             <span>+ Manual Booking</span>
