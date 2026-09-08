@@ -18,6 +18,7 @@ import { ReportsDashboard } from './screens/Executive/ReportsDashboard';
 import { EnterpriseOperations } from './screens/Executive/EnterpriseOperations';
 import { BranchAdminDashboard } from './screens/Branch/BranchAdminDashboard';
 import { WorkspaceAllocationBoard } from './screens/Branch/WorkspaceAllocationBoard';
+import { ManageWorkspace } from './screens/Branch/ManageWorkspace';
 import { StaffDirectory } from './screens/Branch/StaffDirectory';
 import { OnboardingWizard } from './screens/Onboarding/OnboardingWizard';
 import { MeetingRoomGallery } from './screens/MeetingRooms/MeetingRoomGallery';
@@ -65,6 +66,8 @@ export const App = () => {
         return <BranchAdminDashboard />;
       case 'workspace_allocation':
         return <WorkspaceAllocationBoard />;
+      case 'manage_workspace':
+        return <ManageWorkspace />;
       case 'staff_directory':
         return <StaffDirectory />;
       case 'onboarding_wizard':

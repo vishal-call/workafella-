@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { InteractiveFloorMap } from '../../components/InteractiveFloorMap';
+import { soundFx } from '../../utils/audioEffects';
 
 export const WorkspaceAllocationBoard = () => {
   const { clients, activeBranch, setCurrentScreen, addToast } = useApp();
@@ -85,6 +86,18 @@ export const WorkspaceAllocationBoard = () => {
             <option>Floor 7</option>
             <option>Floor 8</option>
           </select>
+
+          <button
+            onClick={() => {
+              soundFx?.playClick?.();
+              setCurrentScreen('manage_workspace');
+            }}
+            className="px-4 py-2 bg-[#161616] text-[#f5b400] border border-[#f5b400]/40 font-['Space_Grotesk'] font-bold text-xs hover:bg-[#27272a] hover:border-[#f5b400] rounded-xl flex items-center gap-1.5 shadow-sm transition-all"
+            title="Manage physical floors, rooms, and desks structure"
+          >
+            <span className="material-symbols-outlined text-base">domain_add</span>
+            <span>+ Manage Workspace</span>
+          </button>
 
           <button
             onClick={() => setIsNewAllocModalOpen(true)}

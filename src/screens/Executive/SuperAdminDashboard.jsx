@@ -121,31 +121,42 @@ export const SuperAdminDashboard = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8">
-      {/* Header & Macro Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e3e2e0] pb-5 sm:pb-6">
+    <div className="p-8 max-w-7xl mx-auto space-y-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e3e2e0] pb-6">
         <div>
-          <div className="text-[10px] sm:text-[11px] uppercase tracking-widest text-[#7b5900] font-bold mb-1">
-            Executive Command Center • Pan-India Portfolio
+          <div className="text-[11px] uppercase tracking-widest text-[#7b5900] font-bold mb-1">
+            Enterprise Command Center • Multi-Centre
           </div>
-          <h1 className="font-['Space_Grotesk'] text-2xl sm:text-3xl lg:text-4xl font-bold text-[#161616] tracking-tight">
-            National Performance Overview
+          <h1 className="font-['Space_Grotesk'] text-3xl font-bold text-[#161616]">
+            Executive Leadership Overview
           </h1>
-          <p className="text-xs text-[#747878] mt-1 leading-relaxed">
-            Real-time telemetry, portfolio revenue density, and occupancy analytics across 11 flagships.
+          <p className="text-xs text-[#747878] mt-1">
+            Consolidated real-time operational telemetry across Hyderabad, Chennai, Bangalore, and Mumbai.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => {
+              soundFx.playClick();
+              setCurrentScreen('reports');
+            }}
+            className="px-4 py-2 bg-white border border-[#3a3a3a] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#f4f3f1] rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-base">assessment</span>
+            <span>Reports & Exports</span>
+          </button>
+
           <button
             onClick={() => {
               soundFx.playClick();
               setCurrentScreen('onboarding_wizard');
             }}
-            className="px-3.5 sm:px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
+            className="px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
           >
-            <span className="material-symbols-outlined text-base">person_add</span>
-            <span>+ Onboard Enterprise Client</span>
+            <span className="material-symbols-outlined text-base">add_business</span>
+            <span>+ Onboard New Client</span>
           </button>
         </div>
       </div>

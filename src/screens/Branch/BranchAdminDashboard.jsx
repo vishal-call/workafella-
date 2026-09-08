@@ -57,14 +57,14 @@ export const BranchAdminDashboard = () => {
   ];
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8">
+    <div className="p-8 max-w-7xl mx-auto space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e3e2e0] pb-5 sm:pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e3e2e0] pb-6">
         <div>
-          <div className="text-[10px] sm:text-[11px] uppercase tracking-widest text-[#7b5900] font-bold mb-1">
+          <div className="text-[11px] uppercase tracking-widest text-[#7b5900] font-bold mb-1">
             Local Branch Terminal • {activeBranch.city}
           </div>
-          <h1 className="font-['Space_Grotesk'] text-2xl sm:text-3xl font-bold text-[#161616]">
+          <h1 className="font-['Space_Grotesk'] text-3xl font-bold text-[#161616]">
             {activeBranch.name} Command Center
           </h1>
           <p className="text-xs text-[#747878] mt-1">
@@ -72,13 +72,13 @@ export const BranchAdminDashboard = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-3">
           <button
             onClick={() => {
               soundFx.playClick();
               setCurrentScreen('workspace_allocation');
             }}
-            className="px-3.5 sm:px-4 py-2 bg-white border border-[#3a3a3a] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#f4f3f1] rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-4 py-2 bg-white border border-[#3a3a3a] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#f4f3f1] rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-base">grid_view</span>
             <span>Allocation Board</span>
@@ -89,7 +89,7 @@ export const BranchAdminDashboard = () => {
               soundFx.playClick();
               setCurrentScreen('onboarding_wizard');
             }}
-            className="px-3.5 sm:px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
+            className="px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-base">person_add</span>
             <span>+ Onboard Client</span>

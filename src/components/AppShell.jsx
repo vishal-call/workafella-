@@ -39,6 +39,7 @@ export const AppShell = ({ children }) => {
         return [
           { id: 'executive_dashboard', label: 'Executive Overview', icon: 'monitoring' },
           { id: 'enterprise_ops', label: 'Enterprise Ops', icon: 'domain' },
+          { id: 'manage_workspace', label: 'Manage Workspace', icon: 'domain_add' },
           { id: 'ai_insights', label: 'AI Insights & Forecasts', icon: 'psychology' },
           { id: 'branch_expenses_analytics', label: 'Expense Analytics', icon: 'donut_large' },
           { id: 'reports', label: 'Consolidated Reports', icon: 'assessment' },
@@ -50,6 +51,7 @@ export const AppShell = ({ children }) => {
           { id: 'dashboard', label: 'Branch Dashboard', icon: 'dashboard' },
           { id: 'onboarding_wizard', label: 'Client Onboarding', icon: 'person_add' },
           { id: 'workspace_allocation', label: 'Workspace Allocation', icon: 'grid_view' },
+          { id: 'manage_workspace', label: 'Manage Workspace', icon: 'domain_add' },
           { id: 'access_approvals', label: 'Access Requests', icon: 'fingerprint' },
           { id: 'expense_approvals', label: 'Expense Approvals', icon: 'fact_check' },
           { id: 'staff_directory', label: 'Staff Directory', icon: 'badge' },

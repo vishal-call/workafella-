@@ -766,6 +766,224 @@ export const AppProvider = ({ children }) => {
     }
   ]);
 
+  // Comprehensive Physical Workspace Hierarchy (Floors, Rooms, Seats)
+  const [floors, setFloors] = useState([
+    {
+      id: 'FL-06',
+      name: 'Floor 6',
+      level: 6,
+      centre: 'Hitec City',
+      totalArea: '14,000 sq.ft',
+      description: 'Advanced Research Labs, Biotech Suites & Analytics Wing',
+      status: 'Operational'
+    },
+    {
+      id: 'FL-07',
+      name: 'Floor 7',
+      level: 7,
+      centre: 'Hitec City',
+      totalArea: '16,500 sq.ft',
+      description: 'Enterprise Private Suites, Dedicated Wings & Executive Boardroom Hub',
+      status: 'Operational'
+    },
+    {
+      id: 'FL-08',
+      name: 'Floor 8',
+      level: 8,
+      centre: 'Hitec City',
+      totalArea: '15,000 sq.ft',
+      description: 'High-Growth Tech Startups, Creator Media Pods & Penthouse Terrace',
+      status: 'Operational'
+    }
+  ]);
+
+  const [rooms, setRooms] = useState([
+    // Floor 7 Rooms
+    { id: 'RM-701', name: 'Suite 701', floorId: 'FL-07', floor: 'Floor 7', type: 'Private Office', capacity: 20, area: '1,200 sq.ft', baseRatePerSeat: 14500, status: 'Occupied', client: 'Cognizant Digital', amenities: ['Dedicated LAN', 'Biometric Smart Lock', 'Whiteboard', 'Executive Mesh Chairs'] },
+    { id: 'RM-702', name: 'Suite 702', floorId: 'FL-07', floor: 'Floor 7', type: 'Private Office', capacity: 15, area: '950 sq.ft', baseRatePerSeat: 15000, status: 'Occupied', client: 'Zenith Systems & AI', amenities: ['Dedicated LAN', 'Biometric Lock', 'Acoustic Soundproofing'] },
+    { id: 'RM-703', name: 'Suite 703', floorId: 'FL-07', floor: 'Floor 7', type: 'Private Office', capacity: 25, area: '1,500 sq.ft', baseRatePerSeat: 14000, status: 'Available', client: 'Vacant Space', amenities: ['4K Smart Display', 'Dual Router Ports', 'Motorized Standing Desks'] },
+    { id: 'RM-704', name: 'Suite 704', floorId: 'FL-07', floor: 'Floor 7', type: 'Enterprise Wing', capacity: 30, area: '1,800 sq.ft', baseRatePerSeat: 14500, status: 'Occupied', client: 'NovaTech Solutions Pvt Ltd', amenities: ['Private Glass Cabin', 'Dedicated Server Rack', 'Keyless Bio-Access'] },
+    { id: 'RM-705', name: 'Suite 705', floorId: 'FL-07', floor: 'Floor 7', type: 'Private Office', capacity: 15, area: '900 sq.ft', baseRatePerSeat: 14500, status: 'Occupied', client: 'NovaTech Solutions Pvt Ltd', amenities: ['Conference Pod', 'Ergonomic Mesh Chairs'] },
+    { id: 'RM-706', name: 'Suite 706', floorId: 'FL-07', floor: 'Floor 7', type: 'Private Office', capacity: 15, area: '920 sq.ft', baseRatePerSeat: 15000, status: 'Available', client: 'Vacant Space', amenities: ['Natural Light Window View', 'Dual 24-inch Monitor Arms'] },
+    { id: 'RM-707', name: 'The Boardroom 7A', floorId: 'FL-07', floor: 'Floor 7', type: 'Meeting Room', capacity: 16, area: '650 sq.ft', baseRatePerSeat: 2500, status: 'Meeting Room', client: 'Conference Suite', amenities: ['4K Dual Display', 'Polycom Mic Array', 'Crestron Console'] },
+    { id: 'RM-708', name: 'Creator Pod Alpha', floorId: 'FL-07', floor: 'Floor 7', type: 'Meeting Room', capacity: 4, area: '200 sq.ft', baseRatePerSeat: 1200, status: 'Meeting Room', client: 'Media Lab', amenities: ['Podcast Mic', 'Ring Light', 'Sound Dampening'] },
+
+    // Floor 6 Rooms
+    { id: 'RM-601', name: 'Lab 601', floorId: 'FL-06', floor: 'Floor 6', type: 'Custom Built Lab', capacity: 30, area: '2,000 sq.ft', baseRatePerSeat: 14000, status: 'Occupied', client: 'Quantum BioLabs', amenities: ['Cleanroom Air Filtration', 'ESD Anti-Static Flooring', 'UPS 3-Phase Power'] },
+    { id: 'RM-602', name: 'Lab 602', floorId: 'FL-06', floor: 'Floor 6', type: 'Custom Built Lab', capacity: 30, area: '2,000 sq.ft', baseRatePerSeat: 14000, status: 'Occupied', client: 'Quantum BioLabs', amenities: ['Isolated Server Rack', 'Chemical-Resistant Benches'] },
+    { id: 'RM-604', name: 'Suite 604', floorId: 'FL-06', floor: 'Floor 6', type: 'Private Office', capacity: 18, area: '1,100 sq.ft', baseRatePerSeat: 15500, status: 'Occupied', client: 'FinEdge Capital', amenities: ['Private Glass Cabin', 'Safe Lock Vault', 'Lounge Seating'] },
+
+    // Floor 8 Rooms
+    { id: 'RM-801', name: 'Suite 801', floorId: 'FL-08', floor: 'Floor 8', type: 'Private Office', capacity: 20, area: '1,200 sq.ft', baseRatePerSeat: 15000, status: 'Available', client: 'Vacant Space', amenities: ['Penthouse Skyline View', 'Executive Lounge Access'] },
+    { id: 'RM-802', name: 'Suite 802', floorId: 'FL-08', floor: 'Floor 8', type: 'Private Office', capacity: 15, area: '900 sq.ft', baseRatePerSeat: 15000, status: 'Available', client: 'Vacant Space', amenities: ['High Ceiling', 'Direct Elevator Proximity'] },
+    { id: 'RM-803', name: 'Suite 803', floorId: 'FL-08', floor: 'Floor 8', type: 'Custom Built Wing', capacity: 40, area: '2,400 sq.ft', baseRatePerSeat: 14000, status: 'Occupied', client: 'Infosys FinTech', amenities: ['Internal Server Pod', 'Cafeteria Direct Access'] },
+    { id: 'RM-804', name: 'Executive Boardroom 8B', floorId: 'FL-08', floor: 'Floor 8', type: 'Meeting Room', capacity: 20, area: '800 sq.ft', baseRatePerSeat: 3000, status: 'Meeting Room', client: 'VIP Conference', amenities: ['Motorized Dropdown 4K Laser Screen', 'Barista Coffee Bar'] }
+  ]);
+
+  const [seats, setSeats] = useState(() => {
+    const initialSeats = [];
+    // Generate starter structured seats for suites
+    const defaultRoomCapacities = [
+      { roomId: 'RM-704', prefix: 'D-704', count: 30, client: 'NovaTech Solutions Pvt Ltd', status: 'Occupied', deskType: 'Ergonomic Standing Desk' },
+      { roomId: 'RM-705', prefix: 'D-705', count: 15, client: 'NovaTech Solutions Pvt Ltd', status: 'Occupied', deskType: 'Executive Leather Desk' },
+      { roomId: 'RM-703', prefix: 'D-703', count: 25, client: 'Vacant Space', status: 'Available', deskType: 'Dual-Monitor Developer Bay' },
+      { roomId: 'RM-701', prefix: 'D-701', count: 20, client: 'Cognizant Digital', status: 'Occupied', deskType: 'Standard Dedicated Desk' },
+      { roomId: 'RM-702', prefix: 'D-702', count: 15, client: 'Zenith Systems & AI', status: 'Occupied', deskType: 'Ergonomic Standing Desk' },
+      { roomId: 'RM-706', prefix: 'D-706', count: 15, client: 'Vacant Space', status: 'Available', deskType: 'Dual-Monitor Developer Bay' },
+      { roomId: 'RM-601', prefix: 'D-601', count: 30, client: 'Quantum BioLabs', status: 'Occupied', deskType: 'Lab Workstation' },
+      { roomId: 'RM-602', prefix: 'D-602', count: 30, client: 'Quantum BioLabs', status: 'Occupied', deskType: 'Lab Workstation' },
+      { roomId: 'RM-604', prefix: 'D-604', count: 18, client: 'FinEdge Capital', status: 'Occupied', deskType: 'Executive Leather Desk' },
+      { roomId: 'RM-801', prefix: 'D-801', count: 20, client: 'Vacant Space', status: 'Available', deskType: 'Standard Dedicated Desk' },
+      { roomId: 'RM-802', prefix: 'D-802', count: 15, client: 'Vacant Space', status: 'Available', deskType: 'Standard Dedicated Desk' },
+      { roomId: 'RM-803', prefix: 'D-803', count: 40, client: 'Infosys FinTech', status: 'Occupied', deskType: 'Dual-Monitor Developer Bay' }
+    ];
+
+    defaultRoomCapacities.forEach(({ roomId, prefix, count, client, status, deskType }) => {
+      for (let i = 1; i <= count; i++) {
+        const seatNum = `${prefix}-${i < 10 ? '0' + i : i}`;
+        initialSeats.push({
+          id: `ST-${roomId}-${i}`,
+          roomId,
+          seatNumber: seatNum,
+          deskType,
+          status,
+          assignedTo: status === 'Occupied' ? client : 'Unassigned',
+          powerLanStatus: 'Active',
+          amenities: ['Power Socket 230V', 'RJ45 LAN 1Gbps', 'Lockable Pedestal']
+        });
+      }
+    });
+
+    return initialSeats;
+  });
+
+  // Workspace Structure CRUD Actions
+  const addFloor = (floorData) => {
+    const newFloor = {
+      id: `FL-${Date.now().toString().slice(-4)}`,
+      status: 'Operational',
+      ...floorData
+    };
+    setFloors((prev) => [...prev, newFloor]);
+    addToast(`Floor "${newFloor.name}" created successfully!`, 'success', 'Floor Added');
+  };
+
+  const updateFloor = (floorId, updatedData) => {
+    setFloors((prev) => prev.map((f) => (f.id === floorId ? { ...f, ...updatedData } : f)));
+    addToast('Floor details updated successfully!', 'success', 'Floor Updated');
+  };
+
+  const deleteFloor = (floorId) => {
+    const targetFloor = floors.find((f) => f.id === floorId);
+    setFloors((prev) => prev.filter((f) => f.id !== floorId));
+    // Remove associated rooms and seats
+    const floorRoomIds = rooms.filter((r) => r.floorId === floorId).map((r) => r.id);
+    setRooms((prev) => prev.filter((r) => r.floorId !== floorId));
+    setSeats((prev) => prev.filter((s) => !floorRoomIds.includes(s.roomId)));
+    addToast(`Removed ${targetFloor?.name || 'Floor'} and its associated inventory.`, 'info', 'Floor Removed');
+  };
+
+  const addRoom = (roomData) => {
+    const newRoom = {
+      id: `RM-${Math.floor(1000 + Math.random() * 9000)}`,
+      status: 'Available',
+      client: 'Vacant Space',
+      amenities: ['Power Sockets', 'LAN Connectivity', 'Executive Chairs'],
+      ...roomData
+    };
+    setRooms((prev) => [...prev, newRoom]);
+
+    // Auto-generate desks for the new room's capacity
+    const initialDesks = [];
+    const capacity = Number(newRoom.capacity) || 10;
+    const prefix = `D-${newRoom.name.replace(/[^0-9]/g, '') || 'R'}`;
+    for (let i = 1; i <= capacity; i++) {
+      initialDesks.push({
+        id: `ST-${newRoom.id}-${i}`,
+        roomId: newRoom.id,
+        seatNumber: `${prefix}-${i < 10 ? '0' + i : i}`,
+        deskType: 'Standard Dedicated Desk',
+        status: newRoom.status === 'Occupied' ? 'Occupied' : 'Available',
+        assignedTo: newRoom.client || 'Unassigned',
+        powerLanStatus: 'Active',
+        amenities: ['Power Socket', 'LAN RJ45']
+      });
+    }
+    setSeats((prev) => [...prev, ...initialDesks]);
+
+    addToast(`Room "${newRoom.name}" added with ${capacity} workstation desks!`, 'success', 'Room Created');
+  };
+
+  const updateRoom = (roomId, updatedData) => {
+    setRooms((prev) => prev.map((r) => (r.id === roomId ? { ...r, ...updatedData } : r)));
+    addToast('Room configurations updated!', 'success', 'Room Saved');
+  };
+
+  const deleteRoom = (roomId) => {
+    const targetRoom = rooms.find((r) => r.id === roomId);
+    setRooms((prev) => prev.filter((r) => r.id !== roomId));
+    setSeats((prev) => prev.filter((s) => s.roomId !== roomId));
+    addToast(`Removed room ${targetRoom?.name || ''} and its seats.`, 'info', 'Room Removed');
+  };
+
+  const addSeat = (seatData) => {
+    const newSeat = {
+      id: `ST-${Date.now()}-${Math.random()}`,
+      status: 'Available',
+      assignedTo: 'Unassigned',
+      powerLanStatus: 'Active',
+      ...seatData
+    };
+    setSeats((prev) => [...prev, newSeat]);
+    // update room capacity count
+    if (seatData.roomId) {
+      setRooms((prev) =>
+        prev.map((r) => (r.id === seatData.roomId ? { ...r, capacity: Number(r.capacity) + 1 } : r))
+      );
+    }
+    addToast(`Desk ${newSeat.seatNumber} added!`, 'success', 'Seat Created');
+  };
+
+  const bulkAddSeats = (roomId, count, prefix = 'D-', deskType = 'Ergonomic Standing Desk', status = 'Available') => {
+    const existingRoomSeats = seats.filter((s) => s.roomId === roomId);
+    const startIdx = existingRoomSeats.length + 1;
+    const newSeatsList = [];
+    for (let i = 0; i < count; i++) {
+      const num = startIdx + i;
+      newSeatsList.push({
+        id: `ST-${roomId}-${num}-${Date.now()}`,
+        roomId,
+        seatNumber: `${prefix}${num < 10 ? '0' + num : num}`,
+        deskType,
+        status,
+        assignedTo: status === 'Occupied' ? 'Assigned' : 'Unassigned',
+        powerLanStatus: 'Active',
+        amenities: ['Power Socket 230V', 'High-Speed LAN RJ45']
+      });
+    }
+    setSeats((prev) => [...prev, ...newSeatsList]);
+    setRooms((prev) =>
+      prev.map((r) => (r.id === roomId ? { ...r, capacity: Number(r.capacity) + Number(count) } : r))
+    );
+    addToast(`Bulk generated ${count} desks in room!`, 'success', 'Seats Generated');
+  };
+
+  const updateSeat = (seatId, updatedData) => {
+    setSeats((prev) => prev.map((s) => (s.id === seatId ? { ...s, ...updatedData } : s)));
+    addToast('Workstation desk updated!', 'success', 'Seat Saved');
+  };
+
+  const deleteSeat = (seatId) => {
+    const targetSeat = seats.find((s) => s.id === seatId);
+    setSeats((prev) => prev.filter((s) => s.id !== seatId));
+    if (targetSeat?.roomId) {
+      setRooms((prev) =>
+        prev.map((r) => (r.id === targetSeat.roomId ? { ...r, capacity: Math.max(0, Number(r.capacity) - 1) } : r))
+      );
+    }
+    addToast('Seat removed.', 'info', 'Seat Deleted');
+  };
+
   const [notifications, setNotifications] = useState([
     {
       id: 'NOTIF-1',
@@ -964,6 +1182,22 @@ export const AppProvider = ({ children }) => {
         setAssets,
         vendors,
         setVendors,
+        floors,
+        setFloors,
+        rooms,
+        setRooms,
+        seats,
+        setSeats,
+        addFloor,
+        updateFloor,
+        deleteFloor,
+        addRoom,
+        updateRoom,
+        deleteRoom,
+        addSeat,
+        bulkAddSeats,
+        updateSeat,
+        deleteSeat,
         clientWallet,
         setClientWallet,
         previewInvoice,
