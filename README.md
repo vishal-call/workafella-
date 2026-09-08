@@ -60,7 +60,10 @@ The application includes 6 pre-configured personas ready for interactive demonst
 ## 🌟 Core System Capabilities
 
 1. **National Multi-Centre Command Center:** Real-time occupancy, revenue density, city filters (Hyderabad, Chennai, Bangalore, Mumbai), and geographic map visualization.
-2. **Interactive 2D & 360° Visual Floorplan:** Live inventory status (`Vacant`, `Occupied`, `Reserved`, `Maintenance`) with 5-minute temporary reservation holds.
+2. **Updated Space Allocation & Workspace Management:** 
+   - **3-Tier Physical Hierarchy:** Full CRUD control for Floors, Rooms/Suites, and Individual Desks/Seats.
+   - **Interactive 2D & 360° Visual Floorplan:** Live inventory status (`Vacant`, `Occupied`, `Reserved`, `Maintenance`) with 5-minute temporary reservation holds and direct mid-cycle pro-rata contract amendments.
+   - **Workstation Desk Matrix & Bulk Generator:** Single-desk or bulk 1-click generation of sequential workstations with hardware tiering and power/LAN telemetry.
 3. **Meeting Room Calendar Engine:** Day, Week, and 7-column Month views with multi-month scheduling, free credit quota enforcement, and automatic overage billing.
 4. **Interactive Service Desk with SLA Shield:** 4-stage Kanban triage board, 1-click on-duty technician dispatch, voice incident notes, diagnostic checklists, and automated ₹2,500 SLA breach credit memos.
 5. **Visitor Gate Pass & Biometrics:** Dynamic QR entry pass generation, instant turnstile clearance simulator, and digital NDA logs.
