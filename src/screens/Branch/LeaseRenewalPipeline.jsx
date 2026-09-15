@@ -63,6 +63,98 @@ export const LeaseRenewalPipeline = () => {
     setMoveOutDate(contract.contractEnd || '2026-09-30');
   };
 
+  // Open Addendum Preview for any contract (Kanban card or Table view)
+  const handleOpenAddendumPreview = (contract) => {
+    soundFx.playClick();
+    if (!contract) return;
+
+    if (contract.stage === 'Renewed') {
+      const currentRate = Number(contract.baseRatePerSeat) || 15000;
+      const seats = Number(contract.seats) || 20;
+      const monthlyRent = Number(contract.monthlyRent) || seats * currentRate;
+      const gstAmount = Math.round(monthlyRent * 0.18);
+      const totalWithGst = monthlyRent + gstAmount;
+      const depositAmount = Number(contract.depositAmount) || monthlyRent * 2;
+      const escalation = Number(contract.proposedEscalation) || 6;
+      const previousRate = Math.round(currentRate / (1 + escalation / 100));
+
+      setPreviewAddendumContract({
+        ...contract,
+        isAlreadyRenewed: true,
+        seats,
+        seatDelta: 0,
+        baseRatePerSeat: currentRate,
+        previousRate,
+        escalationPct: escalation,
+        monthlyRent,
+        gstAmount,
+        totalWithGst,
+        depositAmount,
+        effectiveRenewalDate: contract.contractStart || '2026-10-01',
+        extendedTermExpiry: contract.contractEnd || '2027-08-31',
+        lockInMonths: contract.newTermMonths || 11
+      });
+    } else {
+      // Active / Expiring / Negotiating contract -> calculate proposed terms
+      const baseSeats = Number(contract.seats) || 20;
+      const currentRate = Number(contract.baseRatePerSeat) || 15000;
+      const escalation = Number(contract.proposedEscalation) || 6;
+      const termMonths = Number(contract.newTermMonths) || 11;
+      const newRatePerSeat = Math.round(currentRate * (1 + escalation / 100));
+      const newMonthlyRent = baseSeats * newRatePerSeat;
+      const gstAmount = Math.round(newMonthlyRent * 0.18);
+      const totalWithGst = newMonthlyRent + gstAmount;
+      const depositAmount = newMonthlyRent * 2;
+
+      // Start date is the existing contract expiry
+      const startDate = contract.contractEnd || '2026-10-01';
+      const startDateObj = new Date(startDate);
+      const endDateObj = new Date(startDateObj);
+      endDateObj.setMonth(endDateObj.getMonth() + termMonths);
+      const calculatedEndDate = endDateObj.toISOString().split('T')[0];
+
+      setPreviewAddendumContract({
+        ...contract,
+        isAlreadyRenewed: false,
+        seats: baseSeats,
+        seatDelta: 0,
+        baseRatePerSeat: newRatePerSeat,
+        previousRate: currentRate,
+        escalationPct: escalation,
+        monthlyRent: newMonthlyRent,
+        gstAmount,
+        totalWithGst,
+        depositAmount,
+        effectiveRenewalDate: startDate,
+        extendedTermExpiry: calculatedEndDate,
+        lockInMonths: termMonths
+      });
+    }
+  };
+
+  // Open Preview from inside Renewal Modal with live slider values
+  const handlePreviewFromRenewalModal = () => {
+    soundFx.playClick();
+    if (!renewalModalContract || !renewalCalculations) return;
+
+    setPreviewAddendumContract({
+      ...renewalModalContract,
+      isAlreadyRenewed: false,
+      seats: renewalCalculations.newSeats,
+      seatDelta: Number(seatDelta),
+      baseRatePerSeat: renewalCalculations.newRatePerSeat,
+      previousRate: renewalCalculations.currentRate,
+      escalationPct: Number(escalationPct),
+      monthlyRent: renewalCalculations.newMonthlyRent,
+      gstAmount: renewalCalculations.gstAmount,
+      totalWithGst: renewalCalculations.newMonthlyTotalWithGst,
+      depositAmount: renewalCalculations.requiredDeposit,
+      effectiveRenewalDate: renewalStartDate || renewalModalContract.contractEnd,
+      extendedTermExpiry: renewalCalculations.calculatedEndDate,
+      lockInMonths: Number(lockInMonths)
+    });
+  };
+
   // Calculations for Active Renewal Modal
   const renewalCalculations = useMemo(() => {
     if (!renewalModalContract) return null;
@@ -463,10 +555,7 @@ export const LeaseRenewalPipeline = () => {
                             <div className="flex items-center justify-between gap-1 text-[10px]">
                               <button
                                 type="button"
-                                onClick={() => {
-                                  soundFx.playClick();
-                                  setPreviewAddendumContract(contract);
-                                }}
+                                onClick={() => handleOpenAddendumPreview(contract)}
                                 className="text-[#7b5900] dark:text-[#f5b400] font-bold hover:underline cursor-pointer flex items-center gap-0.5"
                               >
                                 <span className="material-symbols-outlined text-xs">description</span>
@@ -536,16 +625,23 @@ export const LeaseRenewalPipeline = () => {
                         {c.stage}
                       </span>
                     </td>
-                    <td className="p-3.5 text-right space-x-2">
+                    <td className="p-3.5 text-right space-x-1.5 whitespace-nowrap">
                       <button
                         onClick={() => handleOpenRenewalModal(c)}
-                        className="px-3 py-1 bg-[#f5b400] hover:bg-[#ffdea4] text-[#161616] font-bold text-xs rounded-lg transition-colors cursor-pointer"
+                        className="px-2.5 py-1 bg-[#f5b400] hover:bg-[#ffdea4] text-[#161616] font-bold text-xs rounded-lg transition-colors cursor-pointer"
                       >
                         Renew →
                       </button>
                       <button
+                        onClick={() => handleOpenAddendumPreview(c)}
+                        className="px-2 py-1 bg-[#f4f3f1] dark:bg-[#202024] text-[#7b5900] dark:text-[#f5b400] font-bold text-xs rounded-lg hover:bg-[#ffdea4] dark:hover:bg-[#2e2f33] transition-colors cursor-pointer inline-flex items-center gap-0.5"
+                      >
+                        <span className="material-symbols-outlined text-[13px]">description</span>
+                        <span>Addendum</span>
+                      </button>
+                      <button
                         onClick={() => handleOpenMoveOutModal(c)}
-                        className="px-2.5 py-1 bg-[#ffdad6] text-[#ba1a1a] font-bold text-xs rounded-lg hover:bg-[#ffb5a1] transition-colors cursor-pointer"
+                        className="px-2 py-1 bg-[#ffdad6] text-[#ba1a1a] font-bold text-xs rounded-lg hover:bg-[#ffb5a1] transition-colors cursor-pointer"
                       >
                         Exit
                       </button>
@@ -703,7 +799,7 @@ export const LeaseRenewalPipeline = () => {
               <div className="pt-3 border-t border-[#e3e2e0] dark:border-[#27272a] flex items-center justify-between">
                 <button
                   type="button"
-                  onClick={() => setPreviewAddendumContract(renewalModalContract)}
+                  onClick={handlePreviewFromRenewalModal}
                   className="text-xs text-[#7b5900] dark:text-[#f5b400] font-bold hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-sm">print</span>
@@ -851,75 +947,200 @@ export const LeaseRenewalPipeline = () => {
 
       {/* MODAL 3: Printable Agreement Extension Addendum */}
       {previewAddendumContract && (
-        <div className="fixed inset-0 bg-[#161616]/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in">
-          <div className="bg-white text-[#161616] rounded-3xl p-8 max-w-2xl w-full shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto font-sans">
+        <div className="fixed inset-0 bg-[#161616]/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in print:p-0 print:bg-white print:fixed print:inset-0">
+          <div className="bg-white text-[#161616] rounded-3xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto font-sans print:max-w-none print:w-full print:shadow-none print:rounded-none print:border-none print:p-8 print:max-h-none print:overflow-visible">
+            {/* Header / Document Identity */}
             <div className="flex justify-between items-start border-b-2 border-[#161616] pb-4">
               <div>
-                <div className="font-['Space_Grotesk'] text-2xl font-bold tracking-tight">WORKAFELLA WORKSPACE OS</div>
-                <div className="text-[10px] uppercase tracking-widest text-[#7b5900] font-bold">
-                  Master Service Agreement (MSA) Extension Addendum
+                <div className="flex items-center gap-2">
+                  <div className="font-['Space_Grotesk'] text-2xl font-black tracking-tight text-[#161616]">WORKAFELLA</div>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#f5b400] text-[#161616]">
+                    {previewAddendumContract.isAlreadyRenewed ? 'EXECUTED ADDENDUM' : 'RENEWAL EXTENSION ADDENDUM'}
+                  </span>
+                </div>
+                <div className="text-[11px] uppercase tracking-widest text-[#7b5900] font-bold mt-0.5">
+                  Master Service Agreement (MSA) Commercial Extension Addendum
+                </div>
+                <div className="text-[10px] font-mono text-[#747878] mt-0.5">
+                  Doc Ref: WF-MSA-EXT-{previewAddendumContract.id?.replace('LSE-', '') || '2026'}-R1 • Date: {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => setPreviewAddendumContract(null)}
-                className="text-[#747878] hover:text-[#161616] p-1 cursor-pointer"
+                className="text-[#747878] hover:text-[#161616] p-1.5 rounded-full hover:bg-[#f4f3f1] cursor-pointer print:hidden transition-colors"
+                title="Close Preview"
               >
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
 
-            <div className="text-xs space-y-4 leading-relaxed text-[#444748]">
-              <p>
-                This <strong>Lease Renewal & Extension Addendum</strong> is entered into on <strong>{new Date().toLocaleDateString('en-IN')}</strong> between <strong>Workafella Real Estate & Workspace Platform Ltd</strong> and <strong>{previewAddendumContract.legalEntity || previewAddendumContract.clientName}</strong> ("Licensee").
+            {/* Document Body */}
+            <div className="text-xs space-y-4 leading-relaxed text-[#2c2d30]">
+              <p className="text-justify">
+                This <strong>Master Service Agreement Extension & Commercial Escalation Addendum</strong> (&quot;Addendum&quot;) is executed and made effective as of <strong>{new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>, by and between:
               </p>
 
-              <div className="p-4 bg-[#f8f7f5] rounded-xl border border-[#e3e2e0] space-y-2">
-                <div className="font-bold text-[#161616] uppercase text-[10px]">Schedule of Extended Commercial Terms:</div>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div><strong>Agreement ID:</strong> {previewAddendumContract.id}</div>
-                  <div><strong>Licensed Centre:</strong> {previewAddendumContract.centre}</div>
-                  <div><strong>Allocated Suites:</strong> {previewAddendumContract.suites?.join(', ')}</div>
-                  <div><strong>Total Workstation Desks:</strong> {previewAddendumContract.seats} Desks</div>
-                  <div><strong>Revised Monthly Fee:</strong> ₹{previewAddendumContract.monthlyRent?.toLocaleString('en-IN')} + 18% GST</div>
-                  <div><strong>Effective Renewal Date:</strong> {previewAddendumContract.contractStart || '2026-10-01'}</div>
-                  <div><strong>Extended Term Expiry:</strong> {previewAddendumContract.contractEnd || '2027-09-30'}</div>
-                  <div><strong>Lock-In Period:</strong> {previewAddendumContract.newTermMonths || 11} Months</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 bg-[#f8f7f5] rounded-xl border border-[#e3e2e0] text-[11px]">
+                <div className="border-r border-[#e3e2e0] pr-2">
+                  <div className="font-bold text-[#7b5900] uppercase text-[9px] tracking-wider mb-0.5">Licensor / Provider:</div>
+                  <div className="font-bold text-[#161616]">Workafella Real Estate & Workspace Platform Ltd</div>
+                  <div className="text-[#747878] text-[10px] mt-0.5">Operating Centre: {previewAddendumContract.centre}</div>
+                </div>
+                <div className="pl-1">
+                  <div className="font-bold text-[#7b5900] uppercase text-[9px] tracking-wider mb-0.5">Licensee / Tenant:</div>
+                  <div className="font-bold text-[#161616]">{previewAddendumContract.legalEntity || previewAddendumContract.clientName}</div>
+                  <div className="text-[#747878] text-[10px] mt-0.5">
+                    Contact: {previewAddendumContract.keyContact || 'Authorized Representative'} ({previewAddendumContract.contactEmail || 'operations@tenant.io'})
+                  </div>
                 </div>
               </div>
 
-              <p>
-                All other terms, conditions, codes of conduct, and network uptime service level agreements specified under the Original Master Service Agreement shall continue in full force and effect without alteration.
+              <p className="text-justify text-[11px]">
+                <strong>WHEREAS</strong>, the Licensor and Licensee entered into a Master Workspace License Agreement referenced under ID <strong>#{previewAddendumContract.id}</strong>, scheduled to mature on <strong>{previewAddendumContract.contractEnd || 'the scheduled date'}</strong>. The Parties now mutually agree to extend the tenure and formalize the revised commercial schedule detailed below:
               </p>
 
-              <div className="pt-8 border-t border-[#e3e2e0] grid grid-cols-2 gap-8 text-center text-xs">
-                <div className="border-t border-dashed border-[#747878] pt-2">
-                  <div className="font-bold">For Workafella India Ltd</div>
-                  <div className="text-[10px] text-[#747878]">Authorized Signatory</div>
+              {/* Schedule Table */}
+              <div className="rounded-xl border border-[#161616] overflow-hidden">
+                <div className="bg-[#161616] text-white px-3.5 py-1.5 font-['Space_Grotesk'] font-bold text-[11px] flex justify-between items-center">
+                  <span>SCHEDULE A: EXTENDED COMMERCIAL TERMS & INVOICING MATRIX</span>
+                  <span className="text-[#f5b400] text-[10px]">MSA #{previewAddendumContract.id}</span>
                 </div>
-                <div className="border-t border-dashed border-[#747878] pt-2">
-                  <div className="font-bold">For {previewAddendumContract.clientName}</div>
-                  <div className="text-[10px] text-[#747878]">Authorized Director / Signatory</div>
+
+                <div className="divide-y divide-[#e3e2e0] text-xs">
+                  <div className="grid grid-cols-2 p-2.5 bg-white">
+                    <span className="text-[#747878] font-medium">Licensed Centre & Premises:</span>
+                    <span className="font-bold text-[#161616]">{previewAddendumContract.centre}</span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-[#fbfbfa]">
+                    <span className="text-[#747878] font-medium">Allocated Dedicated Suites:</span>
+                    <span className="font-bold text-[#161616]">{previewAddendumContract.suites?.join(', ') || 'Dedicated Enterprise Suite'}</span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-white">
+                    <span className="text-[#747878] font-medium">Dedicated Workstation Desks:</span>
+                    <span className="font-bold font-mono text-[#161616]">
+                      {previewAddendumContract.seats} Desks {previewAddendumContract.seatDelta ? `(${previewAddendumContract.seatDelta > 0 ? `+${previewAddendumContract.seatDelta}` : previewAddendumContract.seatDelta} seats adjusted)` : ''}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-[#fbfbfa]">
+                    <span className="text-[#747878] font-medium">Baseline Rate Per Seat (Previous):</span>
+                    <span className="font-mono text-[#747878] line-through">
+                      ₹{previewAddendumContract.previousRate?.toLocaleString('en-IN')} / desk / month
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-white">
+                    <span className="text-[#747878] font-medium">Agreed Annual Rent Escalation:</span>
+                    <span className="font-mono font-bold text-[#7b5900]">
+                      +{previewAddendumContract.escalationPct}% (Capped for Extension Term)
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-[#fffdf5]">
+                    <span className="text-[#161616] font-bold">Revised License Rate Per Desk:</span>
+                    <span className="font-mono font-bold text-[#161616]">
+                      ₹{previewAddendumContract.baseRatePerSeat?.toLocaleString('en-IN')} / desk / month
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-[#fffdf5]">
+                    <span className="text-[#161616] font-bold">Revised Monthly Net License Fee:</span>
+                    <span className="font-mono font-bold text-sm text-[#161616]">
+                      ₹{previewAddendumContract.monthlyRent?.toLocaleString('en-IN')} / month
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-white">
+                    <span className="text-[#747878] font-medium">Applicable GST (18%):</span>
+                    <span className="font-mono font-medium text-[#747878]">
+                      + ₹{previewAddendumContract.gstAmount?.toLocaleString('en-IN')} / month
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-[#f8f7f5] border-t-2 border-[#161616]">
+                    <span className="text-[#161616] font-bold">Total Monthly Gross Invoiced Amount:</span>
+                    <span className="font-mono font-black text-sm text-[#1e8a5f]">
+                      ₹{previewAddendumContract.totalWithGst?.toLocaleString('en-IN')} / month (Incl. GST)
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-white">
+                    <span className="text-[#747878] font-medium">Effective Renewal Date (Commencement):</span>
+                    <span className="font-mono font-bold text-[#161616]">{previewAddendumContract.effectiveRenewalDate}</span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-[#fbfbfa]">
+                    <span className="text-[#747878] font-medium">Extended Maturity / Expiry Date:</span>
+                    <span className="font-mono font-bold text-[#ba1a1a]">{previewAddendumContract.extendedTermExpiry}</span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-white">
+                    <span className="text-[#747878] font-medium">Lock-In Commitment Period:</span>
+                    <span className="font-bold text-[#161616]">{previewAddendumContract.lockInMonths} Months (Mandatory Lock-In)</span>
+                  </div>
+                  <div className="grid grid-cols-2 p-2.5 bg-[#fbfbfa]">
+                    <span className="text-[#747878] font-medium">Maintained Security Deposit (2 Mo.):</span>
+                    <span className="font-mono font-bold text-[#161616]">₹{previewAddendumContract.depositAmount?.toLocaleString('en-IN')}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Standard Legal Clauses */}
+              <div className="space-y-1.5 text-[10px] text-[#555] bg-[#f8f7f5] p-3 rounded-xl border border-[#e3e2e0]">
+                <div className="font-bold text-[#161616] uppercase tracking-wider text-[9px] mb-1">Standard Operational Terms & Covenants:</div>
+                <p>1. <strong>Continuity</strong>: All provisions, rules, codes of conduct, and terms of the Master Agreement #{previewAddendumContract.id} shall continue in full force.</p>
+                <p>2. <strong>Utilities & Network SLA</strong>: Includes 24/7 dedicated air conditioning during business hours, 99.98% high-speed leased-line uptime, biometric security access, and daily sanitization.</p>
+                <p>3. <strong>Lock-in Covenant</strong>: The Licensee acknowledges that premature surrender during the {previewAddendumContract.lockInMonths}-month lock-in period entails forfeiture of the Security Deposit as liquidated damages.</p>
+                <p>4. <strong>Notice Period</strong>: A minimum of 60 calendar days written notice prior to {previewAddendumContract.extendedTermExpiry} is mandatory for renewal or surrender.</p>
+              </div>
+
+              {/* Signatures & Stamps */}
+              <div className="pt-6 border-t border-[#e3e2e0] grid grid-cols-2 gap-8 text-center text-xs">
+                <div className="space-y-2">
+                  <div className="h-14 flex items-center justify-center">
+                    <div className="border border-dashed border-[#1e8a5f] bg-[#eafbf3] text-[#1e8a5f] px-3 py-1 rounded text-[9px] font-mono font-bold uppercase">
+                      ✓ WORKAFELLA DIGITAL SEAL & SIGNATURE
+                    </div>
+                  </div>
+                  <div className="border-t border-[#161616] pt-1.5">
+                    <div className="font-bold text-[#161616]">For Workafella Real Estate & Workspace Ltd</div>
+                    <div className="text-[10px] text-[#747878]">Authorized Signatory • Operations Lead</div>
+                    <div className="text-[9px] text-[#747878] mt-0.5">Centre: {previewAddendumContract.centre}</div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="h-14 flex items-center justify-center">
+                    <div className="border border-dashed border-[#7b5900] bg-[#fffbf0] text-[#7b5900] px-3 py-1 rounded text-[9px] font-mono font-bold uppercase">
+                      {previewAddendumContract.isAlreadyRenewed ? '✓ COUNTERSIGNED BY LICENSEE' : 'PENDING COUNTERSIGNATURE'}
+                    </div>
+                  </div>
+                  <div className="border-t border-[#161616] pt-1.5">
+                    <div className="font-bold text-[#161616]">For {previewAddendumContract.legalEntity || previewAddendumContract.clientName}</div>
+                    <div className="text-[10px] text-[#747878]">{previewAddendumContract.keyContact || 'Authorized Director / Signatory'}</div>
+                    <div className="text-[9px] text-[#747878] mt-0.5">Date: {new Date().toLocaleDateString('en-IN')}</div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-[#e3e2e0] flex justify-end gap-2">
-              <button
-                onClick={() => setPreviewAddendumContract(null)}
-                className="px-4 py-2 bg-[#f4f3f1] font-bold rounded-xl text-xs cursor-pointer"
-              >
-                Close
-              </button>
-              <button
-                onClick={() => {
-                  soundFx.playChime();
-                  window.print();
-                }}
-                className="px-5 py-2 bg-[#f5b400] text-[#161616] font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-sm cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-sm">print</span>
-                <span>Print Legal Document</span>
-              </button>
+            {/* Footer Actions */}
+            <div className="pt-4 border-t border-[#e3e2e0] flex justify-between items-center print:hidden">
+              <div className="text-[11px] text-[#747878]">
+                💡 Tip: Use your browser&apos;s Print dialog to save as PDF or print on A4.
+              </div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPreviewAddendumContract(null)}
+                  className="px-4 py-2 bg-[#f4f3f1] hover:bg-[#e3e2e0] font-bold rounded-xl text-xs text-[#161616] cursor-pointer transition-colors"
+                >
+                  Close Preview
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    soundFx.playChime();
+                    window.print();
+                  }}
+                  className="px-5 py-2 bg-[#f5b400] hover:bg-[#ffdea4] text-[#161616] font-['Space_Grotesk'] font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-sm hover:shadow-md transition-all cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-sm">print</span>
+                  <span>Print Legal Document</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
