@@ -5,12 +5,66 @@ import React from 'react';
 export const PrintableInvoiceModal = ({ invoice, onClose }) => {
   if (!invoice) return null;
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   const gst18 = Math.round(invoice.amount * 0.18);
   const totalWithTax = invoice.amount + gst18;
+
+  const handlePrint = () => {
+    try {
+      const invoiceElem = document.getElementById('printable-invoice-canvas');
+      if (!invoiceElem) {
+        window.print();
+        return;
+      }
+      let printIframe = document.getElementById('print-invoice-iframe');
+      if (printIframe) {
+        document.body.removeChild(printIframe);
+      }
+      printIframe = document.createElement('iframe');
+      printIframe.id = 'print-invoice-iframe';
+      printIframe.style.position = 'fixed';
+      printIframe.style.right = '0';
+      printIframe.style.bottom = '0';
+      printIframe.style.width = '0px';
+      printIframe.style.height = '0px';
+      printIframe.style.border = 'none';
+      printIframe.style.zIndex = '-9999';
+      document.body.appendChild(printIframe);
+
+      const iframeDoc = printIframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Workafella_Tax_Invoice_${invoice.id}</title>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;900&display=swap" rel="stylesheet">
+            <style>
+              * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+              body { background: #ffffff; color: #161616; padding: 24px; font-size: 11px; line-height: 1.5; }
+              table { width: 100%; border-collapse: collapse; margin-top: 12px; margin-bottom: 12px; }
+              th, td { padding: 8px; text-align: left; }
+              th { background: #f4f3f1; border-bottom: 1px solid #161616; font-size: 10px; text-transform: uppercase; }
+              td { border-bottom: 1px solid #e3e2e0; }
+              @page { size: A4 portrait; margin: 10mm; }
+            </style>
+          </head>
+          <body>
+            ${invoiceElem.innerHTML}
+          </body>
+        </html>
+      `);
+      iframeDoc.close();
+      setTimeout(() => {
+        printIframe.contentWindow.focus();
+        printIframe.contentWindow.print();
+      }, 350);
+    } catch (err) {
+      console.warn('Iframe print error, fallback to window.print():', err);
+      window.print();
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
@@ -42,7 +96,7 @@ export const PrintableInvoiceModal = ({ invoice, onClose }) => {
         </div>
 
         {/* Printable Tax Invoice Canvas */}
-        <div className="p-8 overflow-y-auto bg-[#faf9f7] text-[#161616] space-y-6 text-xs print:p-0 print:bg-white">
+        <div id="printable-invoice-canvas" className="p-8 overflow-y-auto bg-[#faf9f7] text-[#161616] space-y-6 text-xs print:p-0 print:bg-white">
           {/* Header Letterhead */}
           <div className="flex justify-between items-start border-b-2 border-[#161616] pb-6">
             <div>

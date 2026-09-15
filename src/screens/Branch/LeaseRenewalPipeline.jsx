@@ -155,6 +155,347 @@ export const LeaseRenewalPipeline = () => {
     });
   };
 
+  // Dedicated Print Execution with Clean Isolated Document Framing
+  const handlePrintLegalDocument = () => {
+    soundFx.playChime();
+    if (!previewAddendumContract) {
+      window.print();
+      return;
+    }
+
+    try {
+      let printIframe = document.getElementById('print-legal-addendum-iframe');
+      if (printIframe) {
+        document.body.removeChild(printIframe);
+      }
+      printIframe = document.createElement('iframe');
+      printIframe.id = 'print-legal-addendum-iframe';
+      printIframe.style.position = 'fixed';
+      printIframe.style.right = '0';
+      printIframe.style.bottom = '0';
+      printIframe.style.width = '0px';
+      printIframe.style.height = '0px';
+      printIframe.style.border = 'none';
+      printIframe.style.zIndex = '-9999';
+      document.body.appendChild(printIframe);
+
+      const iframeDoc = printIframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Workafella_Lease_Addendum_${previewAddendumContract.id}</title>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;900&display=swap" rel="stylesheet">
+            <style>
+              * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+              }
+              body {
+                background: #ffffff;
+                color: #161616;
+                padding: 24px;
+                font-size: 11px;
+                line-height: 1.5;
+              }
+              .header-box {
+                border-bottom: 2px solid #161616;
+                padding-bottom: 12px;
+                margin-bottom: 14px;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+              }
+              .brand {
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 22px;
+                font-weight: 900;
+                letter-spacing: -0.5px;
+                color: #161616;
+              }
+              .badge {
+                display: inline-block;
+                background: #f5b400;
+                color: #161616;
+                font-size: 9px;
+                font-weight: 800;
+                padding: 2px 7px;
+                border-radius: 4px;
+                text-transform: uppercase;
+                margin-left: 8px;
+              }
+              .sub-title {
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                font-weight: 700;
+                color: #7b5900;
+                margin-top: 2px;
+              }
+              .doc-ref {
+                font-family: monospace;
+                font-size: 9.5px;
+                color: #747878;
+                margin-top: 3px;
+              }
+              .parties-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                background: #f8f7f5;
+                border: 1px solid #e3e2e0;
+                border-radius: 8px;
+                padding: 10px 12px;
+                margin-bottom: 12px;
+                font-size: 10.5px;
+              }
+              .party-tag {
+                font-size: 8.5px;
+                font-weight: 800;
+                text-transform: uppercase;
+                color: #7b5900;
+                margin-bottom: 2px;
+              }
+              .party-name {
+                font-weight: 700;
+                color: #161616;
+                font-size: 11.5px;
+              }
+              .party-meta {
+                color: #747878;
+                font-size: 9.5px;
+                margin-top: 2px;
+              }
+              .recital {
+                font-size: 10.5px;
+                color: #2c2d30;
+                text-align: justify;
+                line-height: 1.55;
+                margin-bottom: 12px;
+              }
+              .table-wrap {
+                border: 1.5px solid #161616;
+                border-radius: 8px;
+                overflow: hidden;
+                margin-bottom: 12px;
+              }
+              .table-head {
+                background: #161616;
+                color: #ffffff;
+                padding: 6px 12px;
+                font-family: 'Space Grotesk', sans-serif;
+                font-weight: 700;
+                font-size: 10px;
+                display: flex;
+                justify-content: space-between;
+              }
+              .table-head span:last-child {
+                color: #f5b400;
+              }
+              .row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                padding: 5.5px 12px;
+                border-bottom: 1px solid #e3e2e0;
+                font-size: 10.5px;
+                background: #ffffff;
+              }
+              .row.alt {
+                background: #fbfbfa;
+              }
+              .row.highlight {
+                background: #fffdf5;
+              }
+              .row.total {
+                background: #f8f7f5;
+                border-top: 2px solid #161616;
+                border-bottom: none;
+                padding: 7px 12px;
+              }
+              .label {
+                color: #555;
+                font-weight: 500;
+              }
+              .val {
+                font-weight: 700;
+                color: #161616;
+                text-align: right;
+              }
+              .total-val {
+                font-family: monospace;
+                font-weight: 900;
+                font-size: 12px;
+                color: #1e8a5f;
+                text-align: right;
+              }
+              .clauses {
+                background: #f8f7f5;
+                border: 1px solid #e3e2e0;
+                border-radius: 8px;
+                padding: 8px 12px;
+                font-size: 9px;
+                color: #444;
+                line-height: 1.5;
+                margin-bottom: 14px;
+              }
+              .clauses-title {
+                font-weight: 800;
+                text-transform: uppercase;
+                color: #161616;
+                font-size: 8.5px;
+                margin-bottom: 3px;
+              }
+              .signatures-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+                text-align: center;
+                margin-top: 14px;
+                padding-top: 8px;
+              }
+              .seal-box {
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 4px;
+              }
+              .seal-pill {
+                border: 1px dashed #1e8a5f;
+                background: #eafbf3;
+                color: #1e8a5f;
+                font-size: 8px;
+                font-family: monospace;
+                font-weight: 700;
+                padding: 3px 8px;
+                border-radius: 4px;
+                text-transform: uppercase;
+              }
+              .seal-pill.client {
+                border-color: #7b5900;
+                background: #fffbf0;
+                color: #7b5900;
+              }
+              .sig-line {
+                border-top: 1px solid #161616;
+                padding-top: 4px;
+              }
+              .sig-name {
+                font-weight: 700;
+                font-size: 10px;
+                color: #161616;
+              }
+              .sig-role {
+                font-size: 8.5px;
+                color: #747878;
+              }
+              @page {
+                size: A4 portrait;
+                margin: 10mm;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="header-box">
+              <div>
+                <div style="display:flex;align-items:center;">
+                  <span class="brand">WORKAFELLA</span>
+                  <span class="badge">${previewAddendumContract.isAlreadyRenewed ? 'EXECUTED ADDENDUM' : 'RENEWAL EXTENSION ADDENDUM'}</span>
+                </div>
+                <div class="sub-title">Master Service Agreement (MSA) Commercial Extension Addendum</div>
+                <div class="doc-ref">Doc Ref: WF-MSA-EXT-${previewAddendumContract.id?.replace('LSE-', '') || '2026'}-R1 • Date: ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+              </div>
+            </div>
+
+            <div class="recital">
+              This <strong>Master Service Agreement Extension & Commercial Escalation Addendum</strong> ("Addendum") is entered into and made effective as of <strong>${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>, by and between:
+            </div>
+
+            <div class="parties-grid">
+              <div style="border-right: 1px solid #e3e2e0; padding-right: 8px;">
+                <div class="party-tag">Licensor / Provider:</div>
+                <div class="party-name">Workafella Real Estate & Workspace Platform Ltd</div>
+                <div class="party-meta">Operating Centre: ${previewAddendumContract.centre}</div>
+              </div>
+              <div style="padding-left: 4px;">
+                <div class="party-tag">Licensee / Tenant:</div>
+                <div class="party-name">${previewAddendumContract.legalEntity || previewAddendumContract.clientName}</div>
+                <div class="party-meta">Contact: ${previewAddendumContract.keyContact || 'Authorized Representative'} (${previewAddendumContract.contactEmail || 'operations@tenant.io'})</div>
+              </div>
+            </div>
+
+            <div class="recital">
+              <strong>WHEREAS</strong>, the Licensor and Licensee entered into a Master Workspace License Agreement referenced under ID <strong>#${previewAddendumContract.id}</strong>, scheduled to mature on <strong>${previewAddendumContract.contractEnd || 'the scheduled date'}</strong>. The Parties now mutually agree to extend the tenure and formalize the revised commercial schedule detailed below:
+            </div>
+
+            <div class="table-wrap">
+              <div class="table-head">
+                <span>SCHEDULE A: EXTENDED COMMERCIAL TERMS & INVOICING MATRIX</span>
+                <span>MSA #${previewAddendumContract.id}</span>
+              </div>
+              <div class="row"><span class="label">Licensed Centre & Premises:</span><span class="val">${previewAddendumContract.centre}</span></div>
+              <div class="row alt"><span class="label">Allocated Dedicated Suites:</span><span class="val">${previewAddendumContract.suites?.join(', ') || 'Dedicated Enterprise Suite'}</span></div>
+              <div class="row"><span class="label">Dedicated Workstation Desks:</span><span class="val font-mono">${previewAddendumContract.seats} Desks ${previewAddendumContract.seatDelta ? `(${previewAddendumContract.seatDelta > 0 ? `+${previewAddendumContract.seatDelta}` : previewAddendumContract.seatDelta} seats adjusted)` : ''}</span></div>
+              <div class="row alt"><span class="label">Baseline Rate Per Seat (Previous):</span><span class="val font-mono" style="text-decoration:line-through;color:#747878;">₹${previewAddendumContract.previousRate?.toLocaleString('en-IN')} / desk / month</span></div>
+              <div class="row"><span class="label">Agreed Annual Rent Escalation:</span><span class="val font-mono" style="color:#7b5900;">+${previewAddendumContract.escalationPct}% (Capped for Extension Term)</span></div>
+              <div class="row highlight"><span class="label" style="font-weight:700;color:#161616;">Revised License Rate Per Desk:</span><span class="val font-mono">₹${previewAddendumContract.baseRatePerSeat?.toLocaleString('en-IN')} / desk / month</span></div>
+              <div class="row highlight"><span class="label" style="font-weight:700;color:#161616;">Revised Monthly Net License Fee:</span><span class="val font-mono">₹${previewAddendumContract.monthlyRent?.toLocaleString('en-IN')} / month</span></div>
+              <div class="row"><span class="label">Applicable GST (18%):</span><span class="val font-mono">+ ₹${previewAddendumContract.gstAmount?.toLocaleString('en-IN')} / month</span></div>
+              <div class="row total"><span class="label" style="font-weight:700;color:#161616;">Total Monthly Gross Invoiced Amount:</span><span class="total-val">₹${previewAddendumContract.totalWithGst?.toLocaleString('en-IN')} / month (Incl. GST)</span></div>
+              <div class="row"><span class="label">Effective Renewal Date (Commencement):</span><span class="val font-mono">${previewAddendumContract.effectiveRenewalDate}</span></div>
+              <div class="row alt"><span class="label">Extended Maturity / Expiry Date:</span><span class="val font-mono" style="color:#ba1a1a;">${previewAddendumContract.extendedTermExpiry}</span></div>
+              <div class="row"><span class="label">Lock-In Commitment Period:</span><span class="val">${previewAddendumContract.lockInMonths} Months (Mandatory Lock-In)</span></div>
+              <div class="row alt"><span class="label">Maintained Security Deposit (2 Mo.):</span><span class="val font-mono">₹${previewAddendumContract.depositAmount?.toLocaleString('en-IN')}</span></div>
+            </div>
+
+            <div class="clauses">
+              <div class="clauses-title">Standard Operational Terms & Covenants:</div>
+              <p>1. <strong>Continuity</strong>: All provisions, rules, codes of conduct, and terms of the Master Agreement #${previewAddendumContract.id} shall continue in full force.</p>
+              <p>2. <strong>Utilities & Network SLA</strong>: Includes 24/7 dedicated air conditioning during business hours, 99.98% high-speed leased-line uptime, biometric security access, and daily sanitization.</p>
+              <p>3. <strong>Lock-in Covenant</strong>: The Licensee acknowledges that premature surrender during the ${previewAddendumContract.lockInMonths}-month lock-in period entails forfeiture of the Security Deposit as liquidated damages.</p>
+              <p>4. <strong>Notice Period</strong>: A minimum of 60 calendar days written notice prior to ${previewAddendumContract.extendedTermExpiry} is mandatory for renewal or surrender.</p>
+            </div>
+
+            <div class="signatures-grid">
+              <div>
+                <div class="seal-box"><span class="seal-pill">✓ WORKAFELLA DIGITAL SEAL & SIGNATURE</span></div>
+                <div class="sig-line">
+                  <div class="sig-name">For Workafella Real Estate & Workspace Ltd</div>
+                  <div class="sig-role">Authorized Signatory • Operations Lead</div>
+                  <div class="sig-role">Centre: ${previewAddendumContract.centre}</div>
+                </div>
+              </div>
+              <div>
+                <div class="seal-box"><span class="seal-pill client">${previewAddendumContract.isAlreadyRenewed ? '✓ COUNTERSIGNED BY LICENSEE' : 'PENDING COUNTERSIGNATURE'}</span></div>
+                <div class="sig-line">
+                  <div class="sig-name">For ${previewAddendumContract.legalEntity || previewAddendumContract.clientName}</div>
+                  <div class="sig-role">${previewAddendumContract.keyContact || 'Authorized Director / Signatory'}</div>
+                  <div class="sig-role">Date: ${new Date().toLocaleDateString('en-IN')}</div>
+                </div>
+              </div>
+            </div>
+          </body>
+        </html>
+      `);
+      iframeDoc.close();
+
+      setTimeout(() => {
+        printIframe.contentWindow.focus();
+        printIframe.contentWindow.print();
+      }, 350);
+    } catch (err) {
+      console.warn('Iframe print error, falling back to window.print():', err);
+      window.print();
+    }
+  };
+
   // Calculations for Active Renewal Modal
   const renewalCalculations = useMemo(() => {
     if (!renewalModalContract) return null;
@@ -1131,10 +1472,7 @@ export const LeaseRenewalPipeline = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    soundFx.playChime();
-                    window.print();
-                  }}
+                  onClick={handlePrintLegalDocument}
                   className="px-5 py-2 bg-[#f5b400] hover:bg-[#ffdea4] text-[#161616] font-['Space_Grotesk'] font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-sm hover:shadow-md transition-all cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-sm">print</span>

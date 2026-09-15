@@ -280,3 +280,61 @@
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #f5b400;
 }
+
+/* ==========================================================================
+   Comprehensive Clean Print Styles for Legal Documents & Invoices
+   ========================================================================== */
+@media print {
+  /* Hide all app chrome, sidebars, headers, floating widgets, buttons, and decorations */
+  aside,
+  header,
+  nav,
+  footer,
+  .no-print,
+  .print\\:hidden,
+  [role="navigation"],
+  #command-palette-container,
+  #toast-container,
+  #ai-assistant-widget,
+  .floating-assistant,
+  button,
+  input[type="range"],
+  input[type="checkbox"],
+  .fixed.inset-0.pointer-events-none {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Reset body and html layout for clean page printing */
+  html,
+  body {
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #161616 !important;
+    font-size: 11pt !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Remove scrollbars and overflow constraints on all layout containers */
+  main,
+  div,
+  section {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Full-width clean page output */
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm 12mm 12mm;
+  }
+}
