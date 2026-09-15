@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { soundFx } from '../../utils/audioEffects';
 
 export const LogExpense = () => {
-  const { expenses, setExpenses, activeBranch, currentUser, setCurrentScreen } = useApp();
+  const { expenses, setExpenses, activeBranch, currentUser, setCurrentScreen, addToast } = useApp();
 
   const [category, setCategory] = useState('Facility');
   const [subcategory, setSubcategory] = useState('Electricity & Power HT Grid');
@@ -48,7 +49,8 @@ export const LogExpense = () => {
     };
 
     setExpenses([newExp, ...expenses]);
-    alert(`Success! Logged ₹${Number(amount).toLocaleString('en-IN')} expense under ${category}. Routed to approval workflow.`);
+    soundFx.playChime();
+    addToast(`Success! Logged ₹${Number(amount).toLocaleString('en-IN')} expense under ${category}. Routed to approval workflow.`, 'success', 'Expense Submitted');
     setCurrentScreen('expense_approvals');
   };
 

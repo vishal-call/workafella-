@@ -439,6 +439,10 @@ export const TicketDetail = () => {
 
                   <button
                     type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAssignWorker(worker);
+                    }}
                     className="px-4 py-2 bg-[#161616] hover:bg-[#f5b400] text-white hover:text-[#161616] font-['Space_Grotesk'] font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
                   >
                     Select →

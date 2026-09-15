@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { soundFx } from '../../utils/audioEffects';
 
 export const SecurityGatePass = () => {
-  const { visitors, setVisitors, activeBranch } = useApp();
+  const { visitors, setVisitors, activeBranch, addToast } = useApp();
   const [searchCode, setSearchCode] = useState('');
   const [scannedMessage, setScannedMessage] = useState(null);
 
@@ -11,7 +12,9 @@ export const SecurityGatePass = () => {
     setVisitors(
       visitors.map((v) => (v.id === id ? { ...v, status: 'Checked In', checkInTime: timeNow } : v))
     );
+    soundFx.playChime();
     setScannedMessage('Check-in confirmed. Turnstile barrier unlatched.');
+    addToast('Turnstile entry authorized. Gate unlatched.', 'success', 'Access Granted');
     setTimeout(() => setScannedMessage(null), 3000);
   };
 
@@ -20,7 +23,9 @@ export const SecurityGatePass = () => {
     setVisitors(
       visitors.map((v) => (v.id === id ? { ...v, status: 'Checked Out', checkOutTime: timeNow } : v))
     );
+    soundFx.playClick();
     setScannedMessage('Check-out recorded. Pass deactivated.');
+    addToast('Visitor exit recorded. Pass deactivated.', 'info', 'Check-Out Complete');
     setTimeout(() => setScannedMessage(null), 3000);
   };
 
@@ -29,7 +34,8 @@ export const SecurityGatePass = () => {
     if (target) {
       handleCheckIn(target.id);
     } else {
-      alert('All active visitors in queue are already checked in!');
+      soundFx.playClick();
+      addToast('All active visitors in queue are already checked in!', 'info', 'Turnstile Status');
     }
   };
 

@@ -20,6 +20,7 @@ import { BranchAdminDashboard } from './screens/Branch/BranchAdminDashboard';
 import { WorkspaceAllocationBoard } from './screens/Branch/WorkspaceAllocationBoard';
 import { ManageWorkspace } from './screens/Branch/ManageWorkspace';
 import { StaffDirectory } from './screens/Branch/StaffDirectory';
+import { LeaseRenewalPipeline } from './screens/Branch/LeaseRenewalPipeline';
 import { OnboardingWizard } from './screens/Onboarding/OnboardingWizard';
 import { MeetingRoomGallery } from './screens/MeetingRooms/MeetingRoomGallery';
 import { CentreRoomCalendar } from './screens/MeetingRooms/CentreRoomCalendar';
@@ -70,6 +71,8 @@ export const App = () => {
         return <ManageWorkspace />;
       case 'staff_directory':
         return <StaffDirectory />;
+      case 'lease_renewals':
+        return <LeaseRenewalPipeline />;
       case 'onboarding_wizard':
         return <OnboardingWizard />;
       case 'book_room':

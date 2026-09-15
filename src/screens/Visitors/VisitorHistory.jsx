@@ -1,13 +1,38 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { soundFx } from '../../utils/audioEffects';
 
 export const VisitorHistory = () => {
-  const { visitors, activeBranch, setCurrentScreen } = useApp();
+  const { visitors, activeBranch, setCurrentScreen, addToast } = useApp();
   const [filterStatus, setFilterStatus] = useState('All');
 
   const filtered = filterStatus === 'All'
     ? visitors
     : visitors.filter((v) => v.status === filterStatus);
+
+  const handleExportCSV = () => {
+    soundFx.playChime();
+    const headers = ['Visitor Name', 'Company', 'Host Employee', 'Date', 'Time Slot', 'Check In', 'Check Out', 'Status'];
+    const rows = filtered.map((v) => [
+      `"${v.name || ''}"`,
+      `"${v.company || ''}"`,
+      `"${v.host || ''}"`,
+      `"${v.date || ''}"`,
+      `"${v.timeSlot || ''}"`,
+      `"${v.checkInTime || '—'}"`,
+      `"${v.checkOutTime || '—'}"`,
+      `"${v.status || ''}"`
+    ]);
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `workafella_visitor_logs_${activeBranch.name.toLowerCase().replace(/\s+/g, '_')}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    addToast('Visitor access ledger successfully exported as CSV.', 'success', 'Export Complete');
+  };
 
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-8">
@@ -54,7 +79,10 @@ export const VisitorHistory = () => {
           ))}
         </div>
 
-        <button className="text-xs text-[#7b5900] font-bold hover:underline flex items-center gap-1">
+        <button
+          onClick={handleExportCSV}
+          className="text-xs text-[#7b5900] font-bold hover:underline flex items-center gap-1 cursor-pointer"
+        >
           <span className="material-symbols-outlined text-sm">file_download</span>
           <span>Export CSV Log</span>
         </button>

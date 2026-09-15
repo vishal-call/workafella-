@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { soundFx } from '../../utils/audioEffects';
 
 export const ReportsDashboard = () => {
+  const { addToast, CENTRES, clients, invoices, expenses } = useApp();
   const [selectedReport, setSelectedReport] = useState('Revenue & Billing');
   const [selectedCity, setSelectedCity] = useState('All Cities');
 
@@ -14,6 +16,32 @@ export const ReportsDashboard = () => {
     'Branch Expenses',
     'Asset Health'
   ];
+
+  const handleExportCSV = () => {
+    soundFx?.playChime?.();
+    const csvRows = [
+      ['Workafella Management Report - ' + selectedReport, 'Generated: ' + new Date().toISOString()],
+      ['Centre', 'City', 'Occupancy (%)', 'Total Seats', 'Rooms', 'Floors'],
+      ...CENTRES.map((c) => [c.name, c.city, c.occupancy + '%', c.seats, c.rooms, c.floors])
+    ];
+    const csvContent = 'data:text/csv;charset=utf-8,' + csvRows.map((e) => e.join(',')).join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `workafella_${selectedReport.toLowerCase().replace(/\s+/g, '_')}_report.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    addToast(`Exported "${selectedReport}" CSV report successfully!`, 'success', 'CSV Report Downloaded');
+  };
+
+  const handleExportPDF = () => {
+    soundFx?.playChime?.();
+    addToast('Prepared Executive Board Report. Opening browser print/PDF preview...', 'success', 'Executive PDF Ready');
+    setTimeout(() => {
+      window.print();
+    }, 400);
+  };
 
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-8">
@@ -33,16 +61,16 @@ export const ReportsDashboard = () => {
 
         <div className="flex items-center gap-3">
           <button
-            onClick={() => alert('Exporting comprehensive CSV report...')}
-            className="px-4 py-2 bg-white border border-[#3a3a3a] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#f4f3f1] flex items-center gap-1.5"
+            onClick={handleExportCSV}
+            className="px-4 py-2 bg-white border border-[#e3e2e0] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#f4f3f1] rounded-xl flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
           >
-            <span className="material-symbols-outlined text-base">grid_on</span>
+            <span className="material-symbols-outlined text-base text-[#1e8a5f]">grid_on</span>
             <span>Export CSV</span>
           </button>
 
           <button
-            onClick={() => alert('Generating Board of Directors executive PDF report...')}
-            className="px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] flex items-center gap-1.5 shadow-sm"
+            onClick={handleExportPDF}
+            className="px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] rounded-xl flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
           >
             <span className="material-symbols-outlined text-base">picture_as_pdf</span>
             <span>Export Executive PDF</span>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { soundFx } from '../../utils/audioEffects';
 
 export const InvoiceDetail = () => {
-  const { invoices, setInvoices, setCurrentScreen } = useApp();
+  const { invoices, setInvoices, setCurrentScreen, addToast } = useApp();
   const invoice = invoices[1]; // Zenith Systems (includes overage line)
 
   const [adjustmentReason, setAdjustmentReason] = useState('');
@@ -13,7 +14,17 @@ export const InvoiceDetail = () => {
       invoices.map((inv) => (inv.id === invoice.id ? { ...inv, status: 'Approved' } : inv))
     );
     setIsApproved(true);
-    alert(`Success! Invoice ${invoice.id} approved and officially released to Zenith Systems.`);
+    soundFx.playChime();
+    addToast(`Success! Invoice ${invoice.id} approved and officially released to ${invoice.client}.`, 'success', 'Invoice Released');
+  };
+
+  const handleRequestChanges = () => {
+    setInvoices(
+      invoices.map((inv) => (inv.id === invoice.id ? { ...inv, status: 'Revision Requested' } : inv))
+    );
+    setIsApproved(false);
+    soundFx.playClick();
+    addToast('Change request dispatched back to Branch Admin billing desk.', 'info', 'Revision Requested');
   };
 
   return (
@@ -153,7 +164,7 @@ export const InvoiceDetail = () => {
             )}
 
             <button
-              onClick={() => alert('Change request dispatched back to Branch Admin billing desk.')}
+              onClick={handleRequestChanges}
               className="w-full py-2 bg-[#f4f3f1] text-[#747878] font-bold text-xs hover:text-[#161616]"
             >
               Request Changes from Branch Admin

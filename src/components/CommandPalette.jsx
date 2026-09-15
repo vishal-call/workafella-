@@ -24,6 +24,7 @@ export const CommandPalette = ({ isOpen, onClose }) => {
     { id: 'act_onboard', title: 'Client Onboarding 5-Step Wizard', category: 'Actions', icon: 'person_add', screen: 'onboarding_wizard' },
     { id: 'act_alloc', title: 'Workspace Allocation Board', category: 'Actions', icon: 'grid_view', screen: 'workspace_allocation' },
     { id: 'act_manage_workspace', title: 'Manage Workspace (Floors, Rooms & Seats)', category: 'Actions', icon: 'domain_add', screen: 'manage_workspace' },
+    { id: 'act_lease_renewals', title: 'Lease Renewal & Contract Expiry Pipeline', category: 'Actions', icon: 'autorenew', screen: 'lease_renewals' },
     { id: 'act_ticket', title: 'Raise Incident / Service Ticket', category: 'Actions', icon: 'confirmation_number', screen: 'raise_ticket' },
     { id: 'act_gatepass', title: 'Pre-Register Visitor & QR Pass', category: 'Actions', icon: 'person_pin_circle', screen: 'visitor_pre_reg' },
     { id: 'act_invoices', title: 'Invoices & Billing Reconciliation', category: 'Actions', icon: 'receipt_long', screen: 'invoices' },

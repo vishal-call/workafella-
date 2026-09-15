@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { soundFx } from '../../utils/audioEffects';
 
 export const EmployeeAccessForm = () => {
-  const { accessRequests, setAccessRequests, activeBranch, currentUser, setCurrentScreen } = useApp();
+  const { accessRequests, setAccessRequests, activeBranch, currentUser, setCurrentScreen, addToast } = useApp();
 
   const [employeeName, setEmployeeName] = useState('Rahul Nambisan');
   const [email, setEmail] = useState('rahul.n@acmeinnovations.io');
@@ -42,7 +43,8 @@ export const EmployeeAccessForm = () => {
     };
 
     setAccessRequests([newReq, ...accessRequests]);
-    alert(`Success! Biometric access request submitted for ${employeeName}. Forwarded to Branch Admin.`);
+    soundFx.playChime();
+    addToast(`Success! Biometric access request submitted for ${employeeName}. Forwarded to Branch Admin.`, 'success', 'Request Submitted');
     setCurrentScreen('access_approvals');
   };
 

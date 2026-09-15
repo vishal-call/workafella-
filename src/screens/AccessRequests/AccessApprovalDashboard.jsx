@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { soundFx } from '../../utils/audioEffects';
 import { BlurredIDModal } from '../../components/BlurredIDModal';
 
 export const AccessApprovalDashboard = () => {
-  const { accessRequests, setAccessRequests, activeBranch } = useApp();
+  const { accessRequests, setAccessRequests, activeBranch, addToast } = useApp();
   const [selectedRequest, setSelectedRequest] = useState(null);
 
   const handleApproveStatus = (id, newStatus) => {
     setAccessRequests(
       accessRequests.map((r) => (r.id === id ? { ...r, status: newStatus } : r))
     );
-    alert(`Access request ${id} updated to "${newStatus}".`);
+    if (newStatus === 'Rejected') {
+      soundFx.playClick();
+      addToast(`Access request ${id} marked as Rejected.`, 'info', 'Request Rejected');
+    } else {
+      soundFx.playChime();
+      addToast(`Access request ${id} approved for biometric enrollment.`, 'success', 'Request Approved');
+    }
   };
 
   const handleEnrollmentComplete = (id) => {
@@ -19,7 +26,8 @@ export const AccessApprovalDashboard = () => {
         r.id === id ? { ...r, status: 'Active', biometricStatus: 'Enrolled & Synced' } : r
       )
     );
-    alert(`Biometric hardware sync confirmed for ${id}. Access is now fully ACTIVE.`);
+    soundFx.playChime();
+    addToast(`Biometric hardware sync confirmed for ${id}. Access is now fully ACTIVE.`, 'success', 'Access Activated');
   };
 
   return (

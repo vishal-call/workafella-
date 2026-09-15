@@ -25,7 +25,7 @@ export const ROLES = {
     id: 'super_admin',
     name: 'Ananya Rao',
     roleLabel: 'Super Admin — Enterprise Managing Director',
-    email: 'ananya.rao@workafella.com',
+    email: 'superadmin@gmail.com',
     avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
     scope: 'All Branches (Enterprise National Portfolio)'
   },
@@ -33,7 +33,7 @@ export const ROLES = {
     id: 'branch_admin',
     name: 'Ramesh Kumar',
     roleLabel: 'Branch Admin — Hitec City',
-    email: 'ramesh.kumar@workafella.com',
+    email: 'branchadmin@gmail.com',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
     scope: 'Hitec City, Hyderabad'
   },
@@ -41,7 +41,7 @@ export const ROLES = {
     id: 'finance_user',
     name: 'Kavya Reddy',
     roleLabel: 'Finance Controller',
-    email: 'kavya.reddy@workafella.com',
+    email: 'finance@gmail.com',
     avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80',
     scope: 'Enterprise Finance & Billing'
   },
@@ -49,7 +49,7 @@ export const ROLES = {
     id: 'operations_facility',
     name: 'Arjun Mehta',
     roleLabel: 'Operations & Facility Manager',
-    email: 'arjun.mehta@workafella.com',
+    email: 'operationsmanager@gmail.com',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
     scope: 'Hitec City, Hyderabad'
   },
@@ -57,7 +57,7 @@ export const ROLES = {
     id: 'client_admin',
     name: 'Priya Sharma',
     roleLabel: 'Client Admin — NovaTech Solutions',
-    email: 'priya.sharma@novatech.io',
+    email: 'clientadmin@gmail.com',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
     scope: 'NovaTech Solutions (Suite 704 & 705)'
   },
@@ -65,7 +65,7 @@ export const ROLES = {
     id: 'security_guard',
     name: 'Suresh Goud',
     roleLabel: 'Front Desk Security Officer',
-    email: 'suresh.goud@workafella.com',
+    email: 'securityofficer@gmail.com',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
     scope: 'Hitec City Gate Kiosk'
   }
@@ -766,6 +766,120 @@ export const AppProvider = ({ children }) => {
     }
   ]);
 
+  // Comprehensive Enterprise Lease Agreements & Expiry Pipeline
+  const [leaseContracts, setLeaseContracts] = useState([
+    {
+      id: 'LSE-2025-089',
+      clientId: 'CL-102',
+      clientName: 'Zenith Systems & AI',
+      legalEntity: 'Zenith AI Solutions India Pvt Ltd',
+      centre: 'Hitec City',
+      suites: ['Suite 702 (15 Seats)', 'Suite 708 (5 Seats)'],
+      seats: 20,
+      baseRatePerSeat: 15000,
+      monthlyRent: 300000,
+      depositAmount: 600000,
+      contractStart: '2025-06-01',
+      contractEnd: '2026-09-30',
+      daysToExpiry: 15,
+      stage: 'Critical (< 30 Days)',
+      churnRisk: 'High',
+      proposedEscalation: 6,
+      newTermMonths: 11,
+      keyContact: 'Tanmay Saxena (VP Operations)',
+      contactEmail: 'tanmay.s@zenithai.io',
+      notes: 'Tenant considering expansion to 25 seats if +6% escalation is capped.'
+    },
+    {
+      id: 'LSE-2025-064',
+      clientId: 'CL-104',
+      clientName: 'FinEdge Capital Partners',
+      legalEntity: 'FinEdge Advisory Services LLP',
+      centre: 'Millers Road',
+      suites: ['Suite 402 (30 Seats)'],
+      seats: 30,
+      baseRatePerSeat: 16500,
+      monthlyRent: 495000,
+      depositAmount: 990000,
+      contractStart: '2025-11-01',
+      contractEnd: '2026-10-31',
+      daysToExpiry: 46,
+      stage: 'Proposal & Negotiation',
+      churnRisk: 'Medium',
+      proposedEscalation: 5,
+      newTermMonths: 12,
+      keyContact: 'Siddharth Roy (Partner)',
+      contactEmail: 'siddharth@finedge.com',
+      notes: 'Draft renewal proposal sent with 5% escalation. Awaiting board sign-off.'
+    },
+    {
+      id: 'LSE-2025-045',
+      clientId: 'CL-105',
+      clientName: 'NovaTech Solutions Pvt Ltd',
+      legalEntity: 'NovaTech Global Technologies India Pvt Ltd',
+      centre: 'Hitec City',
+      suites: ['Suite 704 (Enterprise Wing)', 'Suite 705 (15 Seats)'],
+      seats: 45,
+      baseRatePerSeat: 14500,
+      monthlyRent: 652500,
+      depositAmount: 1305000,
+      contractStart: '2025-12-01',
+      contractEnd: '2026-11-30',
+      daysToExpiry: 76,
+      stage: 'Upcoming (60-90 Days)',
+      churnRisk: 'Low',
+      proposedEscalation: 6,
+      newTermMonths: 24,
+      keyContact: 'Priya Sharma (HR & Workplace Director)',
+      contactEmail: 'priya.s@novatech.io',
+      notes: 'Initial check-in completed. Satisfied with facility uptime and leased-line SLA.'
+    },
+    {
+      id: 'LSE-2026-012',
+      clientId: 'CL-101',
+      clientName: 'Acme Innovations Pvt Ltd',
+      legalEntity: 'Acme Global Technologies India LLP',
+      centre: 'Hitec City',
+      suites: ['Suite 704 & 705 Private Wing'],
+      seats: 45,
+      baseRatePerSeat: 14500,
+      monthlyRent: 652500,
+      depositAmount: 1305000,
+      contractStart: '2026-01-01',
+      contractEnd: '2026-12-31',
+      daysToExpiry: 107,
+      stage: 'Healthy (> 90 Days)',
+      churnRisk: 'Low',
+      proposedEscalation: 6,
+      newTermMonths: 11,
+      keyContact: 'Ananya Sharma (Director of Admin)',
+      contactEmail: 'ananya.s@acmeinnovations.io',
+      notes: 'Healthy active account with high CSAT. Automated check-in scheduled for November.'
+    },
+    {
+      id: 'LSE-2026-031',
+      clientId: 'CL-103',
+      clientName: 'Quantum BioLabs',
+      legalEntity: 'Quantum Therapeutics Ltd',
+      centre: 'Hitec City',
+      suites: ['Suite 601, 602 & 603 (BioTech Wing)'],
+      seats: 60,
+      baseRatePerSeat: 14000,
+      monthlyRent: 840000,
+      depositAmount: 1680000,
+      contractStart: '2026-03-01',
+      contractEnd: '2027-02-28',
+      daysToExpiry: 166,
+      stage: 'Healthy (> 90 Days)',
+      churnRisk: 'Low',
+      proposedEscalation: 5,
+      newTermMonths: 24,
+      keyContact: 'Dr. Srinivas Rao (VP Operations)',
+      contactEmail: 'srinivas.rao@quantumbio.com',
+      notes: 'Custom laboratory lease with high capex infrastructure commitment.'
+    }
+  ]);
+
   // Comprehensive Physical Workspace Hierarchy (Floors, Rooms, Seats)
   const [floors, setFloors] = useState([
     {
@@ -982,6 +1096,75 @@ export const AppProvider = ({ children }) => {
       );
     }
     addToast('Seat removed.', 'info', 'Seat Deleted');
+  };
+
+  const renewContract = (contractId, renewalData) => {
+    setLeaseContracts((prev) =>
+      prev.map((c) => {
+        if (c.id === contractId) {
+          return {
+            ...c,
+            ...renewalData,
+            stage: 'Renewed',
+            status: 'Active',
+            daysToExpiry: renewalData.newTermMonths ? renewalData.newTermMonths * 30 : 365
+          };
+        }
+        return c;
+      })
+    );
+
+    // Also synchronize client in clients state
+    const targetContract = leaseContracts.find((c) => c.id === contractId);
+    if (targetContract) {
+      setClients((prev) =>
+        prev.map((cl) => {
+          if (cl.id === targetContract.clientId || cl.name === targetContract.clientName) {
+            return {
+              ...cl,
+              ratePerSeat: renewalData.baseRatePerSeat || cl.ratePerSeat,
+              seats: renewalData.seats || cl.seats,
+              contractEnd: renewalData.contractEnd || cl.contractEnd,
+              status: 'Active',
+              churnRisk: 'Low'
+            };
+          }
+          return cl;
+        })
+      );
+    }
+
+    addToast(`Contract ${contractId} successfully renewed & addendum executed!`, 'success', 'Lease Renewed');
+  };
+
+  const updateContractStage = (contractId, newStage) => {
+    setLeaseContracts((prev) =>
+      prev.map((c) => (c.id === contractId ? { ...c, stage: newStage } : c))
+    );
+    addToast(`Contract moved to "${newStage}" stage.`, 'info', 'Pipeline Updated');
+  };
+
+  const markContractMoveOut = (contractId, settlementDetails) => {
+    const targetContract = leaseContracts.find((c) => c.id === contractId);
+    setLeaseContracts((prev) =>
+      prev.map((c) =>
+        c.id === contractId
+          ? { ...c, stage: 'Notice to Vacate / Exited', status: 'Vacated', settlement: settlementDetails }
+          : c
+      )
+    );
+
+    if (targetContract) {
+      setClients((prev) =>
+        prev.map((cl) =>
+          cl.id === targetContract.clientId || cl.name === targetContract.clientName
+            ? { ...cl, status: 'Vacated', churnRisk: 'Exited' }
+            : cl
+        )
+      );
+    }
+
+    addToast(`Move-out inspection & deposit settlement recorded for ${targetContract?.clientName || contractId}.`, 'warning', 'Space Released');
   };
 
   const [notifications, setNotifications] = useState([
@@ -1208,7 +1391,12 @@ export const AppProvider = ({ children }) => {
         holdSecondsRemaining,
         startRoomHold,
         releaseRoomHold,
-        confirmRoomBooking
+        confirmRoomBooking,
+        leaseContracts,
+        setLeaseContracts,
+        renewContract,
+        updateContractStage,
+        markContractMoveOut
       }}
     >
       {children}

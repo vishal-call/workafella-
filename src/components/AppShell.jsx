@@ -40,6 +40,7 @@ export const AppShell = ({ children }) => {
           { id: 'executive_dashboard', label: 'Executive Overview', icon: 'monitoring' },
           { id: 'enterprise_ops', label: 'Enterprise Ops', icon: 'domain' },
           { id: 'manage_workspace', label: 'Manage Workspace', icon: 'domain_add' },
+          { id: 'lease_renewals', label: 'Lease Renewals', icon: 'autorenew' },
           { id: 'ai_insights', label: 'AI Insights & Forecasts', icon: 'psychology' },
           { id: 'branch_expenses_analytics', label: 'Expense Analytics', icon: 'donut_large' },
           { id: 'reports', label: 'Consolidated Reports', icon: 'assessment' },
@@ -52,6 +53,7 @@ export const AppShell = ({ children }) => {
           { id: 'onboarding_wizard', label: 'Client Onboarding', icon: 'person_add' },
           { id: 'workspace_allocation', label: 'Workspace Allocation', icon: 'grid_view' },
           { id: 'manage_workspace', label: 'Manage Workspace', icon: 'domain_add' },
+          { id: 'lease_renewals', label: 'Lease Renewals', icon: 'autorenew' },
           { id: 'access_approvals', label: 'Access Requests', icon: 'fingerprint' },
           { id: 'expense_approvals', label: 'Expense Approvals', icon: 'fact_check' },
           { id: 'staff_directory', label: 'Staff Directory', icon: 'badge' },
@@ -62,6 +64,7 @@ export const AppShell = ({ children }) => {
         return [
           { id: 'invoices', label: 'Invoice Management', icon: 'receipt_long' },
           { id: 'invoice_review', label: 'Invoice Review & Line Items', icon: 'rate_review' },
+          { id: 'lease_renewals', label: 'Lease Renewals', icon: 'autorenew' },
           { id: 'expense_approvals', label: 'Expense Approvals', icon: 'payments' },
           { id: 'branch_expenses_analytics', label: 'Expense Analytics', icon: 'pie_chart' },
           { id: 'reports', label: 'Financial Reports', icon: 'account_balance' }

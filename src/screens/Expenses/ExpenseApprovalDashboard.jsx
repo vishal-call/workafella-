@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { soundFx } from '../../utils/audioEffects';
 
 export const ExpenseApprovalDashboard = () => {
-  const { expenses, setExpenses, setCurrentScreen } = useApp();
+  const { expenses, setExpenses, setCurrentScreen, addToast } = useApp();
   const [filterCategory, setFilterCategory] = useState('All');
 
   const handleApprove = (id, amount) => {
+    soundFx?.playChime?.();
     setExpenses(
       expenses.map((e) => {
         if (e.id === id) {
@@ -18,14 +20,16 @@ export const ExpenseApprovalDashboard = () => {
       })
     );
     if (amount > 100000) {
-      alert('Approved at Branch Admin level. Forwarded to Finance Controller for threshold sign-off.');
+      addToast(`Expense ${id} (₹${amount.toLocaleString('en-IN')}) approved at Branch Admin level and routed to Finance Controller.`, 'info', 'Tier-1 Approval Sign-off');
     } else {
-      alert('Expense approved successfully and committed to branch ledger.');
+      addToast(`Expense ${id} (₹${amount.toLocaleString('en-IN')}) fully approved and committed to branch operating ledger.`, 'success', 'Expense Approved');
     }
   };
 
   const handleReject = (id) => {
+    soundFx?.playClick?.();
     setExpenses(expenses.map((e) => (e.id === id ? { ...e, status: 'Rejected' } : e)));
+    addToast(`Expense ${id} marked as Rejected.`, 'warning', 'Expense Rejected');
   };
 
   const filtered = filterCategory === 'All'

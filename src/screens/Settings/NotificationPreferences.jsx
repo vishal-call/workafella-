@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { soundFx } from '../../utils/audioEffects';
 
 export const NotificationPreferences = () => {
-  const { setCurrentScreen } = useApp();
+  const { setCurrentScreen, addToast } = useApp();
 
   const [preferences, setPreferences] = useState([
     { event: 'Meeting Room Hold Expiry Warning (< 1 min)', email: true, sms: false, whatsapp: false, inApp: true },
@@ -17,6 +18,12 @@ export const NotificationPreferences = () => {
     const updated = [...preferences];
     updated[idx][channel] = !updated[idx][channel];
     setPreferences(updated);
+  };
+
+  const handleSavePreferences = () => {
+    soundFx.playChime();
+    addToast('Notification preferences saved successfully.', 'success', 'Preferences Updated');
+    setCurrentScreen('dashboard');
   };
 
   return (
@@ -36,10 +43,7 @@ export const NotificationPreferences = () => {
         </div>
 
         <button
-          onClick={() => {
-            alert('Notification preferences saved successfully.');
-            setCurrentScreen('dashboard');
-          }}
+          onClick={handleSavePreferences}
           className="px-5 py-2.5 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] flex items-center gap-1.5 shadow-sm"
         >
           <span className="material-symbols-outlined text-base">save</span>

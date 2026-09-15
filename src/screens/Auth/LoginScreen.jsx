@@ -4,10 +4,19 @@ import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { soundFx } from '../../utils/audioEffects';
 
+const PERSONA_CREDENTIALS = [
+  { roleKey: 'super_admin', label: 'Super Admin', email: 'superadmin@gmail.com', name: 'Ananya Rao', icon: 'monitoring' },
+  { roleKey: 'branch_admin', label: 'Branch Admin', email: 'branchadmin@gmail.com', name: 'Ramesh Kumar', icon: 'dashboard' },
+  { roleKey: 'finance_user', label: 'Finance Controller', email: 'finance@gmail.com', name: 'Kavya Reddy', icon: 'receipt_long' },
+  { roleKey: 'operations_facility', label: 'Operations Manager', email: 'operationsmanager@gmail.com', name: 'Arjun Mehta', icon: 'support_agent' },
+  { roleKey: 'client_admin', label: 'Client Admin', email: 'clientadmin@gmail.com', name: 'Priya Sharma', icon: 'meeting_room' },
+  { roleKey: 'security_guard', label: 'Security Officer', email: 'securityofficer@gmail.com', name: 'Suresh Goud', icon: 'qr_code_scanner' }
+];
+
 export const LoginScreen = () => {
-  const { switchRole, isDarkMode, setIsDarkMode } = useApp();
-  const [email, setEmail] = useState('vikram.m@workafella.com');
-  const [password, setPassword] = useState('••••••••••••');
+  const { switchRole, isDarkMode, setIsDarkMode, addToast } = useApp();
+  const [email, setEmail] = useState('superadmin@gmail.com');
+  const [password, setPassword] = useState('12345');
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
 
   const heroPhotos = [
@@ -46,21 +55,45 @@ export const LoginScreen = () => {
   }, [heroPhotos.length]);
 
   const handleLogin = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     soundFx.playClick();
-    if (email.includes('ramesh') || email.includes('branch')) {
-      switchRole('branch_admin');
-    } else if (email.includes('finance') || email.includes('kavya')) {
-      switchRole('finance_user');
-    } else if (email.includes('ops') || email.includes('arjun') || email.includes('karthik')) {
-      switchRole('operations_facility');
-    } else if (email.includes('novatech') || email.includes('priya') || email.includes('client') || email.includes('acme')) {
-      switchRole('client_admin');
-    } else if (email.includes('security') || email.includes('suresh')) {
-      switchRole('security_guard');
-    } else {
-      switchRole('super_admin');
+
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Universal demo password check
+    if (password !== '12345') {
+      soundFx?.playWarning?.();
+      addToast('Invalid password! The universal password for all demo personas is "12345".', 'error', 'Authentication Failed');
+      return;
     }
+
+    let targetRole = null;
+    if (cleanEmail === 'superadmin@gmail.com' || cleanEmail.includes('super')) {
+      targetRole = 'super_admin';
+    } else if (cleanEmail === 'branchadmin@gmail.com' || cleanEmail.includes('branch')) {
+      targetRole = 'branch_admin';
+    } else if (cleanEmail === 'finance@gmail.com' || cleanEmail.includes('finance')) {
+      targetRole = 'finance_user';
+    } else if (cleanEmail === 'operationsmanager@gmail.com' || cleanEmail.includes('operation') || cleanEmail.includes('ops')) {
+      targetRole = 'operations_facility';
+    } else if (cleanEmail === 'clientadmin@gmail.com' || cleanEmail.includes('client') || cleanEmail.includes('novatech')) {
+      targetRole = 'client_admin';
+    } else if (cleanEmail === 'securityofficer@gmail.com' || cleanEmail.includes('security')) {
+      targetRole = 'security_guard';
+    } else {
+      soundFx?.playWarning?.();
+      addToast(`Unrecognized email "${email}". Please enter a valid role email (e.g. superadmin@gmail.com, branchadmin@gmail.com).`, 'warning', 'Invalid Account');
+      return;
+    }
+
+    soundFx.playChime();
+    const matchedPersona = PERSONA_CREDENTIALS.find((p) => p.roleKey === targetRole);
+    addToast(
+      `Welcome back, ${matchedPersona?.name || 'User'}! Authenticated as ${matchedPersona?.label}.`,
+      'success',
+      'Session Established'
+    );
+    switchRole(targetRole);
   };
 
   return (
@@ -122,25 +155,25 @@ export const LoginScreen = () => {
         </div>
 
         {/* Center Main Form */}
-        <div className="relative z-10 my-auto py-6 space-y-6">
+        <div className="relative z-10 my-auto py-4 space-y-4">
           <div>
             <div className="text-[11px] uppercase tracking-widest text-[#f5b400] font-extrabold mb-1">
               Enterprise Access Terminal
             </div>
-            <h1 className={`font-['Space_Grotesk'] text-3xl lg:text-4xl font-bold tracking-tight leading-tight ${
+            <h1 className={`font-['Space_Grotesk'] text-2xl lg:text-3xl font-bold tracking-tight leading-tight ${
               isDarkMode ? 'text-white' : 'text-[#161616]'
             }`}>
               Sign In to Command Center
             </h1>
-            <p className="text-xs text-[#747878] mt-2 leading-relaxed">
-              Consolidated workspace operating system across 11 flagships in Hyderabad, Chennai, Bangalore, and Mumbai.
+            <p className="text-xs text-[#747878] mt-1 leading-relaxed">
+              Consolidated workspace operating system across 11 flagships. Universal password: <code className="text-[#f5b400] font-bold bg-[#f5b400]/10 px-1.5 py-0.5 rounded">12345</code>
             </p>
           </div>
 
           {/* Login Form */}
-          <form onSubmit={handleLogin} className="space-y-4 text-xs">
+          <form onSubmit={handleLogin} className="space-y-3.5 text-xs">
             <div>
-              <label className={`block font-bold uppercase tracking-wider text-xs mb-1.5 ${
+              <label className={`block font-bold uppercase tracking-wider text-xs mb-1 ${
                 isDarkMode ? 'text-[#e4e4e7]' : 'text-[#161616]'
               }`}>
                 Corporate Email Address
@@ -154,26 +187,26 @@ export const LoginScreen = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`w-full pl-10 pr-4 py-3 border outline-none text-xs transition-all rounded-2xl font-medium focus:ring-2 focus:ring-[#f5b400]/40 ${
+                  className={`w-full pl-10 pr-4 py-2.5 border outline-none text-xs transition-all rounded-xl font-medium focus:ring-2 focus:ring-[#f5b400]/40 ${
                     isDarkMode
                       ? 'bg-[#1b1b1e] border-[#2e2e32] text-white focus:border-[#f5b400]'
                       : 'bg-[#f4f3f1] border-[#e3e2e0] text-[#161616] focus:bg-white focus:border-[#f5b400]'
                   }`}
-                  placeholder="name@workafella.com"
+                  placeholder="superadmin@gmail.com"
                 />
               </div>
             </div>
 
             <div>
-              <div className="flex justify-between items-center mb-1.5">
+              <div className="flex justify-between items-center mb-1">
                 <label className={`block font-bold uppercase tracking-wider text-xs ${
                   isDarkMode ? 'text-[#e4e4e7]' : 'text-[#161616]'
                 }`}>
                   Password
                 </label>
-                <a href="#forgot" className="text-xs text-[#f5b400] hover:underline font-bold">
-                  Forgot Password?
-                </a>
+                <span className="text-[11px] text-[#747878]">
+                  Universal Demo Key: <strong className="text-[#f5b400]">12345</strong>
+                </span>
               </div>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#747878] text-base">
@@ -184,25 +217,26 @@ export const LoginScreen = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`w-full pl-10 pr-4 py-3 border outline-none text-xs transition-all rounded-2xl font-medium focus:ring-2 focus:ring-[#f5b400]/40 ${
+                  className={`w-full pl-10 pr-4 py-2.5 border outline-none text-xs transition-all rounded-xl font-medium focus:ring-2 focus:ring-[#f5b400]/40 ${
                     isDarkMode
                       ? 'bg-[#1b1b1e] border-[#2e2e32] text-white focus:border-[#f5b400]'
                       : 'bg-[#f4f3f1] border-[#e3e2e0] text-[#161616] focus:bg-white focus:border-[#f5b400]'
                   }`}
+                  placeholder="12345"
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-between py-1">
+            <div className="flex items-center justify-between py-0.5">
               <label className="flex items-center gap-2 text-xs text-[#747878] cursor-pointer">
                 <input
                   type="checkbox"
                   defaultChecked
-                  className="rounded border-[#747878] text-[#f5b400] focus:ring-0 w-4 h-4"
+                  className="rounded border-[#747878] text-[#f5b400] focus:ring-0 w-3.5 h-3.5"
                 />
-                <span>Remember this terminal</span>
+                <span>Remember credentials</span>
               </label>
-              <span className="text-[11px] text-[#1e8a5f] font-mono font-bold flex items-center gap-1">
+              <span className="text-[10px] text-[#1e8a5f] font-mono font-bold flex items-center gap-1">
                 <span className="material-symbols-outlined text-xs">lock</span> 256-bit SSL
               </span>
             </div>
