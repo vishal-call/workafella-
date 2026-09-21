@@ -41,6 +41,7 @@ export const AppShell = ({ children }) => {
           { id: 'enterprise_ops', label: 'Enterprise Ops', icon: 'domain' },
           { id: 'manage_workspace', label: 'Manage Workspace', icon: 'domain_add' },
           { id: 'lease_renewals', label: 'Lease Renewals', icon: 'autorenew' },
+          { id: 'gst_reconciliation', label: 'GST ITC Reconciliation', icon: 'account_balance_wallet' },
           { id: 'ai_insights', label: 'AI Insights & Forecasts', icon: 'psychology' },
           { id: 'branch_expenses_analytics', label: 'Expense Analytics', icon: 'donut_large' },
           { id: 'reports', label: 'Consolidated Reports', icon: 'assessment' },
@@ -54,6 +55,7 @@ export const AppShell = ({ children }) => {
           { id: 'workspace_allocation', label: 'Workspace Allocation', icon: 'grid_view' },
           { id: 'manage_workspace', label: 'Manage Workspace', icon: 'domain_add' },
           { id: 'lease_renewals', label: 'Lease Renewals', icon: 'autorenew' },
+          { id: 'gst_reconciliation', label: 'GST ITC Reconciliation', icon: 'account_balance_wallet' },
           { id: 'access_approvals', label: 'Access Requests', icon: 'fingerprint' },
           { id: 'expense_approvals', label: 'Expense Approvals', icon: 'fact_check' },
           { id: 'staff_directory', label: 'Staff Directory', icon: 'badge' },
@@ -64,6 +66,7 @@ export const AppShell = ({ children }) => {
         return [
           { id: 'invoices', label: 'Invoice Management', icon: 'receipt_long' },
           { id: 'invoice_review', label: 'Invoice Review & Line Items', icon: 'rate_review' },
+          { id: 'gst_reconciliation', label: 'GST ITC Reconciliation', icon: 'account_balance_wallet' },
           { id: 'lease_renewals', label: 'Lease Renewals', icon: 'autorenew' },
           { id: 'expense_approvals', label: 'Expense Approvals', icon: 'payments' },
           { id: 'branch_expenses_analytics', label: 'Expense Analytics', icon: 'pie_chart' },

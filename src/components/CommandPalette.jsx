@@ -28,6 +28,7 @@ export const CommandPalette = ({ isOpen, onClose }) => {
     { id: 'act_ticket', title: 'Raise Incident / Service Ticket', category: 'Actions', icon: 'confirmation_number', screen: 'raise_ticket' },
     { id: 'act_gatepass', title: 'Pre-Register Visitor & QR Pass', category: 'Actions', icon: 'person_pin_circle', screen: 'visitor_pre_reg' },
     { id: 'act_invoices', title: 'Invoices & Billing Reconciliation', category: 'Actions', icon: 'receipt_long', screen: 'invoices' },
+    { id: 'act_gst_reconciliation', title: 'GST ITC Reconciliation & Vendor Tax Audit', category: 'Actions', icon: 'account_balance_wallet', screen: 'gst_reconciliation' },
     { id: 'act_ai', title: 'AI Insights & Forecast Models', category: 'Actions', icon: 'psychology', screen: 'ai_insights' },
     { id: 'act_reports', title: 'Consolidated Management Reports', category: 'Actions', icon: 'assessment', screen: 'reports' },
 

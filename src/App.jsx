@@ -33,6 +33,7 @@ import { TicketDetail } from './screens/Tickets/TicketDetail';
 import { InvoiceManagement } from './screens/Finance/InvoiceManagement';
 import { InvoiceDetail } from './screens/Finance/InvoiceDetail';
 import { ClientBillingDashboard } from './screens/Finance/ClientBillingDashboard';
+import { GSTReconciliation } from './screens/Finance/GSTReconciliation';
 import { VendorManagement } from './screens/Operations/VendorManagement';
 import { InventoryTracking } from './screens/Operations/InventoryTracking';
 import { AssetRegister } from './screens/Operations/AssetRegister';
@@ -97,6 +98,8 @@ export const App = () => {
         return <InvoiceDetail />;
       case 'client_billing':
         return <ClientBillingDashboard />;
+      case 'gst_reconciliation':
+        return <GSTReconciliation />;
       case 'vendors':
         return <VendorManagement />;
       case 'inventory':

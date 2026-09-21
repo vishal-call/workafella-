@@ -766,6 +766,250 @@ export const AppProvider = ({ children }) => {
     }
   ]);
 
+  // Comprehensive Enterprise GST Input Tax Credit (ITC) Reconciliation Ledger
+  const [gstRecords, setGstRecords] = useState([
+    {
+      id: 'GST-REC-01',
+      vendorId: 'VEND-01',
+      vendorName: 'SIS Security & Facility Services LLP',
+      vendorGstin: '36AAAFS1234F1Z8',
+      category: 'Security & Manned Guarding',
+      centre: 'Hitec City',
+      state: 'Telangana',
+      invoiceNumber: 'SIS-2026-0811',
+      invoiceDate: '2026-08-01',
+      hsnSac: '998525',
+      taxableValue: 210000,
+      gstRate: 18,
+      cgstBooks: 18900,
+      sgstBooks: 18900,
+      igstBooks: 0,
+      taxInBooks: 37800,
+      taxIn2B: 37800,
+      status: 'Matched', // 'Matched' | 'Value Mismatch' | 'Missing in 2B' | 'Blocked / Sec 17(5)'
+      variance: 0,
+      paymentStatus: 'Released', // 'Released' | 'On Hold'
+      lastNoticeSent: null,
+      notes: '100% matched with GSTR-2B feed. Claimable under Table 4(A)(5) of GSTR-3B.'
+    },
+    {
+      id: 'GST-REC-02',
+      vendorId: 'VEND-02',
+      vendorName: 'Daikin Airconditioning India Pvt Ltd',
+      vendorGstin: '36AAACD5566G1Z2',
+      category: 'HVAC & Climate Control AMC',
+      centre: 'Western Aqua',
+      state: 'Telangana',
+      invoiceNumber: 'DKN-2026-904',
+      invoiceDate: '2026-08-05',
+      hsnSac: '998717',
+      taxableValue: 85000,
+      gstRate: 18,
+      cgstBooks: 7650,
+      sgstBooks: 7650,
+      igstBooks: 0,
+      taxInBooks: 15300,
+      taxIn2B: 15300,
+      status: 'Matched',
+      variance: 0,
+      paymentStatus: 'Released',
+      lastNoticeSent: null,
+      notes: 'Monthly central chiller maintenance fee reconciled successfully.'
+    },
+    {
+      id: 'GST-REC-03',
+      vendorId: 'VEND-03',
+      vendorName: 'Tata Communications Ltd (Enterprise Data)',
+      vendorGstin: '29AAACT9900H1Z5',
+      category: 'Primary Internet Leased Lines',
+      centre: 'Millers Road',
+      state: 'Karnataka',
+      invoiceNumber: 'TCL-2026-781',
+      invoiceDate: '2026-08-02',
+      hsnSac: '998422',
+      taxableValue: 145000,
+      gstRate: 18,
+      cgstBooks: 0,
+      sgstBooks: 0,
+      igstBooks: 26100,
+      taxInBooks: 26100,
+      taxIn2B: 26100,
+      status: 'Matched',
+      variance: 0,
+      paymentStatus: 'Released',
+      lastNoticeSent: null,
+      notes: '1 Gbps redundant enterprise optical fibre circuit. IGST credit verified.'
+    },
+    {
+      id: 'GST-REC-04',
+      vendorId: 'VEND-05',
+      vendorName: 'Knight Frank Facility Management India',
+      vendorGstin: '27AAACK1122J1Z3',
+      category: 'Integrated Facility & MEP AMC',
+      centre: 'BKC One',
+      state: 'Maharashtra',
+      invoiceNumber: 'KF-2026-1082',
+      invoiceDate: '2026-08-03',
+      hsnSac: '998533',
+      taxableValue: 450000,
+      gstRate: 18,
+      cgstBooks: 0,
+      sgstBooks: 0,
+      igstBooks: 81000,
+      taxInBooks: 81000,
+      taxIn2B: 81000,
+      status: 'Matched',
+      variance: 0,
+      paymentStatus: 'Released',
+      lastNoticeSent: null,
+      notes: 'Multi-skilled technical facility manpower services. Full credit eligible.'
+    },
+    {
+      id: 'GST-REC-05',
+      vendorId: 'VEND-06',
+      vendorName: 'CleanPro Facility & Janitorial Solutions',
+      vendorGstin: '33AAACC4455K1Z9',
+      category: 'Housekeeping & Sanitization',
+      centre: 'Guindy Cybervale',
+      state: 'Tamil Nadu',
+      invoiceNumber: 'CP-2026-881',
+      invoiceDate: '2026-08-10',
+      hsnSac: '998533',
+      taxableValue: 250000,
+      gstRate: 18,
+      cgstBooks: 22500,
+      sgstBooks: 22500,
+      igstBooks: 0,
+      taxInBooks: 45000,
+      taxIn2B: 36000,
+      status: 'Value Mismatch',
+      variance: -9000,
+      paymentStatus: 'On Hold',
+      lastNoticeSent: '2026-09-14',
+      notes: 'Vendor declared ₹2.0L in GSTR-1 instead of actual ₹2.5L invoice. ₹9,000 credit variance flagged.'
+    },
+    {
+      id: 'GST-REC-06',
+      vendorId: 'VEND-07',
+      vendorName: 'Apex Powertech & Diesel Generators',
+      vendorGstin: '36AAACA8899L1Z1',
+      category: 'DG Backup & HT Transformer AMC',
+      centre: 'Banjara Hills',
+      state: 'Telangana',
+      invoiceNumber: 'APX-2026-312',
+      invoiceDate: '2026-08-08',
+      hsnSac: '998719',
+      taxableValue: 320000,
+      gstRate: 18,
+      cgstBooks: 28800,
+      sgstBooks: 28800,
+      igstBooks: 0,
+      taxInBooks: 57600,
+      taxIn2B: 0,
+      status: 'Missing in 2B',
+      variance: -57600,
+      paymentStatus: 'On Hold',
+      lastNoticeSent: '2026-09-12',
+      notes: 'Vendor has NOT filed GSTR-1 for August. At risk of losing ₹57,600 input credit. September AP tranche locked.'
+    },
+    {
+      id: 'GST-REC-07',
+      vendorId: 'VEND-08',
+      vendorName: 'KONE Elevators India Pvt Ltd',
+      vendorGstin: '36AAACK6677M1Z4',
+      category: 'Lift & Vertical Transport AMC',
+      centre: 'Western Aqua',
+      state: 'Telangana',
+      invoiceNumber: 'KN-2026-402',
+      invoiceDate: '2026-08-07',
+      hsnSac: '998717',
+      taxableValue: 110000,
+      gstRate: 18,
+      cgstBooks: 9900,
+      sgstBooks: 9900,
+      igstBooks: 0,
+      taxInBooks: 19800,
+      taxIn2B: 19800,
+      status: 'Matched',
+      variance: 0,
+      paymentStatus: 'Released',
+      lastNoticeSent: null,
+      notes: 'Automated passenger elevator AMC with 24/7 breakdown coverage.'
+    },
+    {
+      id: 'GST-REC-08',
+      vendorId: 'VEND-09',
+      vendorName: 'UrbanSpace Modular Interiors & Fitouts',
+      vendorGstin: '36AAACU3344N1Z6',
+      category: 'Acoustic Pods & Executive Chairs CAPEX',
+      centre: 'Hitec City',
+      state: 'Telangana',
+      invoiceNumber: 'USB-2026-199',
+      invoiceDate: '2026-08-12',
+      hsnSac: '940310',
+      taxableValue: 850000,
+      gstRate: 18,
+      cgstBooks: 76500,
+      sgstBooks: 76500,
+      igstBooks: 0,
+      taxInBooks: 153000,
+      taxIn2B: 0,
+      status: 'Missing in 2B',
+      variance: -153000,
+      paymentStatus: 'On Hold',
+      lastNoticeSent: '2026-09-11',
+      notes: 'High-value CAPEX fitouts. Vendor delayed quarterly GSTR-1 return. ₹1,53,000 credit locked.'
+    },
+    {
+      id: 'GST-REC-09',
+      vendorId: 'VEND-04',
+      vendorName: 'Blue Tokai Coffee Roasters',
+      vendorGstin: '36AAACB2233P1Z7',
+      category: 'Pantry Beverage Consumables',
+      centre: 'Hitec City',
+      state: 'Telangana',
+      invoiceNumber: 'BT-2026-667',
+      invoiceDate: '2026-08-04',
+      hsnSac: '090121',
+      taxableValue: 120000,
+      gstRate: 5,
+      cgstBooks: 3000,
+      sgstBooks: 3000,
+      igstBooks: 0,
+      taxInBooks: 6000,
+      taxIn2B: 6000,
+      status: 'Blocked / Sec 17(5)',
+      variance: 0,
+      paymentStatus: 'Released',
+      lastNoticeSent: null,
+      notes: 'Ineligible ITC under Section 17(5)(b)(i) of CGST Act (Food & Beverages consumed on premises). Auto-reversed in 3B.'
+    },
+    {
+      id: 'GST-REC-10',
+      vendorId: 'VEND-10',
+      vendorName: 'Airtel Business Enterprise Broadband',
+      vendorGstin: '29AAACA1010Q1Z0',
+      category: 'Secondary Leased Line & WiFi 6',
+      centre: 'Residency Road',
+      state: 'Karnataka',
+      invoiceNumber: 'AB-2026-553',
+      invoiceDate: '2026-08-06',
+      hsnSac: '998422',
+      taxableValue: 95000,
+      gstRate: 18,
+      cgstBooks: 0,
+      sgstBooks: 0,
+      igstBooks: 17100,
+      taxInBooks: 17100,
+      taxIn2B: 17100,
+      status: 'Matched',
+      variance: 0,
+      paymentStatus: 'Released',
+      lastNoticeSent: null,
+      notes: 'Redundant leased-line failover link. Full IGST credit eligible.'
+    }
+  ]);
+
   // Comprehensive Enterprise Lease Agreements & Expiry Pipeline
   const [leaseContracts, setLeaseContracts] = useState([
     {
@@ -1316,6 +1560,84 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  // GST Reconciliation Operations
+  const runGstBatchReconciliation = () => {
+    soundFx.playChime();
+    setGstRecords((prev) =>
+      prev.map((rec) => {
+        if (rec.status === 'Missing in 2B' && rec.id === 'GST-REC-06') {
+          return {
+            ...rec,
+            taxIn2B: rec.taxInBooks,
+            status: 'Matched',
+            variance: 0,
+            paymentStatus: 'Released',
+            notes: 'Reconciled via automated API sync. Vendor GSTR-1 ARN #AA3608260012948 confirmed.'
+          };
+        }
+        return rec;
+      })
+    );
+    addToast('GSTR-2B API feed synced. Recovered ₹57,600 in verified Input Tax Credit!', 'success', 'Reconciliation Completed');
+  };
+
+  const sendVendorGstNotice = (recordId) => {
+    soundFx.playClick();
+    const today = new Date().toISOString().split('T')[0];
+    setGstRecords((prev) =>
+      prev.map((rec) =>
+        rec.id === recordId
+          ? {
+              ...rec,
+              lastNoticeSent: today,
+              notes: `${rec.notes} [Notice dispatched on ${today}: Section 16(2)(aa) statutory compliance warning].`
+            }
+          : rec
+      )
+    );
+    const target = gstRecords.find((r) => r.id === recordId);
+    addToast(`Automated GST non-compliance notice sent to ${target?.vendorName || 'Vendor'}.`, 'warning', 'Notice Dispatched');
+  };
+
+  const toggleVendorPaymentHold = (recordId) => {
+    soundFx.playClick();
+    let updatedStatus = 'Released';
+    setGstRecords((prev) =>
+      prev.map((rec) => {
+        if (rec.id === recordId) {
+          updatedStatus = rec.paymentStatus === 'Released' ? 'On Hold' : 'Released';
+          return { ...rec, paymentStatus: updatedStatus };
+        }
+        return rec;
+      })
+    );
+    const target = gstRecords.find((r) => r.id === recordId);
+    if (updatedStatus === 'On Hold') {
+      addToast(`Payment tranche locked for ${target?.vendorName}. Awaiting GSTR-1 upload.`, 'error', 'Payment Withheld');
+    } else {
+      addToast(`Payment hold released for ${target?.vendorName}. Approved for bank dispatch.`, 'success', 'Payment Released');
+    }
+  };
+
+  const resolveGstMismatch = (recordId, debitNoteAmount = 0, resolutionNotes = '') => {
+    soundFx.playChime();
+    setGstRecords((prev) =>
+      prev.map((rec) => {
+        if (rec.id === recordId) {
+          return {
+            ...rec,
+            status: 'Matched',
+            variance: 0,
+            paymentStatus: 'Released',
+            notes: resolutionNotes || `Debit note of ₹${debitNoteAmount || 9000} accepted. Matched to revised GSTR-2B entry.`
+          };
+        }
+        return rec;
+      })
+    );
+    addToast(`Variance resolved & matched for record ${recordId}. Full remaining credit claimed.`, 'success', 'Mismatch Resolved');
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -1396,7 +1718,13 @@ export const AppProvider = ({ children }) => {
         setLeaseContracts,
         renewContract,
         updateContractStage,
-        markContractMoveOut
+        markContractMoveOut,
+        gstRecords,
+        setGstRecords,
+        runGstBatchReconciliation,
+        sendVendorGstNotice,
+        toggleVendorPaymentHold,
+        resolveGstMismatch
       }}
     >
       {children}
