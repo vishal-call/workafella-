@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { soundFx } from '../utils/audioEffects';
 
 const AppContext = createContext();
 
@@ -1562,7 +1563,7 @@ export const AppProvider = ({ children }) => {
 
   // GST Reconciliation Operations
   const runGstBatchReconciliation = () => {
-    soundFx.playChime();
+    soundFx?.playChime?.();
     setGstRecords((prev) =>
       prev.map((rec) => {
         if (rec.status === 'Missing in 2B' && rec.id === 'GST-REC-06') {
@@ -1582,7 +1583,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const sendVendorGstNotice = (recordId) => {
-    soundFx.playClick();
+    soundFx?.playClick?.();
     const today = new Date().toISOString().split('T')[0];
     setGstRecords((prev) =>
       prev.map((rec) =>
@@ -1600,7 +1601,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const toggleVendorPaymentHold = (recordId) => {
-    soundFx.playClick();
+    soundFx?.playClick?.();
     let updatedStatus = 'Released';
     setGstRecords((prev) =>
       prev.map((rec) => {
@@ -1620,7 +1621,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const resolveGstMismatch = (recordId, debitNoteAmount = 0, resolutionNotes = '') => {
-    soundFx.playChime();
+    soundFx?.playChime?.();
     setGstRecords((prev) =>
       prev.map((rec) => {
         if (rec.id === recordId) {
