@@ -54,13 +54,6 @@ export const ExpenseApprovalDashboard = () => {
 
         <div className="flex items-center gap-3">
           <button
-            onClick={() => setCurrentScreen('branch_expenses_analytics')}
-            className="px-4 py-2 bg-[#161616] text-[#f5b400] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#2f3130] flex items-center gap-1.5"
-          >
-            <span className="material-symbols-outlined text-base">pie_chart</span>
-            <span>Expense Analytics & Donut</span>
-          </button>
-          <button
             onClick={() => setCurrentScreen('log_expense')}
             className="px-4 py-2 bg-[#f5b400] text-[#161616] font-['Space_Grotesk'] font-bold text-xs hover:bg-[#ffdea4] flex items-center gap-1.5"
           >

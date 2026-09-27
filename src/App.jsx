@@ -39,10 +39,8 @@ import { InventoryTracking } from './screens/Operations/InventoryTracking';
 import { AssetRegister } from './screens/Operations/AssetRegister';
 import { LogExpense } from './screens/Expenses/LogExpense';
 import { ExpenseApprovalDashboard } from './screens/Expenses/ExpenseApprovalDashboard';
-import { BranchExpenseAnalytics } from './screens/Expenses/BranchExpenseAnalytics';
 import { EmployeeAccessForm } from './screens/AccessRequests/EmployeeAccessForm';
 import { AccessApprovalDashboard } from './screens/AccessRequests/AccessApprovalDashboard';
-import { AIInsightsDashboard } from './screens/AIInsights/AIInsightsDashboard';
 import { NotificationPreferences } from './screens/Settings/NotificationPreferences';
 
 export const App = () => {
@@ -110,14 +108,10 @@ export const App = () => {
         return <LogExpense />;
       case 'expense_approvals':
         return <ExpenseApprovalDashboard />;
-      case 'branch_expenses_analytics':
-        return <BranchExpenseAnalytics />;
       case 'employee_access':
         return <EmployeeAccessForm />;
       case 'access_approvals':
         return <AccessApprovalDashboard />;
-      case 'ai_insights':
-        return <AIInsightsDashboard />;
       case 'notification_preferences':
         return <NotificationPreferences />;
       default:

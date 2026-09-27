@@ -42,8 +42,6 @@ export const AppShell = ({ children }) => {
           { id: 'manage_workspace', label: 'Manage Workspace', icon: 'domain_add' },
           { id: 'lease_renewals', label: 'Lease Renewals', icon: 'autorenew' },
           { id: 'gst_reconciliation', label: 'GST ITC Reconciliation', icon: 'account_balance_wallet' },
-          { id: 'ai_insights', label: 'AI Insights & Forecasts', icon: 'psychology' },
-          { id: 'branch_expenses_analytics', label: 'Expense Analytics', icon: 'donut_large' },
           { id: 'reports', label: 'Consolidated Reports', icon: 'assessment' },
           { id: 'admin_config', label: 'Global Administration', icon: 'admin_panel_settings' }
         ];
@@ -69,7 +67,6 @@ export const AppShell = ({ children }) => {
           { id: 'gst_reconciliation', label: 'GST ITC Reconciliation', icon: 'account_balance_wallet' },
           { id: 'lease_renewals', label: 'Lease Renewals', icon: 'autorenew' },
           { id: 'expense_approvals', label: 'Expense Approvals', icon: 'payments' },
-          { id: 'branch_expenses_analytics', label: 'Expense Analytics', icon: 'pie_chart' },
           { id: 'reports', label: 'Financial Reports', icon: 'account_balance' }
         ];
 

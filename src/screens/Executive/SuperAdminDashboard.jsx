@@ -333,7 +333,7 @@ export const SuperAdminDashboard = () => {
                 <button
                   onClick={() => {
                     soundFx.playClick();
-                    setCurrentScreen('ai_insights');
+                    setCurrentScreen('lease_renewals');
                   }}
                   className="mt-2 text-[#7b5900] font-bold hover:underline block text-[11px] cursor-pointer"
                 >
@@ -352,7 +352,7 @@ export const SuperAdminDashboard = () => {
                 <button
                   onClick={() => {
                     soundFx.playClick();
-                    setCurrentScreen('ai_insights');
+                    setCurrentScreen('manage_workspace');
                   }}
                   className="mt-2 text-[#7b5900] font-bold hover:underline block text-[11px] cursor-pointer"
                 >
